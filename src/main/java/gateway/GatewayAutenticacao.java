@@ -21,7 +21,7 @@ public class GatewayAutenticacao {
             while(rs.next()){
                 u.setNome(rs.getString("usuario"));
                 u.setSenha(rs.getString("senha"));
-                u.setLogin(rs.getString("login"));
+//                u.setLogin(rs.getString("login"));
             }
             return u;
         } catch (Exception e) {
