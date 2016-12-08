@@ -1,6 +1,7 @@
 package model.entity;
 
 public class Usuario {
+    private int cod_usuario;
     private String nome;
     private String login;
     private String senha;
@@ -31,5 +32,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public int getCod_usuario() {
+        return cod_usuario;
+    }
+
+    public void setCod_usuario(int cod_usuario) {
+        this.cod_usuario = cod_usuario;
     }
 }

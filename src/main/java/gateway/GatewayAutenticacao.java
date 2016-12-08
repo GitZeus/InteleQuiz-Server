@@ -19,9 +19,10 @@ public class GatewayAutenticacao {
 //            pstm.setString(2, u.getSenha());
             ResultSet rs = pstm.executeQuery();
             while(rs.next()){
-                u.setNome(rs.getString("usuario"));
+                u.setCod_usuario(rs.getInt("cod_usuario"));
+                u.setNome(rs.getString("nome"));
+                u.setLogin(rs.getString("login"));
                 u.setSenha(rs.getString("senha"));
-//                u.setLogin(rs.getString("login"));
             }
             return u;
         } catch (Exception e) {
