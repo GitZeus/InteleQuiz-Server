@@ -11,7 +11,7 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private int cod_usuario;
+    private Integer cod_usuario;
     private String nome;
     private String login;
     private String senha;
@@ -47,11 +47,11 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public int getCod_usuario() {
+    public Integer getCod_usuario() {
         return cod_usuario;
     }
 
-    public void setCod_usuario(int cod_usuario) {
+    public void setCod_usuario(Integer cod_usuario) {
         this.cod_usuario = cod_usuario;
     }
 }
