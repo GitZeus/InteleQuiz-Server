@@ -24,19 +24,30 @@ public class UsuarioDAO {
 
     public Usuario getUsuarioByLoginSenha(Usuario u) {
         session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("SELECT u.nome FROM Usuario as u WHERE u.cod_usuario = :cod_usuario");
-        query.setParameter("cod_usuario", u.getCod_usuario());
-        List<Usuario> usuarios = query.list();
-        if(usuarios.size() == 1){
-            return usuarios.get(0);
-        }else{
-            return null;
-        }
+        Query query = session.createQuery("SELECT u FROM Usuario as u WHERE u.login = :login AND u.senha = :senha");
+        query.setParameter("login", u.getLogin());
+        query.setParameter("senha", u.getSenha());
+        return (Usuario) query.uniqueResult();
     }
     
     public List<Usuario> listUsuario(){
         session = sessionFactory.getCurrentSession();
-        List<Usuario> usuarios = session.createQuery("FROM Usuario").list();
-        return usuarios;
+        return session.createQuery("FROM Usuario").list();
+    }
+    
+    public void saveUsuario(Usuario u){
+        session = sessionFactory.getCurrentSession();
+        session.save(u);
+    }
+    
+    public void updateUsuario(Usuario u){
+        session = sessionFactory.getCurrentSession();
+        session.update(u);        
+    }
+    
+    public void deleteUsuario(Usuario u){
+        System.out.println(u);
+        session = sessionFactory.getCurrentSession();
+        session.delete(u);
     }
 }

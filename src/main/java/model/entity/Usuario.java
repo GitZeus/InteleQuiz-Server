@@ -8,9 +8,10 @@ import javax.persistence.Id;
 
 @Entity
 public class Usuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer cod_usuario;
     private String nome;
     private String login;
@@ -19,7 +20,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nome){
+    public Usuario(String nome) {
         this.nome = nome;
     }
 
@@ -53,5 +54,10 @@ public class Usuario implements Serializable {
 
     public void setCod_usuario(Integer cod_usuario) {
         this.cod_usuario = cod_usuario;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " = Código: " + cod_usuario + "; Nome: " + nome + "; Login: " + login + "; Senha: " + senha;
     }
 }
