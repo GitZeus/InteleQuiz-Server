@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8383", maxAge = 3600)
+@CrossOrigin
 public class ResourceAutenticacao {
     
     @Autowired
@@ -24,6 +24,7 @@ public class ResourceAutenticacao {
     @RequestMapping(value = "/autenticar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Usuario> autenticar() throws Exception {
         Usuario usuario = new Usuario("José");
+        System.out.println("Usuário: " + usuario);
         return new RestResponse<>(gatewayAutenticacao.autenticar(usuario));
     }
 }
