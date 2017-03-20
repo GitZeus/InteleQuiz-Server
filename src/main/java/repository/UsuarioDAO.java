@@ -1,6 +1,8 @@
 package repository;
 
+import model.application.ITQException;
 import java.util.List;
+import model.application.GlobalException;
 import model.entity.Usuario;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,12 +24,18 @@ public class UsuarioDAO {
         return session.get(Usuario.class, Integer.parseInt(u.getLogin()));
     }
 
-    public Usuario getUsuarioByLoginSenha(Usuario u) {
+    public Usuario getUsuarioByLoginSenha(Usuario u) throws ITQException {
         session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("SELECT u FROM Usuario as u WHERE u.login = :login AND u.senha = :senha");
+        Query query = session.createQuery("SELECT u FROM Usuario u WHERE u.login = :login AND u.senha = :senha");
         query.setParameter("login", u.getLogin());
         query.setParameter("senha", u.getSenha());
-        return (Usuario) query.uniqueResult();
+        u = (Usuario) query.uniqueResult();
+        if(u != null){
+            return u;
+        }else{
+            throw new ITQException("Login ou Senha incorretos");
+        }
+        
     }
     
     public List<Usuario> listUsuario(){
@@ -46,7 +54,6 @@ public class UsuarioDAO {
     }
     
     public void deleteUsuario(Usuario u){
-        System.out.println(u);
         session = sessionFactory.getCurrentSession();
         session.delete(u);
     }

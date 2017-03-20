@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin//(origins = "http://localhost:8100", maxAge = 3600)
+@CrossOrigin//(origins = "http://192.168.0.3:8100", maxAge = 3600)
 public class AutenticacaoController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class AutenticacaoController {
         return new RestResponse<>(autenticacaoService.getUsuarioById(usuario));
     }
     
-    @RequestMapping(value = "/autenticarUsuario", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/autenticar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Usuario> autenticar(@RequestBody Usuario usuario) throws Exception {
         return new RestResponse<>(autenticacaoService.getUsuarioByLoginSenha(usuario));
     }
@@ -50,7 +50,6 @@ public class AutenticacaoController {
     
     @RequestMapping(value = "/deletarUsuario", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Boolean> deleteUsuario(@RequestBody Usuario usuario) throws Exception {
-        System.out.println(usuario);
         return new RestResponse<>(autenticacaoService.deleteUsuario(usuario));
     }
 }

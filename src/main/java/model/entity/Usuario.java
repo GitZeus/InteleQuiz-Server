@@ -12,7 +12,7 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer cod_usuario;
+    private Integer id;
     private String nome;
     private String login;
     private String senha;
@@ -48,16 +48,16 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public Integer getCod_usuario() {
-        return cod_usuario;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCod_usuario(Integer cod_usuario) {
-        this.cod_usuario = cod_usuario;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " = Código: " + cod_usuario + "; Nome: " + nome + "; Login: " + login + "; Senha: " + senha;
+        return super.toString() + " = Id: " + id + "; Nome: " + nome + "; Login: " + login + "; Senha: " + senha;
     }
 }
