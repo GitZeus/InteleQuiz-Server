@@ -2,6 +2,8 @@ package model.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,8 @@ public class Usuario implements Serializable {
     private String nome;
     private String login;
     private String senha;
+    @Enumerated(EnumType.ORDINAL)
+    private TipoUsuario perfil;
 
     public Usuario() {
     }
@@ -59,5 +63,13 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return super.toString() + " = Id: " + id + "; Nome: " + nome + "; Login: " + login + "; Senha: " + senha;
+    }
+
+    public TipoUsuario getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(TipoUsuario perfil) {
+        this.perfil = perfil;
     }
 }

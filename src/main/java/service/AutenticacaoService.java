@@ -2,6 +2,8 @@ package service;
 
 import java.util.List;
 import model.application.GlobalException;
+import model.application.ITQException;
+import model.entity.TipoUsuario;
 import model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,11 @@ public class AutenticacaoService {
     
     public Usuario getUsuarioById(Usuario u) throws GlobalException{
         try {
-            return usuarioDAO.getUsuarioById(u);
+            if(u.getPerfil().getCodigo() == TipoUsuario.PROFESSOR.getCodigo() || u.getPerfil().getCodigo() == TipoUsuario.COORDENADOR.getCodigo()){
+                return usuarioDAO.getUsuarioById(u);
+            }else{
+                throw new ITQException("Aluno ainda não implementado");
+            }
         } catch (Exception e) {
             throw new GlobalException(e);
         }
