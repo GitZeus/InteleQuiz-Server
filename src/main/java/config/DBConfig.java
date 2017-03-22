@@ -24,9 +24,9 @@ public class DBConfig {
     public DataSource getDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz");
-        dataSource.setUsername("root");
-        dataSource.setPassword("");
+        dataSource.setUrl("jdbc:mysql://johnny.heliohost.org:3306/efreitas_intelequiz?autoReconnect=true&useSSL=false");
+        dataSource.setUsername("efreitas_intel");
+        dataSource.setPassword("itqadmin");
         return dataSource;
     }
 }

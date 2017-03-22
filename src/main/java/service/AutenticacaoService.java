@@ -17,7 +17,7 @@ public class AutenticacaoService {
     
     public Usuario getUsuarioById(Usuario u) throws GlobalException{
         try {
-            if(u.getPerfil().getCodigo() == TipoUsuario.PROFESSOR.getCodigo() || u.getPerfil().getCodigo() == TipoUsuario.COORDENADOR.getCodigo()){
+            if(u.getPerfil() == TipoUsuario.PROFESSOR.getCodigo() || u.getPerfil() == TipoUsuario.COORDENADOR.getCodigo()){
                 return usuarioDAO.getUsuarioById(u);
             }else{
                 throw new ITQException("Aluno ainda não implementado");
@@ -29,7 +29,11 @@ public class AutenticacaoService {
     
     public Usuario getUsuarioByLoginSenha(Usuario u) throws GlobalException{
         try {
-            return usuarioDAO.getUsuarioByLoginSenha(u);
+            if(u.getPerfil() == TipoUsuario.PROFESSOR.getCodigo() || u.getPerfil() == TipoUsuario.COORDENADOR.getCodigo()){
+                return usuarioDAO.getUsuarioByLoginSenha(u);
+            }else{
+                throw new ITQException("Aluno ainda não implementado");
+            }
         } catch (Exception e) {
             throw new GlobalException(e);
         }
