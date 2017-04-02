@@ -1,5 +1,7 @@
 package model.entity;
 
+import java.util.List;
+
 public enum TipoUsuario {
     PROFESSOR(1), ALUNO(2), COORDENADOR(3);
     
@@ -11,5 +13,9 @@ public enum TipoUsuario {
 
     public int getCodigo() {
         return codigo;
-    }    
+    }
+    
+//    public List<TipoUsuario> listTipoUsuario(){
+//        
+//    }
 }

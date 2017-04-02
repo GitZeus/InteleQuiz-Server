@@ -1,6 +1,8 @@
 package config;
 
 import javax.sql.DataSource;
+import model.entity.Disciplina;
+import model.entity.Tag;
 import model.entity.Usuario;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -17,6 +19,8 @@ public class DBConfig {
     public SessionFactory sessionFactory() {
         return new LocalSessionFactoryBuilder(getDataSource())
                 .addAnnotatedClasses(Usuario.class)
+                .addAnnotatedClasses(Disciplina.class)
+                .addAnnotatedClasses(Tag.class)
                 .buildSessionFactory();
     }
 
@@ -24,9 +28,9 @@ public class DBConfig {
     public DataSource getDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://johnny.heliohost.org:3306/efreitas_intelequiz?autoReconnect=true&useSSL=false");
-        dataSource.setUsername("efreitas_intel");
-        dataSource.setPassword("itqadmin");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
         return dataSource;
     }
 }

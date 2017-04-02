@@ -1,22 +1,20 @@
 package model.entity;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "usuario")
-public class Usuario implements Serializable {
+public class Usuario {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    private String nome;
-    private String login;
-    private String senha;
-    private int perfil;
+    protected Integer id;
+    protected String nome;
+    protected String login;
+    protected String senha;
+    protected TipoUsuario perfil;
 
     public Usuario() {
     }
@@ -62,11 +60,11 @@ public class Usuario implements Serializable {
         return super.toString() + " = Id: " + id + "; Nome: " + nome + "; Login: " + login + "; Senha: " + senha;
     }
 
-    public int getPerfil() {
+    public TipoUsuario getPerfil() {
         return perfil;
     }
 
-    public void setPerfil(int perfil) {
+    public void setPerfil(TipoUsuario perfil) {
         this.perfil = perfil;
     }
 }
