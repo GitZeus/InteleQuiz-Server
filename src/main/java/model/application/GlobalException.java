@@ -4,6 +4,9 @@ public class GlobalException extends Exception {
 
     public GlobalException(Exception e) {
         super(e.getMessage());
-        e.printStackTrace();
+    }
+    
+    public GlobalException(String message) {
+        super(message);
     }
 }

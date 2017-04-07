@@ -1,12 +1,25 @@
 package model.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity(name = "usuario")
 public class Usuario {
-    private int cod_usuario;
-    private String nome;
-    private String login;
-    private String senha;
-    
-    public Usuario(String nome){
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Integer id;
+    protected String nome;
+    protected String login;
+    protected String senha;
+    protected TipoUsuario perfil;
+
+    public Usuario() {
+    }
+
+    public Usuario(String nome) {
         this.nome = nome;
     }
 
@@ -34,11 +47,24 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public int getCod_usuario() {
-        return cod_usuario;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCod_usuario(int cod_usuario) {
-        this.cod_usuario = cod_usuario;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " = Id: " + id + "; Nome: " + nome + "; Login: " + login + "; Senha: " + senha;
+    }
+
+    public TipoUsuario getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(TipoUsuario perfil) {
+        this.perfil = perfil;
     }
 }
