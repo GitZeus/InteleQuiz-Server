@@ -24,29 +24,39 @@ public class DataBase {
 
     @Bean
     public SessionFactory sessionFactory() {
-        return new LocalSessionFactoryBuilder(getDataSource())
-                .addAnnotatedClasses(Aluno.class)
-                .addAnnotatedClasses(Disciplina.class)
-                .addAnnotatedClasses(Professor.class)
-                .addAnnotatedClasses(Questao.class)
-                .addAnnotatedClasses(Quiz.class)
-                .addAnnotatedClasses(Resposta.class)
-                .addAnnotatedClasses(Tema.class)
-                .addAnnotatedClasses(Treino.class)
-                .addAnnotatedClasses(Turma.class)
-                .addAnnotatedClasses(TurmaQuiz.class)
-                .setProperty("hibernate.show_sql", "true")
-                .setProperty("hibernate.format_sql", "true")
-                .buildSessionFactory();
+        SessionFactory sessionFactory = null;
+        try {
+            sessionFactory = new LocalSessionFactoryBuilder(getDataSource())
+                    .addAnnotatedClasses(Aluno.class)
+                    .addAnnotatedClasses(Disciplina.class)
+                    .addAnnotatedClasses(Professor.class)
+                    .addAnnotatedClasses(Questao.class)
+                    .addAnnotatedClasses(Quiz.class)
+                    .addAnnotatedClasses(Resposta.class)
+                    .addAnnotatedClasses(Tema.class)
+                    .addAnnotatedClasses(Treino.class)
+                    .addAnnotatedClasses(Turma.class)
+                    .addAnnotatedClasses(TurmaQuiz.class)
+                    .setProperty("hibernate.show_sql", "true")
+                    .setProperty("hibernate.format_sql", "true")
+                    .buildSessionFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sessionFactory;
     }
 
     @Bean
     public DataSource getDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        try {
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+            dataSource.setUsername("root");
+            dataSource.setPassword("root");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return dataSource;
     }
 }

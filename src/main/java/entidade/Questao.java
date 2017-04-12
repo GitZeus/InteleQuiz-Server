@@ -1,14 +1,18 @@
 package entidade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import enums.TipoQuestao;
 import enums.StatusQuizQuestao;
 import enums.NivelQuestao;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,10 +25,16 @@ public class Questao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @JsonIgnore
     @ManyToMany
+    @JoinTable(name = "rel_questao_tema",
+            joinColumns = {
+                @JoinColumn(name = "questao_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "tema_id")})
     private List<Tema> temas;
     
-    @OneToMany
+    @OneToMany(mappedBy = "questao", fetch = FetchType.EAGER)
     private List<Resposta> respostas;
 
     @Enumerated

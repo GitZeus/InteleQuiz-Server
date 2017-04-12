@@ -1,12 +1,12 @@
 package entidade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +18,7 @@ public class Professor extends Usuario {
     private String nome;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "rel_professor_disciplina",
             joinColumns = {
                 @JoinColumn(name = "professor_matricula")},

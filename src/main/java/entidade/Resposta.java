@@ -1,5 +1,6 @@
 package entidade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ public class Resposta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     private Questao questao;
     private String texto;
