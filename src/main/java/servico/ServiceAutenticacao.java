@@ -11,7 +11,7 @@ import util.ITQException;
 @Service
 public class ServiceAutenticacao {
 
-//    @Autowired
+    @Autowired
     private GatewayAutenticacao gatewayAutenticacao;
 
     public Usuario getUsuarioByLoginSenha(Usuario u) throws GlobalException {

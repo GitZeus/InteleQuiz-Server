@@ -17,16 +17,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import util.ITQException;
 
 @Configuration
 @EnableTransactionManagement
 public class DataBase {
 
     @Bean
-    public SessionFactory sessionFactory() {
-        SessionFactory sessionFactory = null;
+    public SessionFactory sessionFactory() throws ITQException {
         try {
-            sessionFactory = new LocalSessionFactoryBuilder(getDataSource())
+            SessionFactory sessionFactory = new LocalSessionFactoryBuilder(getDataSource())
                     .addAnnotatedClasses(Aluno.class)
                     .addAnnotatedClasses(Disciplina.class)
                     .addAnnotatedClasses(Professor.class)
@@ -40,23 +40,23 @@ public class DataBase {
                     .setProperty("hibernate.show_sql", "true")
                     .setProperty("hibernate.format_sql", "true")
                     .buildSessionFactory();
+            return sessionFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ITQException(e.getMessage());
         }
-        return sessionFactory;
     }
 
     @Bean
-    public DataSource getDataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
+    public DataSource getDataSource() throws ITQException {
         try {
+            BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
             dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
             dataSource.setUsername("root");
             dataSource.setPassword("root");
+            return dataSource;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ITQException(e.getMessage());
         }
-        return dataSource;
     }
 }

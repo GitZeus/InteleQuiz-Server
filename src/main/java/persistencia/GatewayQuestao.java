@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Repository
-public class GatewayDisciplina {
+public class GatewayQuestao {
 
-    @Autowired
+    @Autowired(required = false)
     private SessionFactory sessionFactory;
     private Session session;
 
@@ -26,7 +26,6 @@ public class GatewayDisciplina {
             session = sessionFactory.getCurrentSession();
             Professor professor = session.get(Professor.class, p.getMatricula());
             List<Disciplina> disciplinas = professor.getDisciplinas();
-            System.out.println("TESTE: " + disciplinas.size());
             return disciplinas;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -36,13 +35,11 @@ public class GatewayDisciplina {
 
     public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
-        Professor p = session.get(Professor.class, matricula_professor);
-        p.getDisciplinas().size();
-        Disciplina d = session.get(Disciplina.class, disciplina_id);
-        Query query = session.createQuery("FROM Tema t LEFT JOIN FETCH t.questoes WHERE t.professor = :professor AND t.disciplina = :disciplina");
-        query.setParameter("professor", p);
-        query.setParameter("disciplina", d);
+        Query query = session.createQuery("FROM Tema t WHERE t.professor.matricula = :professor AND t.disciplina.id = :disciplina");
+        query.setParameter("professor", matricula_professor);
+        query.setParameter("disciplina", disciplina_id);
         List<Tema> temas = query.list();
+        System.out.println("TESTE: " + temas.get(0));
         return temas;
     }
 

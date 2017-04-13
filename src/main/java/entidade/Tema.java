@@ -76,4 +76,9 @@ public class Tema {
     public void setQuestoes(List<Questao> questoes) {
         this.questoes = questoes;
     }
+
+    @Override
+    public String toString() {
+        return "Tema{" + "id=" + id + ", professor=" + professor + ", disciplina=" + disciplina + ", questoes=" + questoes + ", nome=" + nome + '}';
+    }
 }

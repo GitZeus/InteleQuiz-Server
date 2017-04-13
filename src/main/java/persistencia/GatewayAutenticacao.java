@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class GatewayAutenticacao {
 
-    @Autowired
+    @Autowired(required = false)
     private SessionFactory sessionFactory;
     private Session session;
 

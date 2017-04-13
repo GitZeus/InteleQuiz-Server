@@ -1,8 +1,8 @@
 package entidade;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,8 +17,7 @@ public class Professor extends Usuario {
     private String matricula;
     private String nome;
 
-    @ManyToMany
-    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "rel_professor_disciplina",
             joinColumns = {
                 @JoinColumn(name = "professor_matricula")},

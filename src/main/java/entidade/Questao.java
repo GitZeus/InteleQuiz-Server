@@ -103,4 +103,9 @@ public class Questao {
     public void setRespostas(List<Resposta> respostas) {
         this.respostas = respostas;
     }
+
+    @Override
+    public String toString() {
+        return "Questao{" + "id=" + id + ", respostas=" + respostas + ", tipo=" + tipo + ", nivel=" + nivel + ", status=" + status + ", texto=" + texto + '}';
+    }
 }
