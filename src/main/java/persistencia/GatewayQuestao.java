@@ -50,4 +50,14 @@ public class GatewayQuestao {
         List<Questao> questoes = t.getQuestoes();
         return questoes;
     }
+
+    public boolean saveQuestao(Questao questao) throws ITQException {
+        try {
+            session = sessionFactory.getCurrentSession();
+            Integer questao_id = (Integer) session.save(questao);
+            return questao_id != null;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
 }

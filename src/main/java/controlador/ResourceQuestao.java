@@ -5,6 +5,7 @@ import entidade.Professor;
 import entidade.Questao;
 import entidade.Tema;
 import enums.NivelQuestao;
+import enums.StatusQuizQuestao;
 import enums.TipoQuestao;
 import java.util.List;
 import util.RestResponse;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import servico.ServiceQuestao;
 import util.GlobalException;
+import util.ITQException;
 
 @RestController
 @CrossOrigin
@@ -59,7 +61,7 @@ public class ResourceQuestao {
     public RestResponse<TipoQuestao[]> listTiposQuestao() throws GlobalException {
         return new RestResponse<>(serviceQuestao.listTiposQuestao());
     }
-    
+
     @RequestMapping(
             value = "/questoes/niveis",
             method = RequestMethod.GET,
@@ -68,4 +70,20 @@ public class ResourceQuestao {
         return new RestResponse<>(serviceQuestao.listNiveisQuestao());
     }
 
+    @RequestMapping(
+            value = "/questao/status",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<StatusQuizQuestao[]> listStatusQuizQuestao() throws GlobalException{
+        return new RestResponse<>(serviceQuestao.listStatusQuizQuestao());
+    }
+
+    @RequestMapping(
+            value = "/questao",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<Boolean> saveQuestao(@RequestBody Questao questao) throws ITQException {
+        System.out.println(questao);
+        return new RestResponse<>(serviceQuestao.saveQuestao(questao));
+    }
 }

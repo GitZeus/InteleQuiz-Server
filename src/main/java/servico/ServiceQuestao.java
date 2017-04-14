@@ -5,12 +5,14 @@ import entidade.Professor;
 import entidade.Questao;
 import entidade.Tema;
 import enums.NivelQuestao;
+import enums.StatusQuizQuestao;
 import enums.TipoQuestao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayQuestao;
 import util.GlobalException;
+import util.ITQException;
 
 @Service
 public class ServiceQuestao {
@@ -55,6 +57,22 @@ public class ServiceQuestao {
             return NivelQuestao.values();
         } catch (Exception e) {
             throw new GlobalException(e);
+        }
+    }
+    
+    public StatusQuizQuestao[] listStatusQuizQuestao() throws GlobalException {
+        try {
+            return StatusQuizQuestao.values();
+        } catch (Exception e) {
+            throw new GlobalException(e);
+        }
+    }
+    
+    public boolean saveQuestao(Questao questao) throws ITQException{
+        try {
+            return gatewayQuestao.saveQuestao(questao);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
         }
     }
 }
