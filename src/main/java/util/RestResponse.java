@@ -10,6 +10,10 @@ public class RestResponse<T> {
     public RestResponse(T data) {
         this.data = data;
     }
+    
+    public RestResponse(RestMessage message) {
+        this.message = message;
+    }
 
     public RestResponse(T data, RestMessage message) {
         this.data = data;

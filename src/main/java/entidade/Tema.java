@@ -1,6 +1,9 @@
 package entidade;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +20,7 @@ import javax.persistence.Table;
 public class Tema {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne
@@ -25,15 +28,6 @@ public class Tema {
 
     @OneToOne
     private Disciplina disciplina;
-
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "rel_questao_tema",
-            joinColumns = {
-                @JoinColumn(name = "tema_id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "questao_id")})
-    private List<Questao> questoes;
 
     private String nome;
 
@@ -69,16 +63,8 @@ public class Tema {
         this.nome = nome;
     }
 
-    public List<Questao> getQuestoes() {
-        return questoes;
-    }
-
-    public void setQuestoes(List<Questao> questoes) {
-        this.questoes = questoes;
-    }
-
     @Override
     public String toString() {
-        return "Tema{" + "id=" + id + ", professor=" + professor + ", disciplina=" + disciplina + ", questoes=" + questoes + ", nome=" + nome + '}';
+        return "Tema{" + "id=" + id + ", professor=" + professor + ", disciplina=" + disciplina + ", + nome=" + nome + '}';
     }
 }

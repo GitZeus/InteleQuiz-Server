@@ -1,6 +1,9 @@
 package entidade;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import enums.TipoQuestao;
 import enums.StatusQuizQuestao;
 import enums.NivelQuestao;
@@ -25,7 +28,6 @@ public class Questao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "rel_questao_tema",
             joinColumns = {

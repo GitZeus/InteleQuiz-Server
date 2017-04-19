@@ -3,6 +3,7 @@ package persistencia;
 import entidade.Disciplina;
 import entidade.Professor;
 import entidade.Questao;
+import entidade.Resposta;
 import entidade.Tema;
 import util.ITQException;
 import java.util.List;
@@ -39,22 +40,26 @@ public class GatewayQuestao {
         query.setParameter("professor", matricula_professor);
         query.setParameter("disciplina", disciplina_id);
         List<Tema> temas = query.list();
-        System.out.println("TESTE: " + temas.get(0));
         return temas;
     }
 
     public List<Questao> listQuestoesByTema(Integer tema_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
-        Tema t = session.get(Tema.class, tema_id);
-        t.getQuestoes().size();
-        List<Questao> questoes = t.getQuestoes();
+        Query query = session.createQuery("FROM Questao q LEFT JOIN FETCH q.temas t WHERE t.id =:tema_id");
+        query.setParameter("tema_id", tema_id);
+        List<Questao> questoes = query.list();
         return questoes;
     }
 
     public boolean saveQuestao(Questao questao) throws ITQException {
+        System.out.println("TEMAS: " + questao.getTemas());
         try {
             session = sessionFactory.getCurrentSession();
             Integer questao_id = (Integer) session.save(questao);
+            for(Resposta resposta : questao.getRespostas()){
+                resposta.setQuestao(questao);
+                session.save(resposta);
+            }
             return questao_id != null;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import persistencia.GatewayQuestao;
 import util.GlobalException;
 import util.ITQException;
+import util.RestMessage;
+import util.RestMessageType;
+import util.RestResponse;
 
 @Service
 public class ServiceQuestao {
@@ -68,9 +71,18 @@ public class ServiceQuestao {
         }
     }
     
-    public boolean saveQuestao(Questao questao) throws ITQException{
+    public RestMessage saveQuestao(Questao questao) throws ITQException{
         try {
-            return gatewayQuestao.saveQuestao(questao);
+            boolean sucesso = gatewayQuestao.saveQuestao(questao);
+            RestMessage message = new RestMessage();
+            if(sucesso){
+                message.setText("Questão incluída com sucesso");
+                message.setType(RestMessageType.SUCCESS);
+            }else{
+                message.setText("Erro ao incluir Questão, contate o administrador do sistema");
+                message.setType(RestMessageType.ERROR);
+            }
+            return message;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }

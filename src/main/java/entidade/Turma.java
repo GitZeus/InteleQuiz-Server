@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "TB_TURMA")
 public class Turma {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     @OneToOne

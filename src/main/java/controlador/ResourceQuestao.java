@@ -3,6 +3,7 @@ package controlador;
 import entidade.Disciplina;
 import entidade.Professor;
 import entidade.Questao;
+import entidade.QuestaoDTO;
 import entidade.Tema;
 import enums.NivelQuestao;
 import enums.StatusQuizQuestao;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import servico.ServiceQuestao;
 import util.GlobalException;
 import util.ITQException;
+import util.RestMessage;
 
 @RestController
 @CrossOrigin
@@ -82,8 +84,8 @@ public class ResourceQuestao {
             value = "/questao",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Boolean> saveQuestao(@RequestBody Questao questao) throws ITQException {
-        System.out.println(questao);
+    public RestResponse<RestMessage> saveQuestao(@RequestBody Questao questao) throws ITQException {
+        System.out.println(questao.getTemas());
         return new RestResponse<>(serviceQuestao.saveQuestao(questao));
     }
 }

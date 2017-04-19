@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 public class TurmaQuiz {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
     @OneToOne
