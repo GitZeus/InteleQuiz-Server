@@ -42,7 +42,8 @@ public class DataBase {
                     .buildSessionFactory();
             return sessionFactory;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+//            throw new ITQException(e.getMessage());
+            return null;
         }
     }
 
@@ -56,7 +57,8 @@ public class DataBase {
             dataSource.setPassword("root");
             return dataSource;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+//            throw new ITQException(e.getMessage());
+            return null;
         }
     }
 }
