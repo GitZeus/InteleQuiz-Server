@@ -4,7 +4,7 @@
     
     <groupId>appdata</groupId>
     <artifactId>intelequiz-server</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <version>1.0</version>
     <name>intelequiz-server</name>
     
