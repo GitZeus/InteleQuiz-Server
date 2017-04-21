@@ -8,6 +8,7 @@ import enums.TipoQuestao;
 import enums.StatusQuizQuestao;
 import enums.NivelQuestao;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;

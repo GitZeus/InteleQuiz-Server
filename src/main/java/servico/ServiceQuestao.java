@@ -87,4 +87,21 @@ public class ServiceQuestao {
             throw new ITQException(e.getMessage());
         }
     }
+    
+    public RestMessage updateQuestao(Questao questao) throws ITQException{
+        try {
+            boolean sucesso = gatewayQuestao.updateQuestao(questao);
+            RestMessage message = new RestMessage();
+            if(sucesso){
+                message.setText("Questão alterada com sucesso");
+                message.setType(RestMessageType.SUCCESS);
+            }else{
+                message.setText("Erro ao alterar Questão, contate o administrador do sistema");
+                message.setType(RestMessageType.ERROR);
+            }
+            return message;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
 }

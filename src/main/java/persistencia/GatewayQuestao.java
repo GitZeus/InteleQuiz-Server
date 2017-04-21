@@ -52,7 +52,6 @@ public class GatewayQuestao {
     }
 
     public boolean saveQuestao(Questao questao) throws ITQException {
-        System.out.println("TEMAS: " + questao.getTemas());
         try {
             session = sessionFactory.getCurrentSession();
             Integer questao_id = (Integer) session.save(questao);
@@ -61,6 +60,20 @@ public class GatewayQuestao {
                 session.save(resposta);
             }
             return questao_id != null;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+    
+    public boolean updateQuestao(Questao questao) throws ITQException {
+        try {
+            session = sessionFactory.getCurrentSession();
+            session.update(questao);
+            for(Resposta r: questao.getRespostas()){
+                r.setQuestao(questao);
+                session.saveOrUpdate(r);
+            }
+            return true;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }

@@ -3,7 +3,6 @@ package controlador;
 import entidade.Disciplina;
 import entidade.Professor;
 import entidade.Questao;
-import entidade.QuestaoDTO;
 import entidade.Tema;
 import enums.NivelQuestao;
 import enums.StatusQuizQuestao;
@@ -85,7 +84,14 @@ public class ResourceQuestao {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<RestMessage> saveQuestao(@RequestBody Questao questao) throws ITQException {
-        System.out.println(questao.getTemas());
         return new RestResponse<>(serviceQuestao.saveQuestao(questao));
+    }
+    
+    @RequestMapping(
+            value = "/questao",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<RestMessage> updateQuestao(@RequestBody Questao questao) throws ITQException {
+        return new RestResponse<>(serviceQuestao.updateQuestao(questao));
     }
 }
