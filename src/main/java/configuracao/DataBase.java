@@ -44,8 +44,7 @@ public class DataBase {
             return sessionFactory;
         } catch (Exception e) {
             e.printStackTrace();
-//            throw new ITQException(e.getMessage());
-            return null;
+            throw new ITQException("FAC: " + e.getMessage());
         }
     }
 
@@ -66,8 +65,7 @@ public class DataBase {
             return dataSource;
         } catch (Exception e) {
             e.printStackTrace();
-//            throw new ITQException(e.getMessage());
-            return null;
+            throw new ITQException("Falha ao acessar o Banco de Dados");
         }
     }
 }
