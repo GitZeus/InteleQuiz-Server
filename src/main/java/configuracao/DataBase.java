@@ -37,11 +37,13 @@ public class DataBase {
                     .addAnnotatedClasses(Treino.class)
                     .addAnnotatedClasses(Turma.class)
                     .addAnnotatedClasses(TurmaQuiz.class)
+                    .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
                     .setProperty("hibernate.show_sql", "true")
                     .setProperty("hibernate.format_sql", "true")
                     .buildSessionFactory();
             return sessionFactory;
         } catch (Exception e) {
+            e.printStackTrace();
 //            throw new ITQException(e.getMessage());
             return null;
         }
@@ -52,14 +54,18 @@ public class DataBase {
         try {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl(System.getenv("CLEARDB_URL"));
-            dataSource.setUsername(System.getenv("CLEARDB_USER"));
-            dataSource.setPassword(System.getenv("CLEARDB_PASS"));
+            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679?reconnect=true");
+            dataSource.setUsername("bd20ed095bed99");
+            dataSource.setPassword("7859d60c");
+//            dataSource.setUrl(System.getenv("CLEARDB_URL"));
+//            dataSource.setUsername(System.getenv("CLEARDB_USER"));
+//            dataSource.setPassword(System.getenv("CLEARDB_PASS"));
 //            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
 //            dataSource.setUsername("root");
 //            dataSource.setPassword("root");
             return dataSource;
         } catch (Exception e) {
+            e.printStackTrace();
 //            throw new ITQException(e.getMessage());
             return null;
         }
