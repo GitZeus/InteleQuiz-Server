@@ -52,9 +52,12 @@ public class DataBase {
         try {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
-            dataSource.setUsername("root");
-            dataSource.setPassword("root");
+            dataSource.setUrl(System.getenv("CLEARDB_DATABASE_URL"));
+//            dataSource.setUsername("root");
+//            dataSource.setPassword("root");
+//            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+//            dataSource.setUsername("root");
+//            dataSource.setPassword("root");
             return dataSource;
         } catch (Exception e) {
 //            throw new ITQException(e.getMessage());
