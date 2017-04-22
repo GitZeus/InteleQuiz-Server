@@ -15,7 +15,6 @@ import util.GlobalException;
 import util.ITQException;
 import util.RestMessage;
 import util.RestMessageType;
-import util.RestResponse;
 
 @Service
 public class ServiceQuestao {
@@ -31,17 +30,17 @@ public class ServiceQuestao {
         }
     }
     
-    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws GlobalException {
+    public List<Questao> listQuestoesByTema(Integer tema_id) throws GlobalException {
         try {
-            return gatewayQuestao.listTemasByDisciplinaByProfessor(matricula_professor, disciplina_id);
+            return gatewayQuestao.listQuestoesByTema(tema_id);
         } catch (Exception e) {
             throw new GlobalException(e);
         }
     }
     
-    public List<Questao> listQuestoesByTema(Integer tema_id) throws GlobalException {
+    public List<Tema> listTemasByQuestao(Integer questao_id) throws GlobalException {
         try {
-            return gatewayQuestao.listQuestoesByTema(tema_id);
+            return gatewayQuestao.listTemasByQuestao(questao_id);
         } catch (Exception e) {
             throw new GlobalException(e);
         }

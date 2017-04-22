@@ -38,16 +38,6 @@ public class ResourceQuestao {
     }
 
     @RequestMapping(
-            value = "/professor/{matricula}/disciplina/{id}/temas",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Tema>> listTemasByDisciplinaByProfessor(
-            @PathVariable("matricula") String matricula_professor,
-            @PathVariable("id") Integer disciplina_id) throws Exception {
-        return new RestResponse<>(serviceQuestao.listTemasByDisciplinaByProfessor(matricula_professor, disciplina_id));
-    }
-
-    @RequestMapping(
             value = "/tema/{id}/questoes",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -79,6 +69,14 @@ public class ResourceQuestao {
         return new RestResponse<>(serviceQuestao.listStatusQuizQuestao());
     }
 
+    @RequestMapping(
+            value = "/questao/{id}/temas",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Tema>> listTemasByQuestao(@PathVariable("id") Integer questao_id) throws GlobalException{
+        return new RestResponse<>(serviceQuestao.listTemasByQuestao(questao_id));
+    }
+    
     @RequestMapping(
             value = "/questao",
             method = RequestMethod.POST,

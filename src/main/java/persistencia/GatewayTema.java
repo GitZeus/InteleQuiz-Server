@@ -1,6 +1,8 @@
 package persistencia;
 
 import entidade.Tema;
+import java.util.List;
+import org.hibernate.Query;
 import util.ITQException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +17,15 @@ public class GatewayTema {
     @Autowired(required = false)
     private SessionFactory sessionFactory;
     private Session session;
+    
+    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Tema t WHERE t.professor.matricula = :professor AND t.disciplina.id = :disciplina");
+        query.setParameter("professor", matricula_professor);
+        query.setParameter("disciplina", disciplina_id);
+        List<Tema> temas = query.list();
+        return temas;
+    }
 
     public boolean saveTema(Tema t) throws ITQException {
         try {

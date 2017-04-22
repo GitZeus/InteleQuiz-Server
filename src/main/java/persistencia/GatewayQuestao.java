@@ -34,15 +34,6 @@ public class GatewayQuestao {
         }
     }
 
-    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
-        session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM Tema t WHERE t.professor.matricula = :professor AND t.disciplina.id = :disciplina");
-        query.setParameter("professor", matricula_professor);
-        query.setParameter("disciplina", disciplina_id);
-        List<Tema> temas = query.list();
-        return temas;
-    }
-
     public List<Questao> listQuestoesByTema(Integer tema_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Questao q LEFT JOIN FETCH q.temas t WHERE t.id =:tema_id");
@@ -51,11 +42,19 @@ public class GatewayQuestao {
         return questoes;
     }
 
+    public List<Tema> listTemasByQuestao(Integer questao_id) throws ITQException {
+        session = sessionFactory.getCurrentSession();
+        Questao q = session.get(Questao.class, questao_id);
+        q.getTemas().size();
+        List<Tema> temas = q.getTemas();
+        return temas;
+    }
+
     public boolean saveQuestao(Questao questao) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
             Integer questao_id = (Integer) session.save(questao);
-            for(Resposta resposta : questao.getRespostas()){
+            for (Resposta resposta : questao.getRespostas()) {
                 resposta.setQuestao(questao);
                 session.save(resposta);
             }
@@ -64,12 +63,12 @@ public class GatewayQuestao {
             throw new ITQException(e.getMessage());
         }
     }
-    
+
     public boolean updateQuestao(Questao questao) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
             session.update(questao);
-            for(Resposta r: questao.getRespostas()){
+            for (Resposta r : questao.getRespostas()) {
                 r.setQuestao(questao);
                 session.saveOrUpdate(r);
             }

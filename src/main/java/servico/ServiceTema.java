@@ -1,9 +1,11 @@
 package servico;
 
 import entidade.Tema;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayTema;
+import util.GlobalException;
 import util.ITQException;
 import util.RestMessage;
 import util.RestMessageType;
@@ -13,6 +15,14 @@ public class ServiceTema {
     
     @Autowired
     private GatewayTema gatewayTema;
+    
+    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws GlobalException {
+        try {
+            return gatewayTema.listTemasByDisciplinaByProfessor(matricula_professor, disciplina_id);
+        } catch (Exception e) {
+            throw new GlobalException(e);
+        }
+    }
        
     public RestMessage saveTema(Tema t) throws ITQException{
         try {

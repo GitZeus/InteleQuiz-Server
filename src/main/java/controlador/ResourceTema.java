@@ -1,12 +1,6 @@
 package controlador;
 
-import entidade.Disciplina;
-import entidade.Professor;
-import entidade.Questao;
 import entidade.Tema;
-import enums.NivelQuestao;
-import enums.StatusQuizQuestao;
-import enums.TipoQuestao;
 import java.util.List;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import servico.ServiceQuestao;
 import servico.ServiceTema;
-import util.GlobalException;
-import util.ITQException;
 import util.RestMessage;
 
 @RestController
@@ -29,6 +20,16 @@ public class ResourceTema {
 
     @Autowired
     private ServiceTema serviceTema;
+
+    @RequestMapping(
+            value = "/professor/{matricula}/disciplina/{id}/temas",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Tema>> listTemasByDisciplinaByProfessor(
+            @PathVariable("matricula") String matricula_professor,
+            @PathVariable("id") Integer disciplina_id) throws Exception {
+        return new RestResponse<>(serviceTema.listTemasByDisciplinaByProfessor(matricula_professor, disciplina_id));
+    }
 
     @RequestMapping(
             value = "/tema",
