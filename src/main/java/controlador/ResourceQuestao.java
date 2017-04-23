@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import servico.ServiceQuestao;
-import util.GlobalException;
 import util.ITQException;
 import util.RestMessage;
 
@@ -49,7 +48,7 @@ public class ResourceQuestao {
             value = "/questoes/tipos",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<TipoQuestao[]> listTiposQuestao() throws GlobalException {
+    public RestResponse<TipoQuestao[]> listTiposQuestao() throws ITQException {
         return new RestResponse<>(serviceQuestao.listTiposQuestao());
     }
 
@@ -57,7 +56,7 @@ public class ResourceQuestao {
             value = "/questoes/niveis",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<NivelQuestao[]> listNiveisQuestao() throws GlobalException {
+    public RestResponse<NivelQuestao[]> listNiveisQuestao() throws ITQException {
         return new RestResponse<>(serviceQuestao.listNiveisQuestao());
     }
 
@@ -65,7 +64,7 @@ public class ResourceQuestao {
             value = "/questao/status",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<StatusQuizQuestao[]> listStatusQuizQuestao() throws GlobalException{
+    public RestResponse<StatusQuizQuestao[]> listStatusQuizQuestao() throws ITQException{
         return new RestResponse<>(serviceQuestao.listStatusQuizQuestao());
     }
 
@@ -73,7 +72,7 @@ public class ResourceQuestao {
             value = "/questao/{id}/temas",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Tema>> listTemasByQuestao(@PathVariable("id") Integer questao_id) throws GlobalException{
+    public RestResponse<List<Tema>> listTemasByQuestao(@PathVariable("id") Integer questao_id) throws ITQException{
         return new RestResponse<>(serviceQuestao.listTemasByQuestao(questao_id));
     }
     

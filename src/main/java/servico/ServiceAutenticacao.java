@@ -5,7 +5,6 @@ import enums.TipoUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayAutenticacao;
-import util.GlobalException;
 import util.ITQException;
 
 @Service
@@ -14,7 +13,7 @@ public class ServiceAutenticacao {
     @Autowired
     private GatewayAutenticacao gatewayAutenticacao;
 
-    public Usuario getUsuarioByLoginSenha(Usuario u) throws GlobalException {
+    public Usuario getUsuarioByLoginSenha(Usuario u) throws ITQException {
         try {
             if (u.getPerfil() == TipoUsuario.PROFESSOR || u.getPerfil() == TipoUsuario.COORDENADOR) {
                 return gatewayAutenticacao.getProfessorByLoginSenha(u);
@@ -24,11 +23,15 @@ public class ServiceAutenticacao {
                 throw new ITQException("Perfil de usuário não reconhecido");
             }
         } catch (Exception e) {
-            throw new GlobalException(e);
+            throw new ITQException(e.getMessage());
         }
     }
 
-    public TipoUsuario[] getTiposUsuario() {
-        return TipoUsuario.values();
+    public TipoUsuario[] getTiposUsuario() throws ITQException {
+        try {
+            return TipoUsuario.values();
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
     }
 }

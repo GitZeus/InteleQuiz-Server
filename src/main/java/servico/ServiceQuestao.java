@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayQuestao;
-import util.GlobalException;
 import util.ITQException;
 import util.RestMessage;
 import util.RestMessageType;
@@ -22,51 +21,51 @@ public class ServiceQuestao {
     @Autowired
     private GatewayQuestao gatewayQuestao;
     
-    public List<Disciplina> listDisciplinasByProfessor(Professor p) throws GlobalException {
+    public List<Disciplina> listDisciplinasByProfessor(Professor p) throws ITQException {
         try {
            return gatewayQuestao.listDisciplinasByProfessor(p);
         } catch (Exception e) {
-            throw new GlobalException(e);
+            throw new ITQException(e.getMessage());
         }
     }
     
-    public List<Questao> listQuestoesByTema(Integer tema_id) throws GlobalException {
+    public List<Questao> listQuestoesByTema(Integer tema_id) throws ITQException {
         try {
             return gatewayQuestao.listQuestoesByTema(tema_id);
         } catch (Exception e) {
-            throw new GlobalException(e);
+            throw new ITQException(e.getMessage());
         }
     }
     
-    public List<Tema> listTemasByQuestao(Integer questao_id) throws GlobalException {
+    public List<Tema> listTemasByQuestao(Integer questao_id) throws ITQException {
         try {
             return gatewayQuestao.listTemasByQuestao(questao_id);
         } catch (Exception e) {
-            throw new GlobalException(e);
+            throw new ITQException(e.getMessage());
         }
     }
     
-    public TipoQuestao[] listTiposQuestao() throws GlobalException {
+    public TipoQuestao[] listTiposQuestao() throws ITQException {
         try {
             return TipoQuestao.values();
         } catch (Exception e) {
-            throw new GlobalException(e);
+            throw new ITQException(e.getMessage());
         }
     }
     
-    public NivelQuestao[] listNiveisQuestao() throws GlobalException {
+    public NivelQuestao[] listNiveisQuestao() throws ITQException {
         try {
             return NivelQuestao.values();
         } catch (Exception e) {
-            throw new GlobalException(e);
+            throw new ITQException(e.getMessage());
         }
     }
     
-    public StatusQuizQuestao[] listStatusQuizQuestao() throws GlobalException {
+    public StatusQuizQuestao[] listStatusQuizQuestao() throws ITQException {
         try {
             return StatusQuizQuestao.values();
         } catch (Exception e) {
-            throw new GlobalException(e);
+            throw new ITQException(e.getMessage());
         }
     }
     

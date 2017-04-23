@@ -15,25 +15,29 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class GatewayAutenticacao {
 
-    @Autowired(required = false)
+    @Autowired
     private SessionFactory sessionFactory;
     private Session session;
 
     public Professor getProfessorByLoginSenha(Usuario u) throws ITQException {
-        Professor pMock = new Professor();
-        pMock.setLogin("MA123");
-        pMock.setSenha("123");
-        pMock.setNome("Roberto Cantanhede");
-        pMock.setMatricula(pMock.getLogin());
-        pMock.setPerfil(TipoUsuario.PROFESSOR);
-        if (u.getLogin().equals(pMock.getLogin()) && u.getSenha().equals(pMock.getSenha())) {
-            return pMock;
-        } else {
-            throw new ITQException("Login ou senha incorretos");
+        try {
+            Professor pMock = new Professor();
+            pMock.setLogin("MA123");
+            pMock.setSenha("123");
+            pMock.setNome("Roberto Cantanhede");
+            pMock.setMatricula(pMock.getLogin());
+            pMock.setPerfil(TipoUsuario.PROFESSOR);
+            if (u.getLogin().equals(pMock.getLogin()) && u.getSenha().equals(pMock.getSenha())) {
+                return pMock;
+            } else {
+                throw new ITQException("Login ou senha incorretos");
+            }
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
         }
     }
 
     public Aluno getAlunoByLoginSenha(Usuario u) throws ITQException {
         throw new ITQException("Aluno ainda não implementado");
-    }   
+    }
 }

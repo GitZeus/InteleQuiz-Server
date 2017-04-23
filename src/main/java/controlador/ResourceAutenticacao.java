@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import util.ITQException;
 
 @RestController
 @CrossOrigin
@@ -23,7 +24,7 @@ public class ResourceAutenticacao {
             value = "usuario/autenticacao",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Usuario> autenticarUsuario(@RequestBody Usuario usuario) throws Exception {
+    public RestResponse<Usuario> autenticarUsuario(@RequestBody Usuario usuario) throws ITQException {
         return new RestResponse<>(serviceAutenticacao.getUsuarioByLoginSenha(usuario));
     }
     
@@ -31,7 +32,7 @@ public class ResourceAutenticacao {
             value="usuario/tipo",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<TipoUsuario[]> getTiposUsuario(){
+    public RestResponse<TipoUsuario[]> getTiposUsuario() throws ITQException{
         return new RestResponse<>(serviceAutenticacao.getTiposUsuario());
     }
 }

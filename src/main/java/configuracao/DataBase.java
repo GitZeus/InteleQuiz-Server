@@ -44,7 +44,7 @@ public class DataBase {
             return sessionFactory;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ITQException("FAC: " + e.getMessage());
+            throw new ITQException("Erro ao criar SessionFactory");
         }
     }
 
@@ -53,7 +53,7 @@ public class DataBase {
         try {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679?reconnect=true");
+            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679?autoReconnect=true");
             dataSource.setUsername("bd20ed095bed99");
             dataSource.setPassword("7859d60c");
 //            dataSource.setUrl(System.getenv("CLEARDB_URL"));
@@ -65,7 +65,7 @@ public class DataBase {
             return dataSource;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ITQException("Falha ao acessar o Banco de Dados");
+            throw new ITQException("Erro ao acessar o Banco de Dados");
         }
     }
 }
