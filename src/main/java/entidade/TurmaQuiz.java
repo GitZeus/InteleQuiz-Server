@@ -24,7 +24,7 @@ public class TurmaQuiz {
     Turma turma;
     
     @OneToOne
-    Quiz quiz;
+    Questionario quiz;
 
     @Temporal(TemporalType.TIMESTAMP)
     Date tsPublicacao;

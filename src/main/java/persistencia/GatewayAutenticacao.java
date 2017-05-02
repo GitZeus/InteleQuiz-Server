@@ -38,6 +38,20 @@ public class GatewayAutenticacao {
     }
 
     public Aluno getAlunoByLoginSenha(Usuario u) throws ITQException {
-        throw new ITQException("Aluno ainda não implementado");
+        try {
+            Aluno aMock = new Aluno();
+            aMock.setLogin("21550465");
+            aMock.setSenha("123");
+            aMock.setNome("Elizeu Freitas");
+            aMock.setRa(aMock.getLogin());
+            aMock.setPerfil(TipoUsuario.ALUNO);
+            if (u.getLogin().equals(aMock.getLogin()) && u.getSenha().equals(aMock.getSenha())) {
+                return aMock;
+            } else {
+                throw new ITQException("Login ou senha incorretos");
+            }
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
     }
 }

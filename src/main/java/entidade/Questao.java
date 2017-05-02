@@ -36,7 +36,7 @@ public class Questao {
             inverseJoinColumns = {
                 @JoinColumn(name = "tema_id")})
     private List<Tema> temas;
-    
+
     @OneToMany(mappedBy = "questao", fetch = FetchType.EAGER)
     private List<Resposta> respostas;
 

@@ -7,13 +7,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_QUIZ")
-public class Quiz {
+public class Questionario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,6 +27,11 @@ public class Quiz {
     private Disciplina disciplina;
     
     @OneToMany
+    @JoinTable(name = "rel_questao_quiz",
+            joinColumns = {
+                @JoinColumn(name = "quiz_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "questao_id")})
     private List<Questao> questoes;
     
     private String descricao;
@@ -78,5 +85,10 @@ public class Quiz {
 
     public void setQuestoes(List<Questao> questoes) {
         this.questoes = questoes;
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" + "id=" + id + ", professor=" + professor + ", disciplina=" + disciplina + ", questoes=" + questoes + ", descricao=" + descricao + ", status=" + status + '}';
     }
 }

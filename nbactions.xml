@@ -45,7 +45,7 @@
                 <Env.CLEARDB_URL>jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&amp;useSSL=false</Env.CLEARDB_URL>
                 <Env.CLEARDB_USER>"root"</Env.CLEARDB_USER>
                 <Env.CLEARDB_PASS>"root"</Env.CLEARDB_PASS>
-                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.args>-classpath %classpath configuracao.Application</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>

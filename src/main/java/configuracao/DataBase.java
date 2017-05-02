@@ -4,7 +4,7 @@ import entidade.Aluno;
 import entidade.Disciplina;
 import entidade.Professor;
 import entidade.Questao;
-import entidade.Quiz;
+import entidade.Questionario;
 import entidade.Resposta;
 import entidade.Tema;
 import entidade.Treino;
@@ -31,7 +31,7 @@ public class DataBase {
                     .addAnnotatedClasses(Disciplina.class)
                     .addAnnotatedClasses(Professor.class)
                     .addAnnotatedClasses(Questao.class)
-                    .addAnnotatedClasses(Quiz.class)
+                    .addAnnotatedClasses(Questionario.class)
                     .addAnnotatedClasses(Resposta.class)
                     .addAnnotatedClasses(Tema.class)
                     .addAnnotatedClasses(Treino.class)
@@ -42,7 +42,7 @@ public class DataBase {
                     .setProperty("hibernate.format_sql", "true")
                     .buildSessionFactory();
             return sessionFactory;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             throw new ITQException("Erro ao criar SessionFactory");
         }
@@ -53,7 +53,7 @@ public class DataBase {
         try {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679?autoReconnect=true");
+            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679");
             dataSource.setUsername("bd20ed095bed99");
             dataSource.setPassword("7859d60c");
 //            dataSource.setUrl(System.getenv("CLEARDB_URL"));
@@ -63,7 +63,7 @@ public class DataBase {
 //            dataSource.setUsername("root");
 //            dataSource.setPassword("root");
             return dataSource;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             throw new ITQException("Erro ao acessar o Banco de Dados");
         }
