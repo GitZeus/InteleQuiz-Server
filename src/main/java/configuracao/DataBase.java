@@ -4,7 +4,7 @@ import entidade.Aluno;
 import entidade.Disciplina;
 import entidade.Professor;
 import entidade.Questao;
-import entidade.Questionario;
+import entidade.Quiz;
 import entidade.Resposta;
 import entidade.Tema;
 import entidade.Treino;
@@ -31,7 +31,7 @@ public class DataBase {
                     .addAnnotatedClasses(Disciplina.class)
                     .addAnnotatedClasses(Professor.class)
                     .addAnnotatedClasses(Questao.class)
-                    .addAnnotatedClasses(Questionario.class)
+                    .addAnnotatedClasses(Quiz.class)
                     .addAnnotatedClasses(Resposta.class)
                     .addAnnotatedClasses(Tema.class)
                     .addAnnotatedClasses(Treino.class)

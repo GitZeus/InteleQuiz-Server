@@ -1,5 +1,6 @@
 package controlador;
 
+import entidade.Quiz;
 import entidade.Turma;
 import java.util.List;
 import util.RestResponse;
@@ -26,5 +27,15 @@ public class ResourceQuiz {
     public RestResponse<List<Turma>> listTurmasByProfessor(
             @PathVariable("matricula") String matricula) throws Exception {
         return new RestResponse<>(serviceQuiz.listTurmasByProfessor(matricula));
+    }
+    
+    @RequestMapping(
+            value = "/professor/{matricula}/disciplina/{id}/quiz",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Quiz>> listQuizByDisciplinaByProfessor(
+            @PathVariable("matricula") String matricula_professor,
+            @PathVariable("id") Integer disciplina_id) throws Exception {
+        return new RestResponse<>(serviceQuiz.listQuizByDisciplinaByProfessor(matricula_professor, disciplina_id));
     }
 }

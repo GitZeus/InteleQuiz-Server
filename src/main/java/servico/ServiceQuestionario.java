@@ -1,7 +1,7 @@
 package servico;
 
 import entidade.Questao;
-import entidade.Questionario;
+import entidade.Quiz;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +16,6 @@ public class ServiceQuestionario {
     @Autowired
     private GatewayQuestionario gatewayQuestionario;
     
-    public List<Questionario> listQuestionarioByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
-        try {
-            return gatewayQuestionario.listQuestionarioByDisciplinaByProfessor(matricula_professor, disciplina_id);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
-    
     public List<Questao> listQuestoesByQuestionario(Integer questionario_id) throws ITQException {
         try {
             return gatewayQuestionario.listQuestoesByQuestionario(questionario_id);
@@ -32,7 +24,7 @@ public class ServiceQuestionario {
         }
     }
        
-    public RestMessage saveQuestionario(Questionario q) throws ITQException{
+    public RestMessage saveQuestionario(Quiz q) throws ITQException{
         try {
             boolean sucesso = gatewayQuestionario.saveQuestionario(q);
             RestMessage message = new RestMessage();
@@ -49,7 +41,7 @@ public class ServiceQuestionario {
         }
     }
     
-    public RestMessage updateQuestionario(Questionario q) throws ITQException{
+    public RestMessage updateQuestionario(Quiz q) throws ITQException{
         try {
             boolean sucesso = gatewayQuestionario.updateQuestionario(q);
             RestMessage message = new RestMessage();

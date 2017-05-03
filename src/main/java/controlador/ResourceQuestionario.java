@@ -1,7 +1,7 @@
 package controlador;
 
 import entidade.Questao;
-import entidade.Questionario;
+import entidade.Quiz;
 import java.util.List;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +23,6 @@ public class ResourceQuestionario {
     private ServiceQuestionario serviceQuestionario;
 
     @RequestMapping(
-            value = "/professor/{matricula}/disciplina/{id}/questionario",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Questionario>> listQuestionarioByDisciplinaByProfessor(
-            @PathVariable("matricula") String matricula_professor,
-            @PathVariable("id") Integer disciplina_id) throws Exception {
-        return new RestResponse<>(serviceQuestionario.listQuestionarioByDisciplinaByProfessor(matricula_professor, disciplina_id));
-    }
-    
-    @RequestMapping(
             value = "/questionario/{id}/questao",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -45,7 +35,7 @@ public class ResourceQuestionario {
             value = "/questionario",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<RestMessage> saveQuestionario(@RequestBody Questionario q) throws Exception {
+    public RestResponse<RestMessage> saveQuestionario(@RequestBody Quiz q) throws Exception {
         return new RestResponse<>(serviceQuestionario.saveQuestionario(q));
     }
     
@@ -53,7 +43,7 @@ public class ResourceQuestionario {
             value = "/questionario",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<RestMessage> updateQuestionario(@RequestBody Questionario q) throws Exception {
+    public RestResponse<RestMessage> updateQuestionario(@RequestBody Quiz q) throws Exception {
         return new RestResponse<>(serviceQuestionario.updateQuestionario(q));
     }
 }

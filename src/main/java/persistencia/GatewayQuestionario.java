@@ -1,7 +1,7 @@
 package persistencia;
 
 import entidade.Questao;
-import entidade.Questionario;
+import entidade.Quiz;
 import java.util.List;
 import org.hibernate.Query;
 import util.ITQException;
@@ -19,24 +19,24 @@ public class GatewayQuestionario {
     private SessionFactory sessionFactory;
     private Session session;
 
-    public List<Questionario> listQuestionarioByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
+    public List<Quiz> listQuestionarioByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Questionario q WHERE q.professor.matricula = :professor AND q.disciplina.id = :disciplina");
         query.setParameter("professor", matricula_professor);
         query.setParameter("disciplina", disciplina_id);
-        List<Questionario> questionarios = query.list();
+        List<Quiz> questionarios = query.list();
         return questionarios;
     }
 
     public List<Questao> listQuestoesByQuestionario(Integer questionario_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
-        Questionario questionario = session.get(Questionario.class, questionario_id);
+        Quiz questionario = session.get(Quiz.class, questionario_id);
         questionario.getQuestoes().size();
         return questionario.getQuestoes();
     }
 
     @Transactional
-    public boolean saveQuestionario(Questionario q) throws ITQException {
+    public boolean saveQuestionario(Quiz q) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
             Integer questionario_id = (Integer) session.save(q);
@@ -47,7 +47,7 @@ public class GatewayQuestionario {
     }
     
     @Transactional
-    public boolean updateQuestionario(Questionario q) throws ITQException {
+    public boolean updateQuestionario(Quiz q) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
             session.update(q);
