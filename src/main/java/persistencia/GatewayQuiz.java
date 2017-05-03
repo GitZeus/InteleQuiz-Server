@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Repository
 public class GatewayQuiz {
 
@@ -18,7 +19,6 @@ public class GatewayQuiz {
     private SessionFactory sessionFactory;
     private Session session;
 
-    @Transactional
     public List<Turma> listTurmasByProfessor(String matricula) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Turma t WHERE t.professor.matricula = :matricula");
