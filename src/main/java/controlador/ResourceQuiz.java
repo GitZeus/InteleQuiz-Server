@@ -1,5 +1,6 @@
 package controlador;
 
+import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
 import java.util.List;
@@ -8,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import servico.ServiceQuiz;
+import util.RestMessage;
 
 @RestController
 @CrossOrigin
@@ -37,5 +40,30 @@ public class ResourceQuiz {
             @PathVariable("matricula") String matricula_professor,
             @PathVariable("id") Integer disciplina_id) throws Exception {
         return new RestResponse<>(serviceQuiz.listQuizByDisciplinaByProfessor(matricula_professor, disciplina_id));
+    }
+    
+    @RequestMapping(
+            value = "/quiz",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<RestMessage> saveQuiz(@RequestBody Quiz q) throws Exception {
+        return new RestResponse<>(serviceQuiz.saveQuiz(q));
+    }
+    
+    @RequestMapping(
+            value = "/quiz",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<RestMessage> updateQuiz(@RequestBody Quiz q) throws Exception {
+        return new RestResponse<>(serviceQuiz.updateQuiz(q));
+    }
+    
+    @RequestMapping(
+            value = "/quiz/{id}/questao",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Questao>> listQuestoesByQuiz(
+            @PathVariable("id") Integer quiz_id) throws Exception {
+        return new RestResponse<>(serviceQuiz.listQuestoesByQuiz(quiz_id));
     }
 }

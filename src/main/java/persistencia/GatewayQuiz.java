@@ -1,5 +1,6 @@
 package persistencia;
 
+import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
 import java.util.List;
@@ -26,7 +27,7 @@ public class GatewayQuiz {
         List<Turma> turmas = query.list();
         return turmas;
     }
-    
+
     public List<Quiz> listQuizByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Quiz q WHERE q.professor.matricula = :professor AND q.disciplina.id = :disciplina");
@@ -34,5 +35,32 @@ public class GatewayQuiz {
         query.setParameter("disciplina", disciplina_id);
         List<Quiz> quizzes = query.list();
         return quizzes;
+    }
+
+    public boolean saveQuiz(Quiz q) throws ITQException {
+        try {
+            session = sessionFactory.getCurrentSession();
+            Integer quiz_id = (Integer) session.save(q);
+            return quiz_id != null;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
+    public boolean updateQuiz(Quiz q) throws ITQException {
+        try {
+            session = sessionFactory.getCurrentSession();
+            session.update(q);
+            return true;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
+    public List<Questao> listQuestoesByQuiz(Integer quiz_id) throws ITQException {
+        session = sessionFactory.getCurrentSession();
+        Quiz quiz = session.get(Quiz.class, quiz_id);
+        quiz.getQuestoes().size();
+        return quiz.getQuestoes();
     }
 }
