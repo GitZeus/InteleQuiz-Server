@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,6 +30,9 @@ public class Turma {
 
     @Enumerated
     private TurnoTurma turno;
+    
+    @OneToMany(mappedBy = "turma")
+    private List<TurmaQuiz> quizzes;
 
     @ManyToMany
     @JoinTable(name = "rel_turma_aluno",
@@ -106,5 +110,13 @@ public class Turma {
 
     public void setAlunos(List<Aluno> alunos) {
         this.alunos = alunos;
+    }
+
+    public List<TurmaQuiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<TurmaQuiz> quizzes) {
+        this.quizzes = quizzes;
     }
 }

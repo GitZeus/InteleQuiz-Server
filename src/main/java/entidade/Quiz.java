@@ -16,16 +16,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TB_QUIZ")
 public class Quiz {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @OneToOne
     private Professor professor;
-    
+
     @OneToOne
     private Disciplina disciplina;
-    
+
+    @OneToMany(mappedBy = "quiz")
+    private List<TurmaQuiz> publicacoes;
+
     @OneToMany
     @JoinTable(name = "rel_questao_quiz",
             joinColumns = {
@@ -33,9 +37,9 @@ public class Quiz {
             inverseJoinColumns = {
                 @JoinColumn(name = "questao_id")})
     private List<Questao> questoes;
-    
+
     private String descricao;
-    
+
     @Enumerated
     private StatusQuizQuestao status;
 
@@ -90,5 +94,13 @@ public class Quiz {
     @Override
     public String toString() {
         return "Quiz{" + "id=" + id + ", professor=" + professor + ", disciplina=" + disciplina + ", questoes=" + questoes + ", descricao=" + descricao + ", status=" + status + '}';
+    }
+
+    public List<TurmaQuiz> getPublicacoes() {
+        return publicacoes;
+    }
+
+    public void setPublicacoes(List<TurmaQuiz> publicacoes) {
+        this.publicacoes = publicacoes;
     }
 }

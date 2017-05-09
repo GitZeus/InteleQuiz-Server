@@ -3,6 +3,7 @@ package persistencia;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
+import entidade.TurmaQuiz;
 import java.util.List;
 import org.hibernate.Query;
 import util.ITQException;
@@ -24,6 +25,15 @@ public class GatewayQuiz {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Turma t WHERE t.professor.matricula = :matricula");
         query.setParameter("matricula", matricula);
+        List<Turma> turmas = query.list();
+        return turmas;
+    }
+
+    public List<Turma> listTurmasByProfessorByDisciplina(String matricula, Integer id) throws ITQException {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Turma t WHERE t.professor.matricula = :matricula AND t.disciplina.id = :id");
+        query.setParameter("matricula", matricula);
+        query.setParameter("id", id);
         List<Turma> turmas = query.list();
         return turmas;
     }
@@ -62,5 +72,15 @@ public class GatewayQuiz {
         Quiz quiz = session.get(Quiz.class, quiz_id);
         quiz.getQuestoes().size();
         return quiz.getQuestoes();
+    }
+
+    public boolean publicarQuiz(TurmaQuiz tq) throws ITQException {
+        try {
+            session = sessionFactory.getCurrentSession();
+            Integer turmaQuiz_id = (Integer) session.save(tq);
+            return turmaQuiz_id != null;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
     }
 }

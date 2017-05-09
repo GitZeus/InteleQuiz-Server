@@ -3,6 +3,7 @@ package servico;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
+import entidade.TurmaQuiz;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,14 @@ public class ServiceQuiz {
     public List<Turma> listTurmasByProfessor(String matricula) throws ITQException {
         try {
             return gatewayQuiz.listTurmasByProfessor(matricula);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+    
+    public List<Turma> listTurmasByProfessorByDisciplina(String matricula, Integer id) throws ITQException {
+        try {
+            return gatewayQuiz.listTurmasByProfessorByDisciplina(matricula, id);
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
@@ -70,6 +79,23 @@ public class ServiceQuiz {
     public List<Questao> listQuestoesByQuiz(Integer quiz_id) throws ITQException {
         try {
             return gatewayQuiz.listQuestoesByQuiz(quiz_id);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+    
+    public RestMessage publicarQuiz(TurmaQuiz tq) throws ITQException{
+        try {
+            boolean sucesso = gatewayQuiz.publicarQuiz(tq);
+            RestMessage message = new RestMessage();
+            if(sucesso){
+                message.setText("Quiz publicado com sucesso");
+                message.setType(RestMessageType.SUCCESS);
+            }else{
+                message.setText("Erro ao publicar Quiz, contate o administrador do sistema");
+                message.setType(RestMessageType.ERROR);
+            }
+            return message;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
