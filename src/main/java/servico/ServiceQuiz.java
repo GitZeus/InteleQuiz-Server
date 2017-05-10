@@ -4,6 +4,8 @@ import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
 import entidade.TurmaQuiz;
+import enums.StatusTurmaQuiz;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,7 @@ public class ServiceQuiz {
             throw new ITQException(e.getMessage());
         }
     }
-    
+
     public List<Turma> listTurmasByProfessorByDisciplina(String matricula, Integer id) throws ITQException {
         try {
             return gatewayQuiz.listTurmasByProfessorByDisciplina(matricula, id);
@@ -33,7 +35,7 @@ public class ServiceQuiz {
             throw new ITQException(e.getMessage());
         }
     }
-    
+
     public List<Quiz> listQuizByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
         try {
             return gatewayQuiz.listQuizByDisciplinaByProfessor(matricula_professor, disciplina_id);
@@ -41,15 +43,15 @@ public class ServiceQuiz {
             throw new ITQException(e.getMessage());
         }
     }
-    
-    public RestMessage saveQuiz(Quiz q) throws ITQException{
+
+    public RestMessage saveQuiz(Quiz q) throws ITQException {
         try {
             boolean sucesso = gatewayQuiz.saveQuiz(q);
             RestMessage message = new RestMessage();
-            if(sucesso){
+            if (sucesso) {
                 message.setText("Quiz incluído com sucesso");
                 message.setType(RestMessageType.SUCCESS);
-            }else{
+            } else {
                 message.setText("Erro ao incluir Quiz, contate o administrador do sistema");
                 message.setType(RestMessageType.ERROR);
             }
@@ -58,15 +60,15 @@ public class ServiceQuiz {
             throw new ITQException(e.getMessage());
         }
     }
-    
-    public RestMessage updateQuiz(Quiz q) throws ITQException{
+
+    public RestMessage updateQuiz(Quiz q) throws ITQException {
         try {
             boolean sucesso = gatewayQuiz.updateQuiz(q);
             RestMessage message = new RestMessage();
-            if(sucesso){
+            if (sucesso) {
                 message.setText("Quiz alterado com sucesso");
                 message.setType(RestMessageType.SUCCESS);
-            }else{
+            } else {
                 message.setText("Erro ao alterar Quiz, contate o administrador do sistema");
                 message.setType(RestMessageType.ERROR);
             }
@@ -75,7 +77,7 @@ public class ServiceQuiz {
             throw new ITQException(e.getMessage());
         }
     }
-    
+
     public List<Questao> listQuestoesByQuiz(Integer quiz_id) throws ITQException {
         try {
             return gatewayQuiz.listQuestoesByQuiz(quiz_id);
@@ -83,21 +85,51 @@ public class ServiceQuiz {
             throw new ITQException(e.getMessage());
         }
     }
-    
-    public RestMessage publicarQuiz(TurmaQuiz tq) throws ITQException{
+
+    public RestMessage publicarQuiz(TurmaQuiz tq) throws ITQException {
         try {
-            boolean sucesso = gatewayQuiz.publicarQuiz(tq);
+
             RestMessage message = new RestMessage();
-            if(sucesso){
-                message.setText("Quiz publicado com sucesso");
-                message.setType(RestMessageType.SUCCESS);
-            }else{
-                message.setText("Erro ao publicar Quiz, contate o administrador do sistema");
-                message.setType(RestMessageType.ERROR);
+            List<TurmaQuiz> publicados = listQuizEmAndamentoByTurma(tq.getTurma().getId());
+
+            if (publicados.size() > 0) {
+                message.setText("Esta turma já possui um quiz em andamento");
+                message.setType(RestMessageType.WARNING);
+            } else {
+                tq.setStatus(StatusTurmaQuiz.PUBLICADO);
+                boolean sucesso = gatewayQuiz.publicarQuiz(tq);
+                if (sucesso) {
+                    message.setText("Quiz publicado com sucesso");
+                    message.setType(RestMessageType.SUCCESS);
+                } else {
+                    message.setText("Erro ao publicar Quiz, contate o administrador do sistema");
+                    message.setType(RestMessageType.ERROR);
+                }
             }
+
             return message;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
     }
+    
+    public List<TurmaQuiz> listQuizEmAndamentoByTurma(Integer id) throws ITQException {
+        try {
+            return gatewayQuiz.listQuizEmAndamentoByTurma(id);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
+    public List<TurmaQuiz> listQuizPublicadoByTurma(Integer id, StatusTurmaQuiz status) throws ITQException {
+        try {
+            if(status == StatusTurmaQuiz.PUBLICADO){
+                return gatewayQuiz.listQuizEmAndamentoByTurma(id);
+            }else{
+                return gatewayQuiz.listQuizPublicadoByTurma(id);
+            }
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }  
 }

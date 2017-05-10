@@ -4,6 +4,8 @@ import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
 import entidade.TurmaQuiz;
+import enums.StatusTurmaQuiz;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import util.ITQException;
@@ -79,6 +81,33 @@ public class GatewayQuiz {
             session = sessionFactory.getCurrentSession();
             Integer turmaQuiz_id = (Integer) session.save(tq);
             return turmaQuiz_id != null;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
+    public List<TurmaQuiz> listQuizPublicadoByTurma(Integer id) throws ITQException {
+        try {
+            List<TurmaQuiz> publicados;
+            session = sessionFactory.getCurrentSession();
+            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id ORDER BY tq.tsEncerramento DESC");
+            query.setParameter("id", id);
+            publicados = query.list();
+            return publicados;
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
+    public List<TurmaQuiz> listQuizEmAndamentoByTurma(Integer id) throws ITQException {
+        try {
+            List<TurmaQuiz> publicados;
+            session = sessionFactory.getCurrentSession();
+            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id AND tq.status = :status");
+            query.setParameter("id", id);
+            query.setParameter("status", StatusTurmaQuiz.PUBLICADO);
+            publicados = query.list();
+            return publicados;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }

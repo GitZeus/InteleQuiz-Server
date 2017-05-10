@@ -1,5 +1,5 @@
 package util;
 
 public enum RestMessageType {
-    INFO, ERROR, WARN, SUCCESS;
+    INFO, ERROR, WARNING, SUCCESS;
 }

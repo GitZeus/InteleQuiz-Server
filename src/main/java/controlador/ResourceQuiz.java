@@ -4,7 +4,10 @@ import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
 import entidade.TurmaQuiz;
+import enums.StatusQuizQuestao;
+import enums.StatusTurmaQuiz;
 import java.util.List;
+import javax.persistence.QueryHint;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import servico.ServiceQuiz;
 import util.RestMessage;
@@ -84,5 +88,15 @@ public class ResourceQuiz {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<RestMessage> publicarQuiz(@RequestBody TurmaQuiz tq) throws Exception {
         return new RestResponse<>(serviceQuiz.publicarQuiz(tq));
+    }
+
+    @RequestMapping(
+            value = "/turma/{id}/quiz",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<TurmaQuiz>> listQuizPublicadoByTurma(
+            @PathVariable Integer id,
+            @RequestParam(value = "status", required = false) StatusTurmaQuiz status) throws Exception {
+        return new RestResponse<>(serviceQuiz.listQuizPublicadoByTurma(id, status));
     }
 }
