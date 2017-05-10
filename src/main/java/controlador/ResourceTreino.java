@@ -1,5 +1,6 @@
 package controlador;
 
+import entidade.Treino;
 import entidade.Turma;
 import java.util.List;
 import util.RestResponse;
@@ -28,11 +29,13 @@ public class ResourceTreino {
         return new RestResponse<>(serviceTreino.listTurmasByAluno(ra));
     }
 
-//    @RequestMapping(
-//            value = "/tema",
-//            method = RequestMethod.POST,
-//            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    public RestResponse<RestMessage> saveTema(@RequestBody Tema t) throws Exception {
-//        return new RestResponse<>(serviceTreino.saveTema(t));
-//    }
+    @RequestMapping(
+            value = "/aluno/{ra}/turmaQuiz/{turma_quiz_id}/treino",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<Treino> startNewTreino(
+            @PathVariable("ra") String ra,
+            @PathVariable("turma_quiz_id") Integer turma_quiz_id) throws Exception {
+        return new RestResponse<>(serviceTreino.startNewTreino(ra, turma_quiz_id));
+    }
 }

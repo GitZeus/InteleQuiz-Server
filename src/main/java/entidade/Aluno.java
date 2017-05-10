@@ -24,6 +24,9 @@ public class Aluno extends Usuario {
             inverseJoinColumns = {
                 @JoinColumn(name = "turma_id")})
     private List<Turma> turmas;
+    
+    @OneToMany(mappedBy = "aluno")
+    private List<Treino> treinos;
 
     public String getRa() {
         return ra;
@@ -47,5 +50,13 @@ public class Aluno extends Usuario {
 
     public void setTurmas(List<Turma> turmas) {
         this.turmas = turmas;
+    }
+
+    public List<Treino> getTreinos() {
+        return treinos;
+    }
+
+    public void setTreinos(List<Treino> treinos) {
+        this.treinos = treinos;
     }
 }

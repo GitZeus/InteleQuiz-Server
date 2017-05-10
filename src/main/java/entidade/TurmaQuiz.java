@@ -2,6 +2,7 @@ package entidade;
 
 import enums.StatusTurmaQuiz;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,7 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,7 +31,7 @@ public class TurmaQuiz {
 
     @ManyToOne
     private Quiz quiz;
-    
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TS_PUBLICACAO")
@@ -40,6 +43,10 @@ public class TurmaQuiz {
 
     @Enumerated(EnumType.STRING)
     private StatusTurmaQuiz status;
+
+    @OneToMany
+    @JoinColumn(name = "TURMA_QUIZ_ID", referencedColumnName = "ID")
+    private List<Treino> treinos;
 
     public Integer getId() {
         return id;
@@ -92,5 +99,13 @@ public class TurmaQuiz {
     @Override
     public String toString() {
         return "TurmaQuiz{" + "id=" + id + ", turma=" + turma + ", quiz=" + quiz + ", tsPublicacao=" + tsPublicacao + ", tsEncerramento=" + tsEncerramento + ", status=" + status + '}';
+    }
+
+    public List<Treino> getTreinos() {
+        return treinos;
+    }
+
+    public void setTreinos(List<Treino> treinos) {
+        this.treinos = treinos;
     }
 }

@@ -2,13 +2,18 @@ package entidade;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "TB_TREINO")
@@ -22,9 +27,18 @@ public class Treino {
     private Aluno aluno;
     
     @ManyToOne
+    @JoinColumn(name = "TURMA_QUIZ_ID", referencedColumnName = "ID")
     private TurmaQuiz turmaQuiz;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(name = "TS_INICIO")
     private Date tsInicio;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "TS_FIM")
     private Date tsFim;
+    
     private Double pontuacao;
     private Double aproveitamento;
     
@@ -93,5 +107,10 @@ public class Treino {
 
     public void setRespostas(List<Resposta> respostas) {
         this.respostas = respostas;
+    }
+
+    @Override
+    public String toString() {
+        return "Treino{" + "id=" + id + ", aluno=" + aluno + ", turmaQuiz=" + turmaQuiz + ", tsInicio=" + tsInicio + ", tsFim=" + tsFim + ", pontuacao=" + pontuacao + ", aproveitamento=" + aproveitamento + ", respostas=" + respostas + '}';
     }
 }

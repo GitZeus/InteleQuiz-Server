@@ -1,7 +1,10 @@
 package persistencia;
 
+import entidade.Aluno;
 import entidade.Tema;
+import entidade.Treino;
 import entidade.Turma;
+import entidade.TurmaQuiz;
 import java.util.List;
 import org.hibernate.Query;
 import util.ITQException;
@@ -27,11 +30,18 @@ public class GatewayTreino {
         return turmas;
     }
 
-    public boolean saveTema(Tema t) throws ITQException {
+    public Treino startNewTreino(String ra, Integer turma_quiz_id) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Integer tema_id = (Integer) session.save(t);
-            return tema_id != null;
+            
+            Aluno a = session.get(Aluno.class, ra);
+            TurmaQuiz tq = session.get(TurmaQuiz.class, turma_quiz_id);
+            Treino t = new Treino();
+            t.setAluno(a);
+            t.setTurmaQuiz(tq);
+            
+            session.save(t);
+            return t;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }

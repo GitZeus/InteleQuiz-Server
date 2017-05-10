@@ -1,14 +1,14 @@
 package servico;
 
-import entidade.Tema;
+import entidade.Aluno;
+import entidade.Treino;
 import entidade.Turma;
+import entidade.TurmaQuiz;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayTreino;
 import util.ITQException;
-import util.RestMessage;
-import util.RestMessageType;
 
 @Service
 public class ServiceTreino {
@@ -24,18 +24,9 @@ public class ServiceTreino {
         }
     }
 
-    public RestMessage saveTema(Tema t) throws ITQException {
+    public Treino startNewTreino(String ra, Integer turma_quiz_id) throws ITQException {
         try {
-            boolean sucesso = gatewayTreino.saveTema(t);
-            RestMessage message = new RestMessage();
-            if (sucesso) {
-                message.setText("Tema incluído com sucesso");
-                message.setType(RestMessageType.SUCCESS);
-            } else {
-                message.setText("Erro ao incluir Tema, contate o administrador do sistema");
-                message.setType(RestMessageType.ERROR);
-            }
-            return message;
+            return gatewayTreino.startNewTreino(ra, turma_quiz_id);
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
