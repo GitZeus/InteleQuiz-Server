@@ -4,6 +4,8 @@ import entidade.Aluno;
 import entidade.Professor;
 import entidade.Usuario;
 import enums.TipoUsuario;
+import java.util.ArrayList;
+import java.util.List;
 import util.ITQException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,11 +47,32 @@ public class GatewayAutenticacao {
             aMock.setNome("Elizeu Freitas");
             aMock.setRa(aMock.getLogin());
             aMock.setPerfil(TipoUsuario.ALUNO);
-            if (u.getLogin().equals(aMock.getLogin()) && u.getSenha().equals(aMock.getSenha())) {
-                return aMock;
-            } else {
-                throw new ITQException("Login ou senha incorretos");
+
+            Aluno bMock = new Aluno();
+            bMock.setLogin("21550466");
+            bMock.setSenha("123");
+            bMock.setNome("Thayllan Siqueira");
+            bMock.setRa(aMock.getLogin());
+            bMock.setPerfil(TipoUsuario.ALUNO);
+
+            Aluno cMock = new Aluno();
+            cMock.setLogin("21550467");
+            cMock.setSenha("123");
+            cMock.setNome("Leandro David");
+            cMock.setRa(aMock.getLogin());
+            cMock.setPerfil(TipoUsuario.ALUNO);
+
+            List<Aluno> alunos = new ArrayList<>();
+            alunos.add(aMock);
+            alunos.add(bMock);
+            alunos.add(cMock);
+
+            for (int i = 0; i < alunos.size(); i++) {
+                if (u.getLogin().equals(alunos.get(i).getLogin()) && u.getSenha().equals(alunos.get(i).getSenha())) {
+                    return alunos.get(i);
+                }
             }
+            throw new ITQException("Login ou senha incorretos");
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }

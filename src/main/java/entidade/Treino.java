@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -43,6 +44,11 @@ public class Treino {
     private Double aproveitamento;
     
     @OneToMany
+    @JoinTable(name = "rel_treino_resposta",
+            joinColumns = {
+                @JoinColumn(name = "treino_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "resposta_id")})
     private List<Resposta> respostas;
 
     public Integer getId() {

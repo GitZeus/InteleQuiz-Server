@@ -20,7 +20,9 @@ public class MyObjectMapper extends WebMvcConfigurerAdapter {
 
         ObjectMapper mapper = new ObjectMapper();
         //Registering Hibernate4Module to support lazy objects
-        mapper.registerModule(new Hibernate4Module());
+        Hibernate4Module module = new Hibernate4Module();
+        module.disable(Hibernate4Module.Feature.USE_TRANSIENT_ANNOTATION);
+        mapper.registerModule(module);
 
         messageConverter.setObjectMapper(mapper);
         return messageConverter;

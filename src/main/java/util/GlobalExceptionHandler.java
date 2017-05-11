@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
         message.setText(ex.getMessage());
         message.setType(RestMessageType.ERROR);
         RestResponse response = new RestResponse(message);
-        System.err.println("XXXXXXXXXXXXXXXXXX: " + ex.getMessage());
+        ex.printStackTrace();
         return response;
     }
 }

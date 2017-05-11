@@ -1,15 +1,12 @@
 package entidade;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import enums.TipoQuestao;
 import enums.StatusQuizQuestao;
 import enums.NivelQuestao;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -111,6 +108,6 @@ public class Questao {
 
     @Override
     public String toString() {
-        return "Questao{" + "id=" + id + ", respostas=" + respostas + ", tipo=" + tipo + ", nivel=" + nivel + ", status=" + status + ", texto=" + texto + '}';
+        return "Questao{" + "id=" + id + ", tipo=" + tipo + ", nivel=" + nivel + ", status=" + status + ", texto=" + texto + '}';
     }
 }
