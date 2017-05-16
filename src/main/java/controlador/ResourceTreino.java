@@ -47,4 +47,12 @@ public class ResourceTreino {
     public RestResponse<Treino> updateTreino(@RequestBody Treino treino) throws Exception {
         return new RestResponse<>(serviceTreino.updateTreino(treino));
     }
+
+    @RequestMapping(
+            value = "/treino/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<Treino> getTreino(@PathVariable("id") Integer id) throws Exception {
+        return new RestResponse<>(serviceTreino.getTreino(id));
+    }
 }

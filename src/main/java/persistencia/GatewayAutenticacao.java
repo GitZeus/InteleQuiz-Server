@@ -52,14 +52,14 @@ public class GatewayAutenticacao {
             bMock.setLogin("21550466");
             bMock.setSenha("123");
             bMock.setNome("Thayllan Siqueira");
-            bMock.setRa(aMock.getLogin());
+            bMock.setRa(bMock.getLogin());
             bMock.setPerfil(TipoUsuario.ALUNO);
 
             Aluno cMock = new Aluno();
             cMock.setLogin("21550467");
             cMock.setSenha("123");
             cMock.setNome("Leandro David");
-            cMock.setRa(aMock.getLogin());
+            cMock.setRa(cMock.getLogin());
             cMock.setPerfil(TipoUsuario.ALUNO);
 
             List<Aluno> alunos = new ArrayList<>();

@@ -92,4 +92,10 @@ public class GatewayTreino {
             throw new ITQException(e.getMessage());
         }
     }
+
+    public Treino getTreino(Integer id) throws ITQException {
+        session = sessionFactory.getCurrentSession();
+        Treino treino = session.get(Treino.class, id);
+        return treino;
+    }
 }

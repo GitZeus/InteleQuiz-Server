@@ -8,6 +8,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "TB_ALUNO")
@@ -24,9 +25,15 @@ public class Aluno extends Usuario {
             inverseJoinColumns = {
                 @JoinColumn(name = "turma_id")})
     private List<Turma> turmas;
-    
+
     @OneToMany(mappedBy = "aluno")
     private List<Treino> treinos;
+
+    @Transient
+    private Double pontuacao;
+
+    @Transient
+    private Double aproveitamento;
 
     public String getRa() {
         return ra;
@@ -58,5 +65,21 @@ public class Aluno extends Usuario {
 
     public void setTreinos(List<Treino> treinos) {
         this.treinos = treinos;
+    }
+
+    public Double getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(Double pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+
+    public Double getAproveitamento() {
+        return aproveitamento;
+    }
+
+    public void setAproveitamento(Double aproveitamento) {
+        this.aproveitamento = aproveitamento;
     }
 }

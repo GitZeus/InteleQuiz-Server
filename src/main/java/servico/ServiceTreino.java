@@ -82,4 +82,12 @@ public class ServiceTreino {
         }
     }
 
+    public Treino getTreino(Integer id) throws ITQException {
+        try {
+            return gatewayTreino.getTreino(id);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
 }
