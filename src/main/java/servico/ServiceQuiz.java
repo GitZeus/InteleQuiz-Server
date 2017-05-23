@@ -112,7 +112,7 @@ public class ServiceQuiz {
             throw new ITQException(e.getMessage());
         }
     }
-    
+
     public List<TurmaQuiz> listQuizEmAndamentoByTurma(Integer id) throws ITQException {
         try {
             return gatewayQuiz.listQuizEmAndamentoByTurma(id);
@@ -121,15 +121,11 @@ public class ServiceQuiz {
         }
     }
 
-    public List<TurmaQuiz> listQuizPublicadoByTurma(Integer id, StatusTurmaQuiz status) throws ITQException {
+    public List<TurmaQuiz> listQuizPublicadoByStatusByTurma(Integer id, StatusTurmaQuiz status) throws ITQException {
         try {
-            if(status == StatusTurmaQuiz.PUBLICADO){
-                return gatewayQuiz.listQuizEmAndamentoByTurma(id);
-            }else{
-                return gatewayQuiz.listQuizPublicadoByTurma(id);
-            }
+            return gatewayQuiz.listQuizPublicadoByStatusByTurma(id, status);
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
-    }  
+    }
 }

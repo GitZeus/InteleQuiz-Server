@@ -4,10 +4,8 @@ import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
 import entidade.TurmaQuiz;
-import enums.StatusQuizQuestao;
 import enums.StatusTurmaQuiz;
 import java.util.List;
-import javax.persistence.QueryHint;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -94,9 +92,9 @@ public class ResourceQuiz {
             value = "/turma/{id}/quiz",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<TurmaQuiz>> listQuizPublicadoByTurma(
+    public RestResponse<List<TurmaQuiz>> listQuizPublicadoByStatusByTurma(
             @PathVariable Integer id,
             @RequestParam(value = "status", required = false) StatusTurmaQuiz status) throws Exception {
-        return new RestResponse<>(serviceQuiz.listQuizPublicadoByTurma(id, status));
+        return new RestResponse<>(serviceQuiz.listQuizPublicadoByStatusByTurma(id, status));
     }
 }

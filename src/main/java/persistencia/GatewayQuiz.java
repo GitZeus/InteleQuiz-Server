@@ -86,12 +86,15 @@ public class GatewayQuiz {
         }
     }
 
-    public List<TurmaQuiz> listQuizPublicadoByTurma(Integer id) throws ITQException {
+    public List<TurmaQuiz> listQuizPublicadoByStatusByTurma(Integer id, StatusTurmaQuiz status) throws ITQException {
+        System.out.println("ID: " + id);
+        System.out.println("STATUS: " + status);
         try {
             List<TurmaQuiz> publicados;
             session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id ORDER BY tq.tsEncerramento DESC");
+            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id AND tq.status = :status ORDER BY tq.tsEncerramento DESC");
             query.setParameter("id", id);
+            query.setParameter("status", status);
             publicados = query.list();
             return publicados;
         } catch (Exception e) {

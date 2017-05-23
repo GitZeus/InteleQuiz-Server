@@ -41,7 +41,7 @@ public class TurmaQuiz {
     @Column(name = "TS_ENCERRAMENTO")
     private Date tsEncerramento;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private StatusTurmaQuiz status;
 
     @OneToMany
