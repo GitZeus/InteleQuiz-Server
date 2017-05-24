@@ -92,7 +92,7 @@ public class GatewayQuiz {
         try {
             List<TurmaQuiz> publicados;
             session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id AND tq.status = :status ORDER BY tq.tsEncerramento DESC");
+            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id AND tq.status = :status ORDER BY tq.tsEncerramento ASC");
             query.setParameter("id", id);
             query.setParameter("status", status);
             publicados = query.list();

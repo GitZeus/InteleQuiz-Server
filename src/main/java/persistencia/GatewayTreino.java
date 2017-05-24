@@ -81,11 +81,11 @@ public class GatewayTreino {
         }
     }
 
-    public List<Treino> listTreinoByPublicacao(Integer publicacao_id) throws ITQException {
+    public List<Treino> listTreinoByPublicacao(Integer id) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM Treino t WHERE t.turmaQuiz.id = :publicacao_id");
-            query.setParameter("publicacao_id", publicacao_id);
+            Query query = session.createQuery("FROM Treino t WHERE t.turmaQuiz.id = :id");
+            query.setParameter("id", id);
             List<Treino> treinos = query.list();
             return treinos;
         } catch (Exception e) {

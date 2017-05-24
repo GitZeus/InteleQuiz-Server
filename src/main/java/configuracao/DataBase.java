@@ -61,7 +61,7 @@ public class DataBase {
 //            dataSource.setPassword(System.getenv("CLEARDB_PASS"));
             dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
             dataSource.setUsername("root");
-            dataSource.setPassword("uniceub");
+            dataSource.setPassword("root");
             return dataSource;
         } catch (Throwable e) {
             e.printStackTrace();

@@ -55,4 +55,13 @@ public class ResourceTreino {
     public RestResponse<Treino> getTreino(@PathVariable("id") Integer id) throws Exception {
         return new RestResponse<>(serviceTreino.getTreino(id));
     }
+    
+//    ================
+    @RequestMapping(
+            value = "publicacao/{id}/treino",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Treino>> listTreinoByPublicacao(@PathVariable("id") Integer id) throws Exception {
+        return new RestResponse<>(serviceTreino.listTreinoByPublicacao(id));
+    }
 }

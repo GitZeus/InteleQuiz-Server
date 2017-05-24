@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -47,6 +48,12 @@ public class TurmaQuiz {
     @OneToMany
     @JoinColumn(name = "TURMA_QUIZ_ID", referencedColumnName = "ID")
     private List<Treino> treinos;
+    
+    @Transient
+    private Double pontuacao;
+
+    @Transient
+    private Double aproveitamento;
 
     public Integer getId() {
         return id;
@@ -107,5 +114,21 @@ public class TurmaQuiz {
 
     public void setTreinos(List<Treino> treinos) {
         this.treinos = treinos;
+    }
+
+    public Double getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(Double pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+
+    public Double getAproveitamento() {
+        return aproveitamento;
+    }
+
+    public void setAproveitamento(Double aproveitamento) {
+        this.aproveitamento = aproveitamento;
     }
 }

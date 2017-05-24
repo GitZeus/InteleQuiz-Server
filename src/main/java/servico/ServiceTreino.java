@@ -90,4 +90,12 @@ public class ServiceTreino {
         }
     }
 
+    public List<Treino> listTreinoByPublicacao(Integer id) throws ITQException {
+        try {
+            return gatewayTreino.listTreinoByPublicacao(id);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
 }
