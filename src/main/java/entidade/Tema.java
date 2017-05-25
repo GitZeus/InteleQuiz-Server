@@ -1,9 +1,6 @@
 package entidade;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "TB_TEMA")
@@ -30,6 +28,25 @@ public class Tema {
     private Disciplina disciplina;
 
     private String nome;
+
+    @ManyToMany
+    @JoinTable(name = "rel_questao_tema",
+            joinColumns = {
+                @JoinColumn(name = "tema_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "questao_id")})
+    private List<Questao> questoes;
+
+    @JsonIgnore
+    @Transient
+    private int total;
+
+    @JsonIgnore
+    @Transient
+    private int errados;
+
+    @Transient
+    private double percentErros;
 
     public Integer getId() {
         return id;
@@ -66,5 +83,37 @@ public class Tema {
     @Override
     public String toString() {
         return "Tema{" + "id=" + id + ", professor=" + professor + ", disciplina=" + disciplina + ", + nome=" + nome + '}';
+    }
+
+    public List<Questao> getQuestoes() {
+        return questoes;
+    }
+
+    public void setQuestoes(List<Questao> questoes) {
+        this.questoes = questoes;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getErrados() {
+        return errados;
+    }
+
+    public void setErrados(int errados) {
+        this.errados = errados;
+    }
+
+    public double getPercentErros() {
+        return percentErros;
+    }
+
+    public void setPercentErros(double percentErros) {
+        this.percentErros = percentErros;
     }
 }

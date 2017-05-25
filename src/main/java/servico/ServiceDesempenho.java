@@ -34,9 +34,11 @@ public class ServiceDesempenho {
 
             List<Aluno> alunos = serviceAluno.listAlunoByTurma(id);
             List<TurmaQuiz> publicacoes = serviceQuiz.listQuizPublicadoByStatusByTurma(id, StatusTurmaQuiz.ENCERRADO);
+            desempenho.setPublicacoes(publicacoes);
 
             double auxAproveitamento = 0;
-            double auxEnvolvimento = 0;
+            double auxMedAproveitamento = 0;
+            double auxMedEnvolvimento = 0;
 
             for (TurmaQuiz publicacao : publicacoes) {
                 List<Treino> treinos = serviceTreino.listTreinoByPublicacao(publicacao.getId());
@@ -44,16 +46,24 @@ public class ServiceDesempenho {
                 for (Treino treino : treinos) {
                     auxAproveitamento += treino.getAproveitamento();
                 }
-
-                desempenho.getEncerramentos().add(InteleQuizUtil.formataData(publicacao.getTsEncerramento()));
+                desempenho.getEncerramentos().add(InteleQuizUtil.formatData(publicacao.getTsEncerramento()));
                 if (treinos.size() > 0) {
-                    desempenho.getAproveitamentos().add(auxAproveitamento / treinos.size());
-                    desempenho.getEnvolvimentos().add((double) (treinos.size() * 100) / alunos.size());
+                    double aprov = InteleQuizUtil.formatDecimal(auxAproveitamento / treinos.size());
+                    double envolv = InteleQuizUtil.formatDecimal((double) (treinos.size() * 100) / alunos.size());
+
+                    desempenho.getAproveitamentos().add(aprov);
+                    desempenho.getEnvolvimentos().add(envolv);
+
+                    auxMedAproveitamento += aprov;
+                    auxMedEnvolvimento += envolv;
                 } else {
-                    desempenho.getAproveitamentos().add(0d);
+                    desempenho.getAproveitamentos().add(InteleQuizUtil.formatDecimal(0d));
                 }
                 auxAproveitamento = 0;
             }
+
+            desempenho.setMedAproveitamento(InteleQuizUtil.formatDecimal(auxMedAproveitamento / publicacoes.size()));
+            desempenho.setMedEnvolvimento(InteleQuizUtil.formatDecimal(auxMedEnvolvimento / publicacoes.size()));
 
             return desempenho;
         } catch (Exception e) {

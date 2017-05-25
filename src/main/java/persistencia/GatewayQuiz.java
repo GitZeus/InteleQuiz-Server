@@ -5,7 +5,6 @@ import entidade.Quiz;
 import entidade.Turma;
 import entidade.TurmaQuiz;
 import enums.StatusTurmaQuiz;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import util.ITQException;
@@ -87,8 +86,6 @@ public class GatewayQuiz {
     }
 
     public List<TurmaQuiz> listQuizPublicadoByStatusByTurma(Integer id, StatusTurmaQuiz status) throws ITQException {
-        System.out.println("ID: " + id);
-        System.out.println("STATUS: " + status);
         try {
             List<TurmaQuiz> publicados;
             session = sessionFactory.getCurrentSession();
@@ -114,5 +111,11 @@ public class GatewayQuiz {
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
+    }
+
+    public TurmaQuiz getQuizPublicadoById(Integer id) {
+        session = sessionFactory.getCurrentSession();
+        TurmaQuiz turmaQuiz = session.get(TurmaQuiz.class, id);
+        return turmaQuiz;
     }
 }

@@ -1,8 +1,6 @@
 package entidade;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import enums.TipoQuestao;
 import enums.StatusQuizQuestao;
 import enums.NivelQuestao;

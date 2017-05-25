@@ -98,4 +98,15 @@ public class GatewayTreino {
         Treino treino = session.get(Treino.class, id);
         return treino;
     }
+
+    public List<Treino> listTreinoByQuizPublicado(Integer id) {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Treino t WHERE t.turmaQuiz.id = :id");
+        query.setParameter("id", id);
+        List<Treino> treinos = query.list();
+        for(Treino t: treinos){
+            t.getRespostas().size();
+        }        
+        return treinos;
+    }
 }

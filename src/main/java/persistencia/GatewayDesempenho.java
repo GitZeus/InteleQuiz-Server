@@ -1,6 +1,5 @@
 package persistencia;
 
-import entidade.Tema;
 import entidade.TurmaQuiz;
 import enums.StatusTurmaQuiz;
 import java.util.List;

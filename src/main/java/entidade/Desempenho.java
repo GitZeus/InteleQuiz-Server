@@ -1,26 +1,17 @@
 package entidade;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Desempenho {
 
-    private Turma turma;
+    private List<TurmaQuiz> publicacoes = new ArrayList<>();
     private List<Double> aproveitamentos = new ArrayList<>();
     private List<Double> envolvimentos = new ArrayList<>();
     private List<String> encerramentos = new ArrayList<>();
     private Double medAproveitamento;
     private Double medEnvolvimento;
     private Tema temaAtencao;
-
-    public Turma getTurma() {
-        return turma;
-    }
-
-    public void setTurma(Turma turma) {
-        this.turma = turma;
-    }
 
     public Double getMedAproveitamento() {
         return medAproveitamento;
@@ -68,6 +59,14 @@ public class Desempenho {
 
     public void setEnvolvimentos(List<Double> envolvimentos) {
         this.envolvimentos = envolvimentos;
+    }
+
+    public List<TurmaQuiz> getPublicacoes() {
+        return publicacoes;
+    }
+
+    public void setPublicacoes(List<TurmaQuiz> publicacoes) {
+        this.publicacoes = publicacoes;
     }
 
 }
