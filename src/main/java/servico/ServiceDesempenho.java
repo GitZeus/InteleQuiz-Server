@@ -49,7 +49,10 @@ public class ServiceDesempenho {
                 desempenho.getEncerramentos().add(InteleQuizUtil.formatData(publicacao.getTsEncerramento()));
                 if (treinos.size() > 0) {
                     double aprov = InteleQuizUtil.formatDecimal(auxAproveitamento / treinos.size());
+                    System.out.println("aprov: " + aprov);
+
                     double envolv = InteleQuizUtil.formatDecimal((double) (treinos.size() * 100) / alunos.size());
+                    System.out.println("envolv: " + envolv);
 
                     desempenho.getAproveitamentos().add(aprov);
                     desempenho.getEnvolvimentos().add(envolv);
@@ -57,16 +60,21 @@ public class ServiceDesempenho {
                     auxMedAproveitamento += aprov;
                     auxMedEnvolvimento += envolv;
                 } else {
+                    System.out.println("0d: " + 0d);
                     desempenho.getAproveitamentos().add(InteleQuizUtil.formatDecimal(0d));
                 }
                 auxAproveitamento = 0;
             }
-
-            desempenho.setMedAproveitamento(InteleQuizUtil.formatDecimal(auxMedAproveitamento / publicacoes.size()));
-            desempenho.setMedEnvolvimento(InteleQuizUtil.formatDecimal(auxMedEnvolvimento / publicacoes.size()));
+            if (publicacoes.size() > 0) {
+                desempenho.setMedAproveitamento(InteleQuizUtil.formatDecimal(auxMedAproveitamento / publicacoes.size()));
+                System.out.println("auxMedAproveitamento: " + auxMedAproveitamento);
+                desempenho.setMedEnvolvimento(InteleQuizUtil.formatDecimal(auxMedEnvolvimento / publicacoes.size()));
+                System.out.println("auxMedEnvolvimento: " + auxMedEnvolvimento);
+            }
 
             return desempenho;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ITQException(e.getMessage());
         }
     }
