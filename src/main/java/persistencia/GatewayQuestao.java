@@ -34,7 +34,7 @@ public class GatewayQuestao {
         }
     }
 
-    public List<Questao> listQuestoesByTema(Integer tema_id) throws ITQException {
+    public List<Questao> listQuestoesByTema(int tema_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Questao q LEFT JOIN FETCH q.temas t WHERE t.id =:tema_id");
         query.setParameter("tema_id", tema_id);
@@ -42,7 +42,7 @@ public class GatewayQuestao {
         return questoes;
     }
 
-    public List<Tema> listTemasByQuestao(Integer questao_id) throws ITQException {
+    public List<Tema> listTemasByQuestao(int questao_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Questao q = session.get(Questao.class, questao_id);
         q.getTemas().size();
@@ -53,12 +53,12 @@ public class GatewayQuestao {
     public boolean saveQuestao(Questao questao) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Integer questao_id = (Integer) session.save(questao);
+            int questao_id = (int) session.save(questao);
             for (Resposta resposta : questao.getRespostas()) {
                 resposta.setQuestao(questao);
                 session.save(resposta);
             }
-            return questao_id != null;
+            return questao_id != 0;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }

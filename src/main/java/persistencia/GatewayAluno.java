@@ -17,7 +17,7 @@ public class GatewayAluno {
     private SessionFactory sessionFactory;
     private Session session;
 
-    public List<Aluno> listAlunoByTurma(Integer id) {
+    public List<Aluno> listAlunoByTurma(int id) {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Aluno a JOIN FETCH a.turmas t WHERE t.id = :id");
         query.setParameter("id", id);

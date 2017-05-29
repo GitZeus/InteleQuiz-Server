@@ -14,7 +14,7 @@ public class ServiceAluno {
     @Autowired
     GatewayAluno gatewayAluno;
 
-    public List<Aluno> listAlunoByTurma(Integer id) {
+    public List<Aluno> listAlunoByTurma(int id) {
         List<Aluno> alunos = gatewayAluno.listAlunoByTurma(id);
         return alunos;
     }

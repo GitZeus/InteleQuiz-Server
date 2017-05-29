@@ -22,27 +22,28 @@ public class Treino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne
+    @JoinColumn(name = "ALUNO_RA")
     private Aluno aluno;
-    
+
     @ManyToOne
-    @JoinColumn(name = "TURMA_QUIZ_ID", referencedColumnName = "ID")
-    private TurmaQuiz turmaQuiz;
-    
+    @JoinColumn(name = "PUBLICACAO_ID")
+    private Publicacao publicacao;
+
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "TS_INICIO")
     private Date tsInicio;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TS_FIM")
     private Date tsFim;
-    
+
     private Double pontuacao;
     private Double aproveitamento;
-    
+
     @OneToMany
     @JoinTable(name = "rel_treino_resposta",
             joinColumns = {
@@ -51,11 +52,11 @@ public class Treino {
                 @JoinColumn(name = "resposta_id")})
     private List<Resposta> respostas;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -65,14 +66,6 @@ public class Treino {
 
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
-    }
-
-    public TurmaQuiz getTurmaQuiz() {
-        return turmaQuiz;
-    }
-
-    public void setTurmaQuiz(TurmaQuiz turmaQuiz) {
-        this.turmaQuiz = turmaQuiz;
     }
 
     public Date getTsInicio() {
@@ -117,6 +110,14 @@ public class Treino {
 
     @Override
     public String toString() {
-        return "Treino{" + "id=" + id + ", aluno=" + aluno + ", turmaQuiz=" + turmaQuiz + ", tsInicio=" + tsInicio + ", tsFim=" + tsFim + ", pontuacao=" + pontuacao + ", aproveitamento=" + aproveitamento + ", respostas=" + respostas + '}';
+        return "Treino{" + "id=" + id + ", aluno=" + aluno + ", publicacao=" + publicacao + ", tsInicio=" + tsInicio + ", tsFim=" + tsFim + ", pontuacao=" + pontuacao + ", aproveitamento=" + aproveitamento + ", respostas=" + respostas + '}';
+    }
+
+    public Publicacao getPublicacao() {
+        return publicacao;
+    }
+
+    public void setPublicacao(Publicacao publicacao) {
+        this.publicacao = publicacao;
     }
 }

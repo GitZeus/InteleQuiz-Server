@@ -3,7 +3,7 @@ package servico;
 import entidade.Aluno;
 import entidade.Treino;
 import entidade.Turma;
-import entidade.TurmaQuiz;
+import entidade.Publicacao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +29,13 @@ public class ServiceRanking {
             List<Turma> turmas = gatewayTreino.listTurmasByAluno(ra);
 
             for (Turma turma : turmas) {
-                List<TurmaQuiz> publicacoes = gatewayRanking.listQuizPublicadoByTurma(turma.getId());
+                List<Publicacao> publicacoes = gatewayRanking.listQuizPublicadoByTurma(turma.getId());
 
                 double pontuacao = 0;
                 double aproveitamento = 0;
                 int qtdTreinos = 0;
 
-                for (TurmaQuiz publicacao : publicacoes) {
+                for (Publicacao publicacao : publicacoes) {
                     List<Treino> treinos = gatewayTreino.listTreinoByPublicacao(publicacao.getId());
 
                     for (Treino treino : treinos) {
@@ -63,13 +63,13 @@ public class ServiceRanking {
             List<Turma> turmas = gatewayQuiz.listTurmasByProfessor(matricula);
 
             for (Turma turma : turmas) {
-                List<TurmaQuiz> publicacoes = gatewayRanking.listQuizPublicadoByTurma(turma.getId());
+                List<Publicacao> publicacoes = gatewayRanking.listQuizPublicadoByTurma(turma.getId());
 
                 double pontuacao = 0;
                 double aproveitamento = 0;
                 int qtdTreinos = 0;
 
-                for (TurmaQuiz publicacao : publicacoes) {
+                for (Publicacao publicacao : publicacoes) {
                     List<Treino> treinos = gatewayTreino.listTreinoByPublicacao(publicacao.getId());
 
                     for (Treino treino : treinos) {
@@ -92,7 +92,7 @@ public class ServiceRanking {
         }
     }
 
-    public List<Aluno> listRankingAlunosByTurma(Integer id) throws ITQException {
+    public List<Aluno> listRankingAlunosByTurma(int id) throws ITQException {
         try {
             List<Aluno> alunos = gatewayRanking.listAlunosByTurma(id);
 

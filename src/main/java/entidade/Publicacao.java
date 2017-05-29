@@ -20,12 +20,12 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "TB_TURMA_QUIZ")
-public class TurmaQuiz {
+@Table(name = "TB_PUBLICACAO")
+public class Publicacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne
     private Turma turma;
@@ -45,8 +45,7 @@ public class TurmaQuiz {
     @Enumerated(EnumType.ORDINAL)
     private StatusTurmaQuiz status;
 
-    @OneToMany
-    @JoinColumn(name = "TURMA_QUIZ_ID", referencedColumnName = "ID")
+    @OneToMany(mappedBy = "publicacao")
     private List<Treino> treinos;
     
     @Transient
@@ -55,11 +54,11 @@ public class TurmaQuiz {
     @Transient
     private Double aproveitamento;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -105,7 +104,7 @@ public class TurmaQuiz {
 
     @Override
     public String toString() {
-        return "TurmaQuiz{" + "id=" + id + ", turma=" + turma + ", quiz=" + quiz + ", tsPublicacao=" + tsPublicacao + ", tsEncerramento=" + tsEncerramento + ", status=" + status + '}';
+        return "Publicacao{" + "id=" + id + ", turma=" + turma + ", quiz=" + quiz + ", tsPublicacao=" + tsPublicacao + ", tsEncerramento=" + tsEncerramento + ", status=" + status + '}';
     }
 
     public List<Treino> getTreinos() {

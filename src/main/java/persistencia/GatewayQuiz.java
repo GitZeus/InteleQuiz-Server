@@ -3,7 +3,7 @@ package persistencia;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
-import entidade.TurmaQuiz;
+import entidade.Publicacao;
 import enums.StatusTurmaQuiz;
 import java.util.List;
 import org.hibernate.Query;
@@ -30,7 +30,7 @@ public class GatewayQuiz {
         return turmas;
     }
 
-    public List<Turma> listTurmasByProfessorByDisciplina(String matricula, Integer id) throws ITQException {
+    public List<Turma> listTurmasByProfessorByDisciplina(String matricula, int id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Turma t WHERE t.professor.matricula = :matricula AND t.disciplina.id = :id");
         query.setParameter("matricula", matricula);
@@ -39,7 +39,7 @@ public class GatewayQuiz {
         return turmas;
     }
 
-    public List<Quiz> listQuizByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
+    public List<Quiz> listQuizByDisciplinaByProfessor(String matricula_professor, int disciplina_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Quiz q WHERE q.professor.matricula = :professor AND q.disciplina.id = :disciplina");
         query.setParameter("professor", matricula_professor);
@@ -51,8 +51,8 @@ public class GatewayQuiz {
     public boolean saveQuiz(Quiz q) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Integer quiz_id = (Integer) session.save(q);
-            return quiz_id != null;
+            int quiz_id = (int) session.save(q);
+            return quiz_id != 0;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
@@ -68,28 +68,28 @@ public class GatewayQuiz {
         }
     }
 
-    public List<Questao> listQuestoesByQuiz(Integer quiz_id) throws ITQException {
+    public List<Questao> listQuestoesByQuiz(int quiz_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Quiz quiz = session.get(Quiz.class, quiz_id);
         quiz.getQuestoes().size();
         return quiz.getQuestoes();
     }
 
-    public boolean publicarQuiz(TurmaQuiz tq) throws ITQException {
+    public boolean publicarQuiz(Publicacao tq) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Integer turmaQuiz_id = (Integer) session.save(tq);
-            return turmaQuiz_id != null;
+            int turmaQuiz_id = (int) session.save(tq);
+            return turmaQuiz_id != 0;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
     }
 
-    public List<TurmaQuiz> listQuizPublicadoByStatusByTurma(Integer id, StatusTurmaQuiz status) throws ITQException {
+    public List<Publicacao> listQuizPublicadoByStatusByTurma(int id, StatusTurmaQuiz status) throws ITQException {
         try {
-            List<TurmaQuiz> publicados;
+            List<Publicacao> publicados;
             session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id AND tq.status = :status ORDER BY tq.tsEncerramento ASC");
+            Query query = session.createQuery("FROM Publicacao p where p.turma.id = :id AND p.status = :status ORDER BY p.tsEncerramento ASC");
             query.setParameter("id", id);
             query.setParameter("status", status);
             publicados = query.list();
@@ -99,11 +99,11 @@ public class GatewayQuiz {
         }
     }
 
-    public List<TurmaQuiz> listQuizEmAndamentoByTurma(Integer id) throws ITQException {
+    public List<Publicacao> listQuizEmAndamentoByTurma(int id) throws ITQException {
         try {
-            List<TurmaQuiz> publicados;
+            List<Publicacao> publicados;
             session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM TurmaQuiz tq where tq.turma.id = :id AND tq.status = :status");
+            Query query = session.createQuery("FROM Publicacao p where p.turma.id = :id AND p.status = :status");
             query.setParameter("id", id);
             query.setParameter("status", StatusTurmaQuiz.PUBLICADO);
             publicados = query.list();
@@ -113,9 +113,9 @@ public class GatewayQuiz {
         }
     }
 
-    public TurmaQuiz getQuizPublicadoById(Integer id) {
+    public Publicacao getQuizPublicadoById(int id) {
         session = sessionFactory.getCurrentSession();
-        TurmaQuiz turmaQuiz = session.get(TurmaQuiz.class, id);
-        return turmaQuiz;
+        Publicacao publicacao = session.get(Publicacao.class, id);
+        return publicacao;
     }
 }

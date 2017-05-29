@@ -19,7 +19,7 @@ public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @OneToOne
     private Professor professor;
@@ -28,7 +28,7 @@ public class Quiz {
     private Disciplina disciplina;
 
     @OneToMany(mappedBy = "quiz")
-    private List<TurmaQuiz> publicacoes;
+    private List<Publicacao> publicacoes;
 
     @OneToMany
     @JoinTable(name = "rel_questao_quiz",
@@ -43,11 +43,11 @@ public class Quiz {
     @Enumerated
     private StatusQuizQuestao status;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -96,11 +96,11 @@ public class Quiz {
         return "Quiz{" + "id=" + id + ", professor=" + professor + ", disciplina=" + disciplina + ", questoes=" + questoes + ", descricao=" + descricao + ", status=" + status + '}';
     }
 
-    public List<TurmaQuiz> getPublicacoes() {
+    public List<Publicacao> getPublicacoes() {
         return publicacoes;
     }
 
-    public void setPublicacoes(List<TurmaQuiz> publicacoes) {
+    public void setPublicacoes(List<Publicacao> publicacoes) {
         this.publicacoes = publicacoes;
     }
 }

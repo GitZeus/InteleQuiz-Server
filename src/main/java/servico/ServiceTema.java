@@ -23,7 +23,7 @@ public class ServiceTema {
     @Autowired
     private GatewayTreino gatewayTreino;
 
-    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
+    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, int disciplina_id) throws ITQException {
         try {
             return gatewayTema.listTemasByDisciplinaByProfessor(matricula_professor, disciplina_id);
         } catch (Exception e) {
@@ -48,54 +48,12 @@ public class ServiceTema {
         }
     }
 
-    public List<Tema> listTemaByQuestao(Integer id) throws ITQException {
+    public List<Tema> listTemaByQuestao(int id) throws ITQException {
         try {
             List<Tema> temas = gatewayTema.listTemaByQuestao(id);
             return temas;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
-    }
-
-    public Tema getTemaAtencaoByQuizPublicado(Integer id) throws ITQException {
-        try {
-            List<Treino> treinos = gatewayTreino.listTreinoByQuizPublicado(id);
-            HashMap hmTemas = new HashMap();
-
-            for (Treino treino : treinos) {
-                for (Resposta resposta : treino.getRespostas()) {
-                    List<Tema> temas = listTemaByQuestao(resposta.getQuestao().getId());
-                    for (Tema tema : temas) {
-                        if (!(hmTemas.containsKey(tema.getId()))) {
-                            tema.setTotal(1);
-                            if (resposta.getCerta() == false) {
-                                tema.setErrados(1);
-                            }
-                            hmTemas.put(tema.getId(), tema);
-                        } else {
-                            Tema auxTema = (Tema) hmTemas.get(tema.getId());
-                            auxTema.setTotal(auxTema.getTotal() + 1);
-                            if (resposta.getCerta() == false) {
-                                auxTema.setErrados(auxTema.getErrados() + 1);
-                            }
-                            hmTemas.put(auxTema.getId(), auxTema);
-                        }
-                    }
-                }
-            }
-
-            Tema temaAtencao = null;
-            for (Object obj : hmTemas.values()) {
-                Tema auxTema = (Tema) obj;
-                auxTema.setPercentErros(InteleQuizUtil.formatDecimal((double) (auxTema.getErrados() * 100) / auxTema.getTotal()));
-                if (temaAtencao == null || auxTema.getPercentErros() > temaAtencao.getPercentErros()) {
-                    temaAtencao = auxTema;
-                }
-            }
-
-            return temaAtencao;
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
+    }   
 }

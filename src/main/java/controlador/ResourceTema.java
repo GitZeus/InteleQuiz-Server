@@ -27,7 +27,7 @@ public class ResourceTema {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<List<Tema>> listTemasByDisciplinaByProfessor(
             @PathVariable("matricula") String matricula_professor,
-            @PathVariable("id") Integer disciplina_id) throws Exception {
+            @PathVariable("id") int disciplina_id) throws Exception {
         return new RestResponse<>(serviceTema.listTemasByDisciplinaByProfessor(matricula_professor, disciplina_id));
     }
 
@@ -37,13 +37,5 @@ public class ResourceTema {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<RestMessage> saveTema(@RequestBody Tema t) throws Exception {
         return new RestResponse<>(serviceTema.saveTema(t));
-    }
-
-    @RequestMapping(
-            value = "/quiz/{id}/tema",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Tema> getTemaAtencaoByQuizPublicado(@PathVariable("id") Integer id) throws Exception {
-        return new RestResponse<>(serviceTema.getTemaAtencaoByQuizPublicado(id));
     }
 }

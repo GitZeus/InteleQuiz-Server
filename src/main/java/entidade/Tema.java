@@ -19,7 +19,7 @@ public class Tema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @OneToOne
     private Professor professor;
@@ -48,11 +48,11 @@ public class Tema {
     @Transient
     private double percentErros;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

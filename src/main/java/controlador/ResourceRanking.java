@@ -43,7 +43,7 @@ public class ResourceRanking {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<List<Aluno>> listRankingAlunosByTurma(
-            @PathVariable("id") Integer id) throws Exception {
+            @PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceRanking.listRankingAlunosByTurma(id));
     }
 

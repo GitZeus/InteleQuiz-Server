@@ -3,7 +3,7 @@ package controlador;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
-import entidade.TurmaQuiz;
+import entidade.Publicacao;
 import enums.StatusTurmaQuiz;
 import java.util.List;
 import util.RestResponse;
@@ -41,7 +41,7 @@ public class ResourceQuiz {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<List<Turma>> listTurmasByProfessorByDisciplina(
             @PathVariable("matricula") String matricula,
-            @PathVariable("id") Integer id) throws Exception {
+            @PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceQuiz.listTurmasByProfessorByDisciplina(matricula, id));
     }
 
@@ -51,7 +51,7 @@ public class ResourceQuiz {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<List<Quiz>> listQuizByDisciplinaByProfessor(
             @PathVariable("matricula") String matricula_professor,
-            @PathVariable("id") Integer disciplina_id) throws Exception {
+            @PathVariable("id") int disciplina_id) throws Exception {
         return new RestResponse<>(serviceQuiz.listQuizByDisciplinaByProfessor(matricula_professor, disciplina_id));
     }
 
@@ -76,15 +76,15 @@ public class ResourceQuiz {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<List<Questao>> listQuestoesByQuiz(
-            @PathVariable("id") Integer quiz_id) throws Exception {
+            @PathVariable("id") int quiz_id) throws Exception {
         return new RestResponse<>(serviceQuiz.listQuestoesByQuiz(quiz_id));
     }
 
     @RequestMapping(
-            value = "/turmaQuiz",
+            value = "/publicacao",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<RestMessage> publicarQuiz(@RequestBody TurmaQuiz tq) throws Exception {
+    public RestResponse<RestMessage> publicarQuiz(@RequestBody Publicacao tq) throws Exception {
         return new RestResponse<>(serviceQuiz.publicarQuiz(tq));
     }
 
@@ -92,8 +92,8 @@ public class ResourceQuiz {
             value = "/turma/{id}/quiz",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<TurmaQuiz>> listQuizPublicadoByStatusByTurma(
-            @PathVariable Integer id,
+    public RestResponse<List<Publicacao>> listQuizPublicadoByStatusByTurma(
+            @PathVariable int id,
             @RequestParam(value = "status", required = false) StatusTurmaQuiz status) throws Exception {
         return new RestResponse<>(serviceQuiz.listQuizPublicadoByStatusByTurma(id, status));
     }

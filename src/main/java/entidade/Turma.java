@@ -21,7 +21,7 @@ public class Turma {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @OneToOne
     private Professor professor;
@@ -33,7 +33,7 @@ public class Turma {
     private TurnoTurma turno;
 
     @OneToMany(mappedBy = "turma")
-    private List<TurmaQuiz> quizzes;
+    private List<Publicacao> quizzes;
 
     @ManyToMany
     @JoinTable(name = "rel_turma_aluno",
@@ -43,9 +43,9 @@ public class Turma {
                 @JoinColumn(name = "aluno_ra")})
     private List<Aluno> alunos;
 
-    private Integer ano;
+    private int ano;
 
-    private Integer semestre;
+    private int semestre;
 
     private String letra;
 
@@ -55,11 +55,11 @@ public class Turma {
     @Transient
     private Double aproveitamento;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -87,19 +87,19 @@ public class Turma {
         this.turno = turno;
     }
 
-    public Integer getAno() {
+    public int getAno() {
         return ano;
     }
 
-    public void setAno(Integer ano) {
+    public void setAno(int ano) {
         this.ano = ano;
     }
 
-    public Integer getSemestre() {
+    public int getSemestre() {
         return semestre;
     }
 
-    public void setSemestre(Integer semestre) {
+    public void setSemestre(int semestre) {
         this.semestre = semestre;
     }
 
@@ -119,11 +119,11 @@ public class Turma {
         this.alunos = alunos;
     }
 
-    public List<TurmaQuiz> getQuizzes() {
+    public List<Publicacao> getQuizzes() {
         return quizzes;
     }
 
-    public void setQuizzes(List<TurmaQuiz> quizzes) {
+    public void setQuizzes(List<Publicacao> quizzes) {
         this.quizzes = quizzes;
     }
 

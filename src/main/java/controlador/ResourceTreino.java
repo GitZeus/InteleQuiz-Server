@@ -31,12 +31,12 @@ public class ResourceTreino {
     }
 
     @RequestMapping(
-            value = "/aluno/{ra}/turmaQuiz/{turma_quiz_id}/treino",
+            value = "/aluno/{ra}/publicacao/{turma_quiz_id}/treino",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Treino> startNewTreino(
             @PathVariable("ra") String ra,
-            @PathVariable("turma_quiz_id") Integer turma_quiz_id) throws Exception {
+            @PathVariable("turma_quiz_id") int turma_quiz_id) throws Exception {
         return new RestResponse<>(serviceTreino.startNewTreino(ra, turma_quiz_id));
     }
 
@@ -52,7 +52,7 @@ public class ResourceTreino {
             value = "/treino/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Treino> getTreino(@PathVariable("id") Integer id) throws Exception {
+    public RestResponse<Treino> getTreino(@PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceTreino.getTreino(id));
     }
     
@@ -61,7 +61,7 @@ public class ResourceTreino {
             value = "publicacao/{id}/treino",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Treino>> listTreinoByPublicacao(@PathVariable("id") Integer id) throws Exception {
+    public RestResponse<List<Treino>> listTreinoByPublicacao(@PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceTreino.listTreinoByPublicacao(id));
     }
 }

@@ -19,7 +19,7 @@ public class GatewayTurma {
     private SessionFactory sessionFactory;
     private Session session;
 
-    public Turma getTurmaById(Integer id) {
+    public Turma getTurmaById(int id) {
         session = sessionFactory.getCurrentSession();
         Turma turma = session.get(Turma.class, id);
         return turma;

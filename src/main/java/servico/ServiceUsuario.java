@@ -8,26 +8,29 @@ import persistencia.GatewayAutenticacao;
 import util.ITQException;
 
 @Service
-public class ServiceAutenticacao {
+public class ServiceUsuario {
 
     @Autowired
     private GatewayAutenticacao gatewayAutenticacao;
 
     public Usuario getUsuarioByLoginSenha(Usuario u) throws ITQException {
         try {
-            if (u.getPerfil() == TipoUsuario.PROFESSOR || u.getPerfil() == TipoUsuario.COORDENADOR) {
-                return gatewayAutenticacao.getProfessorByLoginSenha(u);
-            } else if (u.getPerfil() == TipoUsuario.ALUNO) {
-                return gatewayAutenticacao.getAlunoByLoginSenha(u);
-            } else {
+            if (null == u.getPerfil()) {
                 throw new ITQException("Perfil de usuário não reconhecido");
+            } else switch (u.getPerfil()) {
+                case PROFESSOR:
+                    return gatewayAutenticacao.getProfessorByLoginSenha(u);
+                case ALUNO:
+                    return gatewayAutenticacao.getAlunoByLoginSenha(u);
+                default:
+                    throw new ITQException("Perfil de usuário não reconhecido");
             }
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
     }
 
-    public TipoUsuario[] getTiposUsuario() throws ITQException {
+    public TipoUsuario[] listPerfilUsuario() throws ITQException {
         try {
             return TipoUsuario.values();
         } catch (Exception e) {

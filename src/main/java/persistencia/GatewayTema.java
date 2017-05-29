@@ -18,7 +18,7 @@ public class GatewayTema {
     private SessionFactory sessionFactory;
     private Session session;
 
-    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
+    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, int disciplina_id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Tema t WHERE t.professor.matricula = :professor AND t.disciplina.id = :disciplina");
         query.setParameter("professor", matricula_professor);
@@ -30,14 +30,14 @@ public class GatewayTema {
     public boolean saveTema(Tema t) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Integer tema_id = (Integer) session.save(t);
-            return tema_id != null;
+            int tema_id = (int) session.save(t);
+            return tema_id != 0;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
     }
 
-    public List<Tema> listTemaByQuestao(Integer id) throws ITQException {
+    public List<Tema> listTemaByQuestao(int id) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
             Query query = session.createQuery("FROM Tema t JOIN FETCH t.questoes q WHERE q.id = :id");

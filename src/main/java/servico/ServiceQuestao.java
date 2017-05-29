@@ -29,7 +29,7 @@ public class ServiceQuestao {
         }
     }
     
-    public List<Questao> listQuestoesByTema(Integer tema_id) throws ITQException {
+    public List<Questao> listQuestoesByTema(int tema_id) throws ITQException {
         try {
             return gatewayQuestao.listQuestoesByTema(tema_id);
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class ServiceQuestao {
         }
     }
     
-    public List<Tema> listTemasByQuestao(Integer questao_id) throws ITQException {
+    public List<Tema> listTemasByQuestao(int questao_id) throws ITQException {
         try {
             return gatewayQuestao.listTemasByQuestao(questao_id);
         } catch (Exception e) {

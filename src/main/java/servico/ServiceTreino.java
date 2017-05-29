@@ -1,12 +1,10 @@
 package servico;
 
-import entidade.Aluno;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Resposta;
 import entidade.Treino;
 import entidade.Turma;
-import entidade.TurmaQuiz;
 import enums.NivelQuestao;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +27,7 @@ public class ServiceTreino {
         }
     }
 
-    public Treino startNewTreino(String ra, Integer turma_quiz_id) throws ITQException {
+    public Treino startNewTreino(String ra, int turma_quiz_id) throws ITQException {
         try {
             return gatewayTreino.startNewTreino(ra, turma_quiz_id);
         } catch (Exception e) {
@@ -82,7 +80,7 @@ public class ServiceTreino {
         }
     }
 
-    public Treino getTreino(Integer id) throws ITQException {
+    public Treino getTreino(int id) throws ITQException {
         try {
             return gatewayTreino.getTreino(id);
         } catch (Exception e) {
@@ -90,9 +88,33 @@ public class ServiceTreino {
         }
     }
 
-    public List<Treino> listTreinoByPublicacao(Integer id) throws ITQException {
+    public List<Treino> listTreinoByPublicacao(int id) throws ITQException {
         try {
             return gatewayTreino.listTreinoByPublicacao(id);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
+    public List<Treino> listTreinoByTurmaByAluno(int id, String ra) throws ITQException {
+        try {
+            return gatewayTreino.listTreinoByTurmaByAluno(id, ra);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+    
+    public List<Treino> listTreinoByPublicacaoByAluno(int id, String ra) throws ITQException {
+        try {
+            return gatewayTreino.listTreinoByPublicacaoByAluno(id, ra);
+        } catch (Exception e) {
+            throw new ITQException(e.getMessage());
+        }
+    }
+
+    public List<Treino> listTreinoByQuizPublicado(int id) throws ITQException {
+        try {
+            return gatewayTreino.listTreinoByQuizPublicado(id);
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }

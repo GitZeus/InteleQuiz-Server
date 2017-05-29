@@ -3,7 +3,7 @@ package servico;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Turma;
-import entidade.TurmaQuiz;
+import entidade.Publicacao;
 import enums.StatusTurmaQuiz;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ServiceQuiz {
         }
     }
 
-    public List<Turma> listTurmasByProfessorByDisciplina(String matricula, Integer id) throws ITQException {
+    public List<Turma> listTurmasByProfessorByDisciplina(String matricula, int id) throws ITQException {
         try {
             return gatewayQuiz.listTurmasByProfessorByDisciplina(matricula, id);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class ServiceQuiz {
         }
     }
 
-    public List<Quiz> listQuizByDisciplinaByProfessor(String matricula_professor, Integer disciplina_id) throws ITQException {
+    public List<Quiz> listQuizByDisciplinaByProfessor(String matricula_professor, int disciplina_id) throws ITQException {
         try {
             return gatewayQuiz.listQuizByDisciplinaByProfessor(matricula_professor, disciplina_id);
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class ServiceQuiz {
         }
     }
 
-    public List<Questao> listQuestoesByQuiz(Integer quiz_id) throws ITQException {
+    public List<Questao> listQuestoesByQuiz(int quiz_id) throws ITQException {
         try {
             return gatewayQuiz.listQuestoesByQuiz(quiz_id);
         } catch (Exception e) {
@@ -86,11 +86,11 @@ public class ServiceQuiz {
         }
     }
 
-    public RestMessage publicarQuiz(TurmaQuiz tq) throws ITQException {
+    public RestMessage publicarQuiz(Publicacao tq) throws ITQException {
         try {
 
             RestMessage message = new RestMessage();
-            List<TurmaQuiz> publicados = listQuizEmAndamentoByTurma(tq.getTurma().getId());
+            List<Publicacao> publicados = listQuizEmAndamentoByTurma(tq.getTurma().getId());
 
             if (publicados.size() > 0) {
                 message.setText("Esta turma já possui um quiz em andamento");
@@ -113,7 +113,7 @@ public class ServiceQuiz {
         }
     }
 
-    public List<TurmaQuiz> listQuizEmAndamentoByTurma(Integer id) throws ITQException {
+    public List<Publicacao> listQuizEmAndamentoByTurma(int id) throws ITQException {
         try {
             return gatewayQuiz.listQuizEmAndamentoByTurma(id);
         } catch (Exception e) {
@@ -121,7 +121,7 @@ public class ServiceQuiz {
         }
     }
 
-    public List<TurmaQuiz> listQuizPublicadoByStatusByTurma(Integer id, StatusTurmaQuiz status) throws ITQException {
+    public List<Publicacao> listQuizPublicadoByStatusByTurma(int id, StatusTurmaQuiz status) throws ITQException {
         try {
             return gatewayQuiz.listQuizPublicadoByStatusByTurma(id, status);
         } catch (Exception e) {

@@ -11,7 +11,7 @@ public class ServiceTurma {
     @Autowired
     GatewayTurma gatewayTurma;
 
-    public Turma getTurmaById(Integer id) {
+    public Turma getTurmaById(int id) {
         Turma turma = gatewayTurma.getTurmaById(id);
         return turma;
     }

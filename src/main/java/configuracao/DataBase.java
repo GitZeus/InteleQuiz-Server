@@ -9,7 +9,7 @@ import entidade.Resposta;
 import entidade.Tema;
 import entidade.Treino;
 import entidade.Turma;
-import entidade.TurmaQuiz;
+import entidade.Publicacao;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -36,9 +36,9 @@ public class DataBase {
                     .addAnnotatedClasses(Tema.class)
                     .addAnnotatedClasses(Treino.class)
                     .addAnnotatedClasses(Turma.class)
-                    .addAnnotatedClasses(TurmaQuiz.class)
+                    .addAnnotatedClasses(Publicacao.class)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
-                    //                    .setProperty("hibernate.show_sql", "true")
+                    .setProperty("hibernate.show_sql", "true")
                     .setProperty("hibernate.format_sql", "true")
                     .buildSessionFactory();
             return sessionFactory;
@@ -54,13 +54,12 @@ public class DataBase {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
-            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679");
-            dataSource.setUsername("bd20ed095bed99");
-            dataSource.setPassword("7859d60c");
-
-//            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
-//            dataSource.setUsername("root");
-//            dataSource.setPassword("root");
+//            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679");
+//            dataSource.setUsername("bd20ed095bed99");
+//            dataSource.setPassword("7859d60c");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+            dataSource.setUsername("root");
+            dataSource.setPassword("root");
 
             return dataSource;
         } catch (Throwable e) {

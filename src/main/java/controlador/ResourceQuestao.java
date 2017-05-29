@@ -40,7 +40,7 @@ public class ResourceQuestao {
             value = "/tema/{id}/questoes",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Questao>> listQuestoesByTema(@PathVariable("id") Integer tema_id) throws Exception {
+    public RestResponse<List<Questao>> listQuestoesByTema(@PathVariable("id") int tema_id) throws Exception {
         return new RestResponse<>(serviceQuestao.listQuestoesByTema(tema_id));
     }
 
@@ -72,7 +72,7 @@ public class ResourceQuestao {
             value = "/questao/{id}/temas",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Tema>> listTemasByQuestao(@PathVariable("id") Integer questao_id) throws ITQException{
+    public RestResponse<List<Tema>> listTemasByQuestao(@PathVariable("id") int questao_id) throws ITQException{
         return new RestResponse<>(serviceQuestao.listTemasByQuestao(questao_id));
     }
     

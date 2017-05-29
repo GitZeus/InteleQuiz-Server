@@ -7,7 +7,7 @@ import entidade.Resposta;
 import entidade.Tema;
 import entidade.Treino;
 import entidade.Turma;
-import entidade.TurmaQuiz;
+import entidade.Publicacao;
 import java.util.List;
 import org.hibernate.Query;
 import util.ITQException;
@@ -33,15 +33,15 @@ public class GatewayTreino {
         return turmas;
     }
 
-    public Treino startNewTreino(String ra, Integer turma_quiz_id) throws ITQException {
+    public Treino startNewTreino(String ra, int turma_quiz_id) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
 
             Aluno a = session.get(Aluno.class, ra);
-            TurmaQuiz tq = session.get(TurmaQuiz.class, turma_quiz_id);
+            Publicacao tq = session.get(Publicacao.class, turma_quiz_id);
             Treino t = new Treino();
             t.setAluno(a);
-            t.setTurmaQuiz(tq);
+            t.setPublicacao(tq);
 
             session.save(t);
             return t;
@@ -73,7 +73,7 @@ public class GatewayTreino {
     public Quiz getQuizByTreino(Treino treino) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Quiz quiz = session.get(Quiz.class, treino.getTurmaQuiz().getQuiz().getId());
+            Quiz quiz = session.get(Quiz.class, treino.getPublicacao().getQuiz().getId());
             quiz.getQuestoes().size();
             return quiz;
         } catch (Exception e) {
@@ -81,32 +81,59 @@ public class GatewayTreino {
         }
     }
 
-    public List<Treino> listTreinoByPublicacao(Integer id) throws ITQException {
+    public List<Treino> listTreinoByPublicacao(int id) throws ITQException {
         try {
             session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM Treino t WHERE t.turmaQuiz.id = :id");
+            Query query = session.createQuery("FROM Treino t WHERE t.publicacao.id = :id");
             query.setParameter("id", id);
             List<Treino> treinos = query.list();
+            for(Treino t: treinos){
+                t.getRespostas().size();
+            }
             return treinos;
         } catch (Exception e) {
             throw new ITQException(e.getMessage());
         }
     }
 
-    public Treino getTreino(Integer id) throws ITQException {
+    public Treino getTreino(int id) throws ITQException {
         session = sessionFactory.getCurrentSession();
         Treino treino = session.get(Treino.class, id);
         return treino;
     }
 
-    public List<Treino> listTreinoByQuizPublicado(Integer id) {
+    public List<Treino> listTreinoByQuizPublicado(int id) {
         session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM Treino t WHERE t.turmaQuiz.id = :id");
+        Query query = session.createQuery("FROM Treino t WHERE t.publicacao.id = :id");
         query.setParameter("id", id);
         List<Treino> treinos = query.list();
-        for(Treino t: treinos){
+        for (Treino t : treinos) {
             t.getRespostas().size();
-        }        
+        }
+        return treinos;
+    }
+
+    public List<Treino> listTreinoByTurmaByAluno(int id, String ra) {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Treino t WHERE t.publicacao.turma.id = :id AND t.aluno.ra = :ra");
+        query.setParameter("id", id);
+        query.setParameter("ra", ra);
+        List<Treino> treinos = query.list();
+        for (Treino t : treinos) {
+            t.getRespostas().size();
+        }
+        return treinos;
+    }
+    
+    public List<Treino> listTreinoByPublicacaoByAluno(int id, String ra) {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Treino t WHERE t.publicacao.id = :id AND t.aluno.ra = :ra");
+        query.setParameter("id", id);
+        query.setParameter("ra", ra);
+        List<Treino> treinos = query.list();
+        for (Treino t : treinos) {
+            t.getRespostas().size();
+        }
         return treinos;
     }
 }

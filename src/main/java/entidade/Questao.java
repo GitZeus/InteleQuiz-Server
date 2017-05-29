@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "TB_QUESTAO")
@@ -23,7 +24,7 @@ public class Questao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToMany
     @JoinTable(name = "rel_questao_tema",
@@ -46,13 +47,19 @@ public class Questao {
     @Enumerated
     private StatusQuizQuestao status;
 
+    @Transient
+    private int countTotal;
+
+    @Transient
+    private int countErros;
+
     private String texto;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -107,5 +114,21 @@ public class Questao {
     @Override
     public String toString() {
         return "Questao{" + "id=" + id + ", tipo=" + tipo + ", nivel=" + nivel + ", status=" + status + ", texto=" + texto + '}';
+    }
+
+    public int getCountTotal() {
+        return countTotal;
+    }
+
+    public void setCountTotal(int countTotal) {
+        this.countTotal = countTotal;
+    }
+
+    public int getCountErros() {
+        return countErros;
+    }
+
+    public void setCountErros(int countErros) {
+        this.countErros = countErros;
     }
 }

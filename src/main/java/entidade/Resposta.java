@@ -16,7 +16,7 @@ public class Resposta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne
     @JsonBackReference
@@ -24,11 +24,11 @@ public class Resposta {
     private String texto;
     private Boolean certa;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
