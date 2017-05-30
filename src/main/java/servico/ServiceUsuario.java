@@ -26,7 +26,8 @@ public class ServiceUsuario {
                     throw new ITQException("Perfil de usuário não reconhecido");
             }
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao autenticar usuário, contate o administrador do sistema");
         }
     }
 
@@ -34,7 +35,8 @@ public class ServiceUsuario {
         try {
             return TipoUsuario.values();
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro não previsto ao listar perfis de usuário");
         }
     }
 }

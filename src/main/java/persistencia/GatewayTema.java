@@ -3,7 +3,6 @@ package persistencia;
 import entidade.Tema;
 import java.util.List;
 import org.hibernate.Query;
-import util.ITQException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,34 +17,32 @@ public class GatewayTema {
     private SessionFactory sessionFactory;
     private Session session;
 
-    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, int disciplina_id) throws ITQException {
+    public int saveTema(Tema tema) {
         session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM Tema t WHERE t.professor.matricula = :professor AND t.disciplina.id = :disciplina");
-        query.setParameter("professor", matricula_professor);
-        query.setParameter("disciplina", disciplina_id);
+        int id = (int) session.save(tema);
+        return id;
+    }
+
+    public Tema getTemaById(int id) {
+        session = sessionFactory.getCurrentSession();
+        Tema tema = session.get(Tema.class, id);
+        return tema;
+    }
+
+    public List<Tema> listTemasByDisciplinaByProfessor(String matricula, int id) {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Tema t WHERE t.professor.matricula = :matricula AND t.disciplina.id = :id");
+        query.setParameter("matricula", matricula);
+        query.setParameter("id", id);
         List<Tema> temas = query.list();
         return temas;
     }
 
-    public boolean saveTema(Tema t) throws ITQException {
-        try {
-            session = sessionFactory.getCurrentSession();
-            int tema_id = (int) session.save(t);
-            return tema_id != 0;
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
-
-    public List<Tema> listTemaByQuestao(int id) throws ITQException {
-        try {
-            session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM Tema t JOIN FETCH t.questoes q WHERE q.id = :id");
-            query.setParameter("id", id);
-            List<Tema> temas = query.list();
-            return temas;
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
+    public List<Tema> listTemaByQuestao(int id) {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Tema t JOIN FETCH t.questoes q WHERE q.id = :id");
+        query.setParameter("id", id);
+        List<Tema> temas = query.list();
+        return temas;
     }
 }

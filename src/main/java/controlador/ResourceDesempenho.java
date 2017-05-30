@@ -1,7 +1,6 @@
 package controlador;
 
 import entidade.Desempenho;
-import entidade.Tema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +13,7 @@ import util.RestResponse;
 
 @RestController
 @CrossOrigin
+@RequestMapping("ResourceDesempenho")
 public class ResourceDesempenho {
 
     @Autowired
@@ -54,7 +54,7 @@ public class ResourceDesempenho {
     }
 
     @RequestMapping(
-            value = "/publicacao/{publicacao_id}/temaCritico/{tema_id}/questoes",
+            value = "/publicacao/{publicacao_id}/temaCritico/{tema_id}/questao",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Desempenho> listQuestoesCriticasByPublicacaoByTemaCritico(@PathVariable int publicacao_id, @PathVariable int tema_id) throws Exception {
@@ -62,7 +62,7 @@ public class ResourceDesempenho {
     }
 
     @RequestMapping(
-            value = "/publicacao/{publicacao_id}/aluno/{ra}/temaCritico/{tema_id}/questoes",
+            value = "/publicacao/{publicacao_id}/aluno/{ra}/temaCritico/{tema_id}/questao",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Desempenho> listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(@PathVariable int publicacao_id, @PathVariable String ra, @PathVariable int tema_id) throws Exception {

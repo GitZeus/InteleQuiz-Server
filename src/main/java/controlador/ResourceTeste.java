@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-public class TesteController {
+public class ResourceTeste {
     
     @RequestMapping("/")
     public RestResponse teste() {

@@ -1,8 +1,6 @@
 package controlador;
 
 import entidade.Treino;
-import entidade.Turma;
-import java.util.List;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,28 +14,20 @@ import servico.ServiceTreino;
 
 @RestController
 @CrossOrigin
+@RequestMapping("ResourceTreino")
 public class ResourceTreino {
 
     @Autowired
     private ServiceTreino serviceTreino;
 
     @RequestMapping(
-            value = "/aluno/{ra}/disciplina",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Turma>> listTurmasByAluno(
-            @PathVariable("ra") String ra) throws Exception {
-        return new RestResponse<>(serviceTreino.listTurmasByAluno(ra));
-    }
-
-    @RequestMapping(
-            value = "/aluno/{ra}/publicacao/{turma_quiz_id}/treino",
+            value = "/aluno/{ra}/publicacao/{id}/treino",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Treino> startNewTreino(
+    public RestResponse<Treino> saveTreino(
             @PathVariable("ra") String ra,
-            @PathVariable("turma_quiz_id") int turma_quiz_id) throws Exception {
-        return new RestResponse<>(serviceTreino.startNewTreino(ra, turma_quiz_id));
+            @PathVariable("id") int id) throws Exception {
+        return new RestResponse<>(serviceTreino.saveTreino(ra, id));
     }
 
     @RequestMapping(
@@ -52,16 +42,7 @@ public class ResourceTreino {
             value = "/treino/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Treino> getTreino(@PathVariable("id") int id) throws Exception {
-        return new RestResponse<>(serviceTreino.getTreino(id));
-    }
-    
-//    ================
-    @RequestMapping(
-            value = "publicacao/{id}/treino",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Treino>> listTreinoByPublicacao(@PathVariable("id") int id) throws Exception {
-        return new RestResponse<>(serviceTreino.listTreinoByPublicacao(id));
+    public RestResponse<Treino> getTreinoById(@PathVariable("id") int id) throws Exception {
+        return new RestResponse<>(serviceTreino.getTreinoById(id));
     }
 }

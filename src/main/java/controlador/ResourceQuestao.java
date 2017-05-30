@@ -1,9 +1,6 @@
 package controlador;
 
-import entidade.Disciplina;
-import entidade.Professor;
 import entidade.Questao;
-import entidade.Tema;
 import enums.NivelQuestao;
 import enums.StatusQuizQuestao;
 import enums.TipoQuestao;
@@ -23,59 +20,36 @@ import util.RestMessage;
 
 @RestController
 @CrossOrigin
+@RequestMapping("ResourceQuestao")
 public class ResourceQuestao {
 
     @Autowired
     private ServiceQuestao serviceQuestao;
 
     @RequestMapping(
-            value = "/professor/disciplinas",
-            method = RequestMethod.POST,
+            value = "/questao/tipo",
+            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Disciplina>> listDisciplinasByProfessor(@RequestBody Professor p) throws Exception {
-        return new RestResponse<>(serviceQuestao.listDisciplinasByProfessor(p));
+    public RestResponse<TipoQuestao[]> listTipoQuestao() throws ITQException {
+        return new RestResponse<>(serviceQuestao.listTipoQuestao());
     }
 
     @RequestMapping(
-            value = "/tema/{id}/questoes",
+            value = "/questao/nivel",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Questao>> listQuestoesByTema(@PathVariable("id") int tema_id) throws Exception {
-        return new RestResponse<>(serviceQuestao.listQuestoesByTema(tema_id));
-    }
-
-    @RequestMapping(
-            value = "/questoes/tipos",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<TipoQuestao[]> listTiposQuestao() throws ITQException {
-        return new RestResponse<>(serviceQuestao.listTiposQuestao());
-    }
-
-    @RequestMapping(
-            value = "/questoes/niveis",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<NivelQuestao[]> listNiveisQuestao() throws ITQException {
-        return new RestResponse<>(serviceQuestao.listNiveisQuestao());
+    public RestResponse<NivelQuestao[]> listNivelQuestao() throws ITQException {
+        return new RestResponse<>(serviceQuestao.listNivelQuestao());
     }
 
     @RequestMapping(
             value = "/questao/status",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<StatusQuizQuestao[]> listStatusQuizQuestao() throws ITQException{
+    public RestResponse<StatusQuizQuestao[]> listStatusQuizQuestao() throws ITQException {
         return new RestResponse<>(serviceQuestao.listStatusQuizQuestao());
     }
 
-    @RequestMapping(
-            value = "/questao/{id}/temas",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Tema>> listTemasByQuestao(@PathVariable("id") int questao_id) throws ITQException{
-        return new RestResponse<>(serviceQuestao.listTemasByQuestao(questao_id));
-    }
-    
     @RequestMapping(
             value = "/questao",
             method = RequestMethod.POST,
@@ -83,12 +57,29 @@ public class ResourceQuestao {
     public RestResponse<RestMessage> saveQuestao(@RequestBody Questao questao) throws ITQException {
         return new RestResponse<>(serviceQuestao.saveQuestao(questao));
     }
-    
+
     @RequestMapping(
             value = "/questao",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<RestMessage> updateQuestao(@RequestBody Questao questao) throws ITQException {
         return new RestResponse<>(serviceQuestao.updateQuestao(questao));
+    }
+
+    @RequestMapping(
+            value = "/quiz/{id}/questao",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Questao>> listQuestaoByQuiz(
+            @PathVariable("id") int id) throws Exception {
+        return new RestResponse<>(serviceQuestao.listQuestaoByQuiz(id));
+    }
+
+    @RequestMapping(
+            value = "/tema/{id}/questao",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Questao>> listQuestaoByTema(@PathVariable("id") int id) throws Exception {
+        return new RestResponse<>(serviceQuestao.listQuestaoByTema(id));
     }
 }

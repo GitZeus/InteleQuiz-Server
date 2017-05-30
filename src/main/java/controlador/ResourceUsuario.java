@@ -15,24 +15,25 @@ import util.ITQException;
 
 @RestController
 @CrossOrigin
+@RequestMapping("ResourceUsuario")
 public class ResourceUsuario {
 
     @Autowired
     private ServiceUsuario serviceUsuario;
-    
+
     @RequestMapping(
-            value = "usuario",
+            value = "/usuario",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Usuario> getUsuarioByLoginSenha(@RequestBody Usuario usuario) throws ITQException {
         return new RestResponse<>(serviceUsuario.getUsuarioByLoginSenha(usuario));
     }
-    
+
     @RequestMapping(
-            value="usuario/perfil",
+            value = "/usuario/perfil",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<TipoUsuario[]> listPerfilUsuario() throws ITQException{
+    public RestResponse<TipoUsuario[]> listPerfilUsuario() throws ITQException {
         return new RestResponse<>(serviceUsuario.listPerfilUsuario());
     }
 }

@@ -22,7 +22,7 @@ import util.InteleQuizUtil;
 public class ServiceDesempenho {
 
     @Autowired
-    private ServiceQuiz serviceQuiz;
+    private ServicePublicacao servicePublicacao;
 
     @Autowired
     private ServiceTreino serviceTreino;
@@ -38,7 +38,7 @@ public class ServiceDesempenho {
         try {
 
             List<Aluno> alunos = serviceAluno.listAlunoByTurma(id);
-            List<Publicacao> publicacoes = serviceQuiz.listQuizPublicadoByStatusByTurma(id, StatusTurmaQuiz.ENCERRADO);
+            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByStatusByTurma(id, StatusTurmaQuiz.ENCERRADO);
             desempenho.setPublicacoes(publicacoes);
 
             double auxAproveitamento = 0;
@@ -75,7 +75,7 @@ public class ServiceDesempenho {
             return desempenho;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ITQException(e.getMessage());
+            throw new ITQException("Erro ao obter dados de desempenho por turma e professor");
         }
     }
 
@@ -109,13 +109,13 @@ public class ServiceDesempenho {
             return desempenho;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ITQException(e.getMessage());
+            throw new ITQException("Erro ao obter dados de desempenho por turma e aluno");
         }
     }
 
     public Desempenho getTemaCriticoByPublicacao(int id) throws ITQException {
         try {
-            List<Treino> treinos = serviceTreino.listTreinoByQuizPublicado(id);
+            List<Treino> treinos = serviceTreino.listTreinoByPublicacao(id);
             HashMap hmTemas = new HashMap();
 
             for (Treino treino : treinos) {
@@ -151,7 +151,8 @@ public class ServiceDesempenho {
 
             return desempenho;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao obter dados de tema crítico por publicacao");
         }
     }
 
@@ -193,7 +194,8 @@ public class ServiceDesempenho {
 
             return desempenho;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao obter dados de tema crítico por publicacao e aluno");
         }
     }
 
@@ -240,7 +242,8 @@ public class ServiceDesempenho {
 
             return desempenho;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar questões críticas por publicação e tema crítico");
         }
     }
 
@@ -287,7 +290,8 @@ public class ServiceDesempenho {
 
             return desempenho;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar questões críticas por publicação, aluno e tema crítico");
         }
     }
 }

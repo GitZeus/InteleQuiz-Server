@@ -25,4 +25,10 @@ public class GatewayAluno {
         return alunos;
     }
 
+    public Aluno getAlunoByRa(String ra) {
+        session = sessionFactory.getCurrentSession();
+        Aluno aluno = session.get(Aluno.class, ra);
+        return aluno;
+    }
+
 }

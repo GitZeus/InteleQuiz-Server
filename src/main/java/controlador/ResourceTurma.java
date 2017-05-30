@@ -1,51 +1,50 @@
 package controlador;
 
-import entidade.Tema;
+import entidade.Turma;
 import java.util.List;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import servico.ServiceTema;
-import util.ITQException;
-import util.RestMessage;
+import servico.ServiceTurma;
 
 @RestController
 @CrossOrigin
-@RequestMapping("ResourceTema")
-public class ResourceTema {
+@RequestMapping("ResourceTurma")
+public class ResourceTurma {
 
     @Autowired
-    private ServiceTema serviceTema;
+    private ServiceTurma serviceTurma;
 
     @RequestMapping(
-            value = "/tema",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<RestMessage> saveTema(@RequestBody Tema tema) throws Exception {
-        return new RestResponse<>(serviceTema.saveTema(tema));
-    }
-    
-    @RequestMapping(
-            value = "/professor/{matricula}/disciplina/{id}/tema",
+            value = "/professor/{matricula}/turma",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Tema>> listTemasByDisciplinaByProfessor(
+    public RestResponse<List<Turma>> listTurmaByProfessor(
+            @PathVariable("matricula") String matricula) throws Exception {
+        return new RestResponse<>(serviceTurma.listTurmaByProfessor(matricula));
+    }
+
+    @RequestMapping(
+            value = "/professor/{matricula}/disciplina/{id}/turma",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Turma>> listTurmaByProfessorByDisciplina(
             @PathVariable("matricula") String matricula,
             @PathVariable("id") int id) throws Exception {
-        return new RestResponse<>(serviceTema.listTemasByDisciplinaByProfessor(matricula, id));
+        return new RestResponse<>(serviceTurma.listTurmaByProfessorByDisciplina(matricula, id));
     }
     
     @RequestMapping(
-            value = "/questao/{id}/tema",
+            value = "/aluno/{ra}/turma",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Tema>> listTemaByQuestao(@PathVariable("id") int id) throws ITQException{
-        return new RestResponse<>(serviceTema.listTemaByQuestao(id));
+    public RestResponse<List<Turma>> listTurmaByAluno(
+            @PathVariable("ra") String ra) throws Exception {
+        return new RestResponse<>(serviceTurma.listTurmaByAluno(ra));
     }
 }

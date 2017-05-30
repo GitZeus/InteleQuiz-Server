@@ -1,16 +1,11 @@
 package servico;
 
-import entidade.Resposta;
 import entidade.Tema;
-import entidade.Treino;
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayTema;
-import persistencia.GatewayTreino;
 import util.ITQException;
-import util.InteleQuizUtil;
 import util.RestMessage;
 import util.RestMessageType;
 
@@ -20,40 +15,65 @@ public class ServiceTema {
     @Autowired
     private GatewayTema gatewayTema;
 
-    @Autowired
-    private GatewayTreino gatewayTreino;
-
-    public List<Tema> listTemasByDisciplinaByProfessor(String matricula_professor, int disciplina_id) throws ITQException {
+    public RestMessage saveTema(Tema tema) throws ITQException {
         try {
-            return gatewayTema.listTemasByDisciplinaByProfessor(matricula_professor, disciplina_id);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
-
-    public RestMessage saveTema(Tema t) throws ITQException {
-        try {
-            boolean sucesso = gatewayTema.saveTema(t);
+            if (tema.getDisciplina() == null || tema.getDisciplina().getId() == 0) {
+                throw new ITQException("Informe uma disciplina para o tema");
+            }
+            if (tema.getProfessor() == null || tema.getProfessor().getMatricula() == null) {
+                throw new ITQException("Falha ao recuperar a matricula do professor");
+            }
+            if (tema.getNome() == null || tema.getNome().trim().length() == 0) {
+                throw new ITQException("Informe um nome para o tema");
+            }
+            int id = gatewayTema.saveTema(tema);
             RestMessage message = new RestMessage();
-            if (sucesso) {
+            if (id != 0) {
                 message.setText("Tema incluído com sucesso");
                 message.setType(RestMessageType.SUCCESS);
             } else {
-                message.setText("Erro ao incluir Tema, contate o administrador do sistema");
+                message.setText("Erro ao incluir tema, contate o administrador do sistema");
                 message.setType(RestMessageType.ERROR);
             }
             return message;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao incluir tema, contate o administrador do sistema");
         }
     }
 
+    public Tema getTemaById(int id) throws ITQException {
+        try {
+            if (id <= 0) {
+                throw new ITQException("Informe um id válido para o tema");
+            }
+            Tema tema = gatewayTema.getTemaById(id);
+            return tema;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ITQException("Erro ao recuperar tema pelo id, contate o administrador do sistema");
+        }
+    }
+
+    public List<Tema> listTemasByDisciplinaByProfessor(String matricula, int id) throws ITQException {
+        try {
+            return gatewayTema.listTemasByDisciplinaByProfessor(matricula, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar temas por disciplina e professor");
+        }
+    }
+    
     public List<Tema> listTemaByQuestao(int id) throws ITQException {
         try {
+            if (id <= 0) {
+                throw new ITQException("Informe um id válido para a questão");
+            }
             List<Tema> temas = gatewayTema.listTemaByQuestao(id);
             return temas;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar temas por questão");
         }
-    }   
+    }
 }

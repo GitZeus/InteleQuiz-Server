@@ -15,6 +15,7 @@ import servico.ServiceRanking;
 
 @RestController
 @CrossOrigin
+@RequestMapping("ResourceRanking")
 public class ResourceRanking {
 
     @Autowired
@@ -24,27 +25,26 @@ public class ResourceRanking {
             value = "/aluno/{ra}/turma/ranking",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Turma>> listRankingTurmasByAluno(
+    public RestResponse<List<Turma>> getRankingTurmaByAluno(
             @PathVariable("ra") String ra) throws Exception {
-        return new RestResponse<>(serviceRanking.listRankingTurmasByAluno(ra));
+        return new RestResponse<>(serviceRanking.getRankingTurmaByAluno(ra));
     }
     
     @RequestMapping(
             value = "/professor/{matricula}/turma/ranking",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Turma>> listRankingTurmasByProfessor(
+    public RestResponse<List<Turma>> getRankingTurmaByProfessor(
             @PathVariable("matricula") String matricula) throws Exception {
-        return new RestResponse<>(serviceRanking.listRankingTurmasByProfessor(matricula));
+        return new RestResponse<>(serviceRanking.getRankingTurmaByProfessor(matricula));
     }
     
     @RequestMapping(
             value = "/turma/{id}/aluno/ranking",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Aluno>> listRankingAlunosByTurma(
+    public RestResponse<List<Aluno>> getRankingAlunoByTurma(
             @PathVariable("id") int id) throws Exception {
-        return new RestResponse<>(serviceRanking.listRankingAlunosByTurma(id));
+        return new RestResponse<>(serviceRanking.getRankingAlunoByTurma(id));
     }
-
 }

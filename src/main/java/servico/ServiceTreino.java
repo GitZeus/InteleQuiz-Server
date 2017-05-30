@@ -1,10 +1,11 @@
 package servico;
 
+import entidade.Aluno;
+import entidade.Publicacao;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Resposta;
 import entidade.Treino;
-import entidade.Turma;
 import enums.NivelQuestao;
 import java.util.Date;
 import java.util.List;
@@ -19,36 +20,69 @@ public class ServiceTreino {
     @Autowired
     private GatewayTreino gatewayTreino;
 
-    public List<Turma> listTurmasByAluno(String ra) throws ITQException {
-        try {
-            return gatewayTreino.listTurmasByAluno(ra);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
+    @Autowired
+    private ServiceAluno serviceAluno;
 
-    public Treino startNewTreino(String ra, int turma_quiz_id) throws ITQException {
+    @Autowired
+    private ServicePublicacao servicePublicacao;
+    
+    @Autowired
+    private ServiceQuestao serviceQuestao;
+
+    @Autowired
+    private ServiceQuiz serviceQuiz;
+    
+    public Treino saveTreino(String ra, int id) throws ITQException {
+        if (ra == null || ra.length() == 0) {
+            throw new ITQException("Erro ao recuperar o registro acadêmico do aluno");
+        }
+        if (id <= 0) {
+            throw new ITQException("Informe um id válido para a publicação");
+        }
         try {
-            return gatewayTreino.startNewTreino(ra, turma_quiz_id);
+            Aluno aluno = serviceAluno.getAlunoByRa(ra);
+            Publicacao publicacao = servicePublicacao.getPublicacaoById(id);
+            Treino treino = new Treino();
+            treino.setAluno(aluno);
+            treino.setPublicacao(publicacao);
+            int idNovoTreino = gatewayTreino.saveTreino(treino);
+            treino = gatewayTreino.getTreinoById(idNovoTreino);
+            return treino;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao incluir um novo treino");
         }
     }
 
     public Treino updateTreino(Treino treino) throws ITQException {
+        if (treino.getAluno() == null) {
+            throw new ITQException("Erro ao recuperar o aluno para o treino");
+        }
+        if (treino.getPublicacao() == null) {
+            throw new ITQException("Erro ao recuperar a publicação do quiz");
+        }
+        if (treino.getRespostas() == null || treino.getRespostas().size() == 0) {
+            throw new ITQException("Informe ao menos uma resposta para atualizar o treino");
+        }
         try {
-
             Resposta ultimaRespostaAdicionada = treino.getRespostas().get(treino.getRespostas().size() - 1);
             if (ultimaRespostaAdicionada.getCerta() == true) {
-                Questao q = gatewayTreino.getQuestaoByResposta(ultimaRespostaAdicionada);
-                System.out.println("NÍVEL: " + q.getNivel());
+                Questao q = serviceQuestao.getQuestaoByResposta(ultimaRespostaAdicionada);
                 double valor = 0;
-                if (q.getNivel() == NivelQuestao.FACIL) {
-                    valor = 1;
-                } else if (q.getNivel() == NivelQuestao.MEDIO) {
-                    valor = 2;
-                } else if (q.getNivel() == NivelQuestao.DIFICIL) {
-                    valor = 3;
+                if (null != q.getNivel()) {
+                    switch (q.getNivel()) {
+                        case FACIL:
+                            valor = 1;
+                            break;
+                        case MEDIO:
+                            valor = 2;
+                            break;
+                        case DIFICIL:
+                            valor = 3;
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 if (treino.getPontuacao() == null) {
                     treino.setPontuacao(valor);
@@ -57,7 +91,7 @@ public class ServiceTreino {
                 }
             }
 
-            Quiz quiz = gatewayTreino.getQuizByTreino(treino);
+            Quiz quiz = serviceQuiz.getQuizByTreino(treino);
             if (treino.getRespostas().size() == quiz.getQuestoes().size()) {
                 treino.setTsFim(new Date());
                 double valorDoQuiz = 0;
@@ -76,48 +110,66 @@ public class ServiceTreino {
 
             return gatewayTreino.updateTreino(treino);
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao atualizar o treino");
         }
     }
 
-    public Treino getTreino(int id) throws ITQException {
+    public Treino getTreinoById(int id) throws ITQException {
+        if (id <= 0) {
+            throw new ITQException("Informe um id válido para o treino");
+        }
         try {
-            return gatewayTreino.getTreino(id);
+            Treino treino = gatewayTreino.getTreinoById(id);
+            return treino;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao recuperar treino por id");
         }
     }
 
     public List<Treino> listTreinoByPublicacao(int id) throws ITQException {
+        if (id <= 0) {
+            throw new ITQException("Informe um id válido para a publicação");
+        }
         try {
-            return gatewayTreino.listTreinoByPublicacao(id);
+            List<Treino> treinos = gatewayTreino.listTreinoByPublicacao(id);
+            return treinos;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar treinos por publicação");
         }
     }
 
     public List<Treino> listTreinoByTurmaByAluno(int id, String ra) throws ITQException {
+        if (id <= 0) {
+            throw new ITQException("Informe um id válido para a turma");
+        }
+        if (ra == null || ra.length() == 0) {
+            throw new ITQException("Erro ao recuperar o registro acadêmico do aluno");
+        }
         try {
-            return gatewayTreino.listTreinoByTurmaByAluno(id, ra);
+            List<Treino> treinos = gatewayTreino.listTreinoByTurmaByAluno(id, ra);
+            return treinos;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar treinos por turma e aluno");
         }
     }
-    
+
     public List<Treino> listTreinoByPublicacaoByAluno(int id, String ra) throws ITQException {
+        if (ra == null || ra.length() == 0) {
+            throw new ITQException("Erro ao recuperar o registro acadêmico do aluno");
+        }
+        if (id <= 0) {
+            throw new ITQException("Informe um id válido para a publicacao");
+        }
         try {
-            return gatewayTreino.listTreinoByPublicacaoByAluno(id, ra);
+            List<Treino> treinos = gatewayTreino.listTreinoByPublicacaoByAluno(id, ra);
+            return treinos;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar treinos por publicação e aluno");
         }
     }
-
-    public List<Treino> listTreinoByQuizPublicado(int id) throws ITQException {
-        try {
-            return gatewayTreino.listTreinoByQuizPublicado(id);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
-
 }

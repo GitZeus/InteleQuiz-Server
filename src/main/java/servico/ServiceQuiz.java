@@ -1,11 +1,8 @@
 package servico;
 
-import entidade.Questao;
 import entidade.Quiz;
-import entidade.Turma;
-import entidade.Publicacao;
-import enums.StatusTurmaQuiz;
-import java.util.ArrayList;
+import entidade.Treino;
+import java.io.IOError;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,35 +17,12 @@ public class ServiceQuiz {
     @Autowired
     private GatewayQuiz gatewayQuiz;
 
-    public List<Turma> listTurmasByProfessor(String matricula) throws ITQException {
+    public RestMessage saveQuiz(Quiz quiz) throws ITQException {
+        validarQuiz(quiz);
         try {
-            return gatewayQuiz.listTurmasByProfessor(matricula);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
-
-    public List<Turma> listTurmasByProfessorByDisciplina(String matricula, int id) throws ITQException {
-        try {
-            return gatewayQuiz.listTurmasByProfessorByDisciplina(matricula, id);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
-
-    public List<Quiz> listQuizByDisciplinaByProfessor(String matricula_professor, int disciplina_id) throws ITQException {
-        try {
-            return gatewayQuiz.listQuizByDisciplinaByProfessor(matricula_professor, disciplina_id);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
-        }
-    }
-
-    public RestMessage saveQuiz(Quiz q) throws ITQException {
-        try {
-            boolean sucesso = gatewayQuiz.saveQuiz(q);
+            int id = gatewayQuiz.saveQuiz(quiz);
             RestMessage message = new RestMessage();
-            if (sucesso) {
+            if (id != 0) {
                 message.setText("Quiz incluído com sucesso");
                 message.setType(RestMessageType.SUCCESS);
             } else {
@@ -57,13 +31,15 @@ public class ServiceQuiz {
             }
             return message;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao incluir Quiz, contate o administrador do sistema");
         }
     }
 
-    public RestMessage updateQuiz(Quiz q) throws ITQException {
+    public RestMessage updateQuiz(Quiz quiz) throws ITQException {
+        validarQuiz(quiz);
         try {
-            boolean sucesso = gatewayQuiz.updateQuiz(q);
+            boolean sucesso = gatewayQuiz.updateQuiz(quiz);
             RestMessage message = new RestMessage();
             if (sucesso) {
                 message.setText("Quiz alterado com sucesso");
@@ -74,58 +50,52 @@ public class ServiceQuiz {
             }
             return message;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao alterar Quiz, contate o administrador do sistema");
         }
     }
 
-    public List<Questao> listQuestoesByQuiz(int quiz_id) throws ITQException {
-        try {
-            return gatewayQuiz.listQuestoesByQuiz(quiz_id);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+    private void validarQuiz(Quiz quiz) throws ITQException {
+        if (quiz.getDescricao() == null || quiz.getDescricao().length() == 0) {
+            throw new ITQException("Informe uma descrição para o quiz");
+        }
+        if (quiz.getDisciplina() == null || quiz.getDisciplina().getId() == 0) {
+            throw new ITQException("Informe uma disciplina para o quiz");
+        }
+        if (quiz.getQuestoes() == null || quiz.getQuestoes().isEmpty()) {
+            throw new ITQException("Informe ao menos uma questão para o quiz");
+        }
+        if (quiz.getProfessor() == null || quiz.getProfessor().getMatricula() == null) {
+            throw new ITQException("Erro ao recuperar a matricula do professor");
         }
     }
 
-    public RestMessage publicarQuiz(Publicacao tq) throws ITQException {
+    public List<Quiz> listQuizByDisciplinaByProfessor(String matricula, int id) throws ITQException {
+        if (matricula == null || matricula.length() == 0) {
+            throw new ITQException("Erro ao recuperar a matricula do professor");
+        }
+        if (id <= 0) {
+            throw new ITQException("Id de disciplina inválido");
+        }
         try {
-
-            RestMessage message = new RestMessage();
-            List<Publicacao> publicados = listQuizEmAndamentoByTurma(tq.getTurma().getId());
-
-            if (publicados.size() > 0) {
-                message.setText("Esta turma já possui um quiz em andamento");
-                message.setType(RestMessageType.WARNING);
-            } else {
-                tq.setStatus(StatusTurmaQuiz.PUBLICADO);
-                boolean sucesso = gatewayQuiz.publicarQuiz(tq);
-                if (sucesso) {
-                    message.setText("Quiz publicado com sucesso");
-                    message.setType(RestMessageType.SUCCESS);
-                } else {
-                    message.setText("Erro ao publicar Quiz, contate o administrador do sistema");
-                    message.setType(RestMessageType.ERROR);
-                }
-            }
-
-            return message;
+            List<Quiz> quizzes = gatewayQuiz.listQuizByDisciplinaByProfessor(matricula, id);
+            return quizzes;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar quiz por disciplina e professor");
         }
     }
 
-    public List<Publicacao> listQuizEmAndamentoByTurma(int id) throws ITQException {
-        try {
-            return gatewayQuiz.listQuizEmAndamentoByTurma(id);
-        } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+    public Quiz getQuizByTreino(Treino treino) throws ITQException {
+        if (treino == null) {
+            throw new ITQException("Informe um treino válido para recuperar o quiz");
         }
-    }
-
-    public List<Publicacao> listQuizPublicadoByStatusByTurma(int id, StatusTurmaQuiz status) throws ITQException {
         try {
-            return gatewayQuiz.listQuizPublicadoByStatusByTurma(id, status);
+            Quiz quiz = gatewayQuiz.getQuizByTreino(treino);
+            return quiz;
         } catch (Exception e) {
-            throw new ITQException(e.getMessage());
+            e.printStackTrace();
+            throw new ITQException("Erro ao recuperar quiz pelo treino");
         }
     }
 }

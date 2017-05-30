@@ -17,10 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class GatewayAutenticacao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-    private Session session;
-
     public Professor getProfessorByLoginSenha(Usuario u) throws ITQException {
         try {
             Professor pMock = new Professor();
@@ -30,6 +26,7 @@ public class GatewayAutenticacao {
             pMock.setMatricula(pMock.getLogin());
             pMock.setPerfil(TipoUsuario.PROFESSOR);
             if (u.getLogin().equals(pMock.getLogin()) && u.getSenha().equals(pMock.getSenha())) {
+                pMock.setSenha(null);
                 return pMock;
             } else {
                 throw new ITQException("Login ou senha incorretos");
@@ -69,6 +66,7 @@ public class GatewayAutenticacao {
 
             for (int i = 0; i < alunos.size(); i++) {
                 if (u.getLogin().equals(alunos.get(i).getLogin()) && u.getSenha().equals(alunos.get(i).getSenha())) {
+                    alunos.get(i).setSenha(null);
                     return alunos.get(i);
                 }
             }
