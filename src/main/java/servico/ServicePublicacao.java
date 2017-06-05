@@ -48,7 +48,7 @@ public class ServicePublicacao {
         if (publicacao.getQuiz() == null) {
             throw new ITQException("Erro ao recuperar o quiz para a publicação");
         }
-        if (publicacao.getTsPublicacao() == null) {
+        if (publicacao.getTsEncerramento() == null) {
             throw new ITQException("Informe uma data de encerramento para a publicação");
         }
         if (publicacao.getTurma() == null) {
