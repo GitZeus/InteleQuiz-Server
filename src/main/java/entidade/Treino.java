@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -45,12 +44,7 @@ public class Treino {
     private Double aproveitamento;
 
     @OneToMany
-    @JoinTable(name = "rel_treino_resposta",
-            joinColumns = {
-                @JoinColumn(name = "treino_id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "resposta_id")})
-    private List<Resposta> respostas;
+    private List<Gabarito> gabaritos;
 
     public int getId() {
         return id;
@@ -100,24 +94,19 @@ public class Treino {
         this.aproveitamento = aproveitamento;
     }
 
-    public List<Resposta> getRespostas() {
-        return respostas;
-    }
-
-    public void setRespostas(List<Resposta> respostas) {
-        this.respostas = respostas;
-    }
-
-    @Override
-    public String toString() {
-        return "Treino{" + "id=" + id + ", aluno=" + aluno + ", publicacao=" + publicacao + ", tsInicio=" + tsInicio + ", tsFim=" + tsFim + ", pontuacao=" + pontuacao + ", aproveitamento=" + aproveitamento + ", respostas=" + respostas + '}';
-    }
-
     public Publicacao getPublicacao() {
         return publicacao;
     }
 
     public void setPublicacao(Publicacao publicacao) {
         this.publicacao = publicacao;
+    }
+
+    public List<Gabarito> getGabaritos() {
+        return gabaritos;
+    }
+
+    public void setGabaritos(List<Gabarito> gabaritos) {
+        this.gabaritos = gabaritos;
     }
 }

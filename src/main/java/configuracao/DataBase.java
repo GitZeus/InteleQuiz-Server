@@ -2,6 +2,7 @@ package configuracao;
 
 import entidade.Aluno;
 import entidade.Disciplina;
+import entidade.Gabarito;
 import entidade.Professor;
 import entidade.Questao;
 import entidade.Quiz;
@@ -37,6 +38,7 @@ public class DataBase {
                     .addAnnotatedClasses(Treino.class)
                     .addAnnotatedClasses(Turma.class)
                     .addAnnotatedClasses(Publicacao.class)
+                    .addAnnotatedClasses(Gabarito.class)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
                     .setProperty("hibernate.show_sql", "true")
                     .setProperty("hibernate.format_sql", "true")
@@ -54,13 +56,17 @@ public class DataBase {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
-//            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679");
-//            dataSource.setUsername("bd20ed095bed99");
-//            dataSource.setPassword("7859d60c");
             dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
             dataSource.setUsername("root");
             dataSource.setPassword("root");
-
+            
+//            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+//            dataSource.setUsername("root");
+//            dataSource.setPassword("uniceub");
+//
+//            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679");
+//            dataSource.setUsername("bd20ed095bed99");
+//            dataSource.setPassword("7859d60c");
             return dataSource;
         } catch (Throwable e) {
             e.printStackTrace();
