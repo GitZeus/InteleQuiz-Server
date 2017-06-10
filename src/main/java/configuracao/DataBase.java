@@ -64,9 +64,10 @@ public class DataBase {
 //            dataSource.setUsername("root");
 //            dataSource.setPassword("uniceub");
 
-            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_dbc8380a194f679");
-            dataSource.setUsername("bd20ed095bed99");
-            dataSource.setPassword("7859d60c");
+            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_06cfd2d6b0966bc?reconnect=true");
+            dataSource.setUsername("b0039843b7fefb");
+            dataSource.setPassword("c7fb64f2");
+            
             return dataSource;
         } catch (Throwable e) {
             e.printStackTrace();
