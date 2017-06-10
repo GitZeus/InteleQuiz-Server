@@ -40,9 +40,9 @@ public class GatewayTreino {
         Query query = session.createQuery("FROM Treino t WHERE t.publicacao.id = :id");
         query.setParameter("id", id);
         List<Treino> treinos = query.list();
-//        for (Treino t : treinos) {
-//            t.getRespostas().size();
-//        }
+        for (Treino t : treinos) {
+            t.getGabaritos().size();
+        }
         return treinos;
     }
 
@@ -52,9 +52,9 @@ public class GatewayTreino {
         query.setParameter("id", id);
         query.setParameter("ra", ra);
         List<Treino> treinos = query.list();
-//        for (Treino t : treinos) {
-//            t.getRespostas().size();
-//        }
+        for (Treino t : treinos) {
+            t.getGabaritos().size();
+        }
         return treinos;
     }
 
@@ -64,9 +64,9 @@ public class GatewayTreino {
         query.setParameter("id", id);
         query.setParameter("ra", ra);
         List<Treino> treinos = query.list();
-//        for (Treino t : treinos) {
-//            t.getRespostas().size();
-//        }
+        for (Treino t : treinos) {
+            t.getGabaritos().size();
+        }
         return treinos;
     }
 }

@@ -40,8 +40,8 @@ public class Treino {
     @Column(name = "TS_FIM")
     private Date tsFim;
 
-    private Double pontuacao;
-    private Double aproveitamento;
+    private double pontuacao;
+    private double aproveitamento;
 
     @OneToMany(mappedBy = "treino_id")
     private List<Gabarito> gabaritos;
@@ -78,19 +78,19 @@ public class Treino {
         this.tsFim = tsFim;
     }
 
-    public Double getPontuacao() {
+    public double getPontuacao() {
         return pontuacao;
     }
 
-    public void setPontuacao(Double pontuacao) {
+    public void setPontuacao(double pontuacao) {
         this.pontuacao = pontuacao;
     }
 
-    public Double getAproveitamento() {
+    public double getAproveitamento() {
         return aproveitamento;
     }
 
-    public void setAproveitamento(Double aproveitamento) {
+    public void setAproveitamento(double aproveitamento) {
         this.aproveitamento = aproveitamento;
     }
 

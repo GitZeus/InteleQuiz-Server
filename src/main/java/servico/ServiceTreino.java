@@ -96,7 +96,7 @@ public class ServiceTreino {
                             break;
                     }
                 }
-                if (treino.getPontuacao() == null) {
+                if (treino.getPontuacao() == 0) {
                     treino.setPontuacao(valor);
                 } else {
                     treino.setPontuacao(treino.getPontuacao() + valor);

@@ -2,6 +2,7 @@ package servico;
 
 import entidade.Aluno;
 import entidade.Desempenho;
+import entidade.Gabarito;
 import entidade.Treino;
 import entidade.Publicacao;
 import entidade.Questao;
@@ -32,6 +33,9 @@ public class ServiceDesempenho {
 
     @Autowired
     ServiceAluno serviceAluno;
+    
+    @Autowired
+    ServiceQuestao serviceQuestao;
 
     public Desempenho getDesempenhoByTurmaByProfessor(int id) throws ITQException {
         Desempenho desempenho = new Desempenho();
@@ -118,27 +122,27 @@ public class ServiceDesempenho {
             List<Treino> treinos = serviceTreino.listTreinoByPublicacao(id);
             HashMap hmTemas = new HashMap();
 
-//            for (Treino treino : treinos) {
-//                for (Resposta resposta : treino.getRespostas()) {
-//                    List<Tema> temas = serviceTema.listTemaByQuestao(resposta.getQuestao().getId());
-//                    for (Tema tema : temas) {
-//                        if (!(hmTemas.containsKey(tema.getId()))) {
-//                            tema.setTotal(1);
-//                            if (resposta.getCerta() == false) {
-//                                tema.setErrados(1);
-//                            }
-//                            hmTemas.put(tema.getId(), tema);
-//                        } else {
-//                            Tema auxTema = (Tema) hmTemas.get(tema.getId());
-//                            auxTema.setTotal(auxTema.getTotal() + 1);
-//                            if (resposta.getCerta() == false) {
-//                                auxTema.setErrados(auxTema.getErrados() + 1);
-//                            }
-//                            hmTemas.put(auxTema.getId(), auxTema);
-//                        }
-//                    }
-//                }
-//            }
+            for (Treino treino : treinos) {
+                for (Gabarito gabarito : treino.getGabaritos()) {
+                    List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
+                    for (Tema tema : temas) {
+                        if (!(hmTemas.containsKey(tema.getId()))) {
+                            tema.setTotal(1);
+                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                                tema.setErrados(1);
+                            }
+                            hmTemas.put(tema.getId(), tema);
+                        } else {
+                            Tema auxTema = (Tema) hmTemas.get(tema.getId());
+                            auxTema.setTotal(auxTema.getTotal() + 1);
+                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                                auxTema.setErrados(auxTema.getErrados() + 1);
+                            }
+                            hmTemas.put(auxTema.getId(), auxTema);
+                        }
+                    }
+                }
+            }
 
             Desempenho desempenho = new Desempenho();
             for (Object obj : hmTemas.values()) {
@@ -161,27 +165,27 @@ public class ServiceDesempenho {
             List<Treino> treinos = serviceTreino.listTreinoByPublicacaoByAluno(id, ra);
             HashMap hmTemas = new HashMap();
 
-//            for (Treino treino : treinos) {
-//                for (Resposta resposta : treino.getRespostas()) {
-//                    List<Tema> temas = serviceTema.listTemaByQuestao(resposta.getQuestao().getId());
-//                    for (Tema tema : temas) {
-//                        if (!(hmTemas.containsKey(tema.getId()))) {
-//                            tema.setTotal(1);
-//                            if (resposta.getCerta() == false) {
-//                                tema.setErrados(1);
-//                            }
-//                            hmTemas.put(tema.getId(), tema);
-//                        } else {
-//                            Tema auxTema = (Tema) hmTemas.get(tema.getId());
-//                            auxTema.setTotal(auxTema.getTotal() + 1);
-//                            if (resposta.getCerta() == false) {
-//                                auxTema.setErrados(auxTema.getErrados() + 1);
-//                            }
-//                            hmTemas.put(auxTema.getId(), auxTema);
-//                        }
-//                    }
-//                }
-//            }
+            for (Treino treino : treinos) {
+                for (Gabarito gabarito : treino.getGabaritos()) {
+                    List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
+                    for (Tema tema : temas) {
+                        if (!(hmTemas.containsKey(tema.getId()))) {
+                            tema.setTotal(1);
+                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                                tema.setErrados(1);
+                            }
+                            hmTemas.put(tema.getId(), tema);
+                        } else {
+                            Tema auxTema = (Tema) hmTemas.get(tema.getId());
+                            auxTema.setTotal(auxTema.getTotal() + 1);
+                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                                auxTema.setErrados(auxTema.getErrados() + 1);
+                            }
+                            hmTemas.put(auxTema.getId(), auxTema);
+                        }
+                    }
+                }
+            }
 
             Desempenho desempenho = new Desempenho();
             for (Object obj : hmTemas.values()) {
@@ -205,23 +209,23 @@ public class ServiceDesempenho {
             List<Treino> treinos = serviceTreino.listTreinoByPublicacao(publicacao_id);
             HashMap hmQuestoes = new HashMap();
 
-//            for (Treino treino : treinos) {
-//                for (Resposta resposta : treino.getRespostas()) {
-//                    List<Tema> temas = serviceTema.listTemaByQuestao(resposta.getQuestao().getId());
-//                    for (Tema tema : temas) {
-//                        if (tema.getId() == tema_id && resposta.getCerta() == false) {
-//                            Questao q = resposta.getQuestao();
-//                            if (!(hmQuestoes.containsKey(q.getId()))) {
-//                                q.setCountErros(1);
-//                            } else {
-//                                q = (Questao) hmQuestoes.get(q.getId());
-//                                q.setCountErros(q.getCountErros() + 1);
-//                            }
-//                            hmQuestoes.put(q.getId(), q);
-//                        }
-//                    }
-//                }
-//            }
+            for (Treino treino : treinos) {
+                for (Gabarito gabarito : treino.getGabaritos()) {
+                    List<Tema> temas = serviceTema.listTemaByQuestao(serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao().getId());
+                    for (Tema tema : temas) {
+                        if (tema.getId() == tema_id && serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                            Questao q = serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao();
+                            if (!(hmQuestoes.containsKey(q.getId()))) {
+                                q.setCountErros(1);
+                            } else {
+                                q = (Questao) hmQuestoes.get(q.getId());
+                                q.setCountErros(q.getCountErros() + 1);
+                            }
+                            hmQuestoes.put(q.getId(), q);
+                        }
+                    }
+                }
+            }
 
             Comparator<Questao> comparator = new Comparator<Questao>() {
                 @Override
@@ -253,23 +257,23 @@ public class ServiceDesempenho {
             List<Treino> treinos = serviceTreino.listTreinoByPublicacaoByAluno(publicacao_id, ra);
             HashMap hmQuestoes = new HashMap();
 
-//            for (Treino treino : treinos) {
-//                for (Resposta resposta : treino.getRespostas()) {
-//                    List<Tema> temas = serviceTema.listTemaByQuestao(resposta.getQuestao().getId());
-//                    for (Tema tema : temas) {
-//                        if (tema.getId() == tema_id && resposta.getCerta() == false) {
-//                            Questao q = resposta.getQuestao();
-//                            if (!(hmQuestoes.containsKey(q.getId()))) {
-//                                q.setCountErros(1);
-//                            } else {
-//                                q = (Questao) hmQuestoes.get(q.getId());
-//                                q.setCountErros(q.getCountErros() + 1);
-//                            }
-//                            hmQuestoes.put(q.getId(), q);
-//                        }
-//                    }
-//                }
-//            }
+            for (Treino treino : treinos) {
+                for (Gabarito gabarito : treino.getGabaritos()) {
+                    List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
+                    for (Tema tema : temas) {
+                        if (tema.getId() == tema_id && serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                            Questao q = serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao();
+                            if (!(hmQuestoes.containsKey(q.getId()))) {
+                                q.setCountErros(1);
+                            } else {
+                                q = (Questao) hmQuestoes.get(q.getId());
+                                q.setCountErros(q.getCountErros() + 1);
+                            }
+                            hmQuestoes.put(q.getId(), q);
+                        }
+                    }
+                }
+            }
 
             Comparator<Questao> comparator = new Comparator<Questao>() {
                 @Override
