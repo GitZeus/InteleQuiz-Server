@@ -1,6 +1,7 @@
 package persistencia;
 
 import entidade.Gabarito;
+import entidade.Gabarito.GabaritoPK;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,18 @@ public class GatewayGabarito {
     private SessionFactory sessionFactory;
     private Session session;
 
-    public int saveGabarito(Gabarito gabarito) {
+    public GabaritoPK saveGabarito(Gabarito gabarito) {
         session = sessionFactory.getCurrentSession();
-        int id = (int) session.save(gabarito);
-        return id;
+        GabaritoPK pk = (GabaritoPK) session.save(gabarito);
+        return pk;
     }
     
-    public Gabarito getGabaritoById(int id) {
+    public void updateGabarito(Gabarito gabarito) {
+        session = sessionFactory.getCurrentSession();
+        session.update(gabarito);
+    }
+    
+    public Gabarito getGabaritoById(GabaritoPK id) {
         session = sessionFactory.getCurrentSession();
         Gabarito gabarito = (Gabarito) session.get(Gabarito.class, id);
         return gabarito;

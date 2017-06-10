@@ -59,4 +59,10 @@ public class GatewayQuestao {
         Resposta resposta = session.get(Resposta.class, r.getId());
         return resposta.getQuestao();
     }
+    
+    public Resposta getRespostaById(int id) {
+        session = sessionFactory.getCurrentSession();
+        Resposta resposta = session.get(Resposta.class, id);
+        return resposta;
+    }
 }

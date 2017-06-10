@@ -43,7 +43,7 @@ public class Treino {
     private Double pontuacao;
     private Double aproveitamento;
 
-    @OneToMany
+    @OneToMany(mappedBy = "treino_id")
     private List<Gabarito> gabaritos;
 
     public int getId() {

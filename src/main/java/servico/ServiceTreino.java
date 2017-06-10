@@ -5,7 +5,10 @@ import entidade.Gabarito;
 import entidade.Publicacao;
 import entidade.Questao;
 import entidade.Quiz;
+import entidade.Resposta;
 import entidade.Treino;
+import enums.NivelQuestao;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,54 +72,58 @@ public class ServiceTreino {
         if (treino.getPublicacao() == null) {
             throw new ITQException("Erro ao recuperar a publicação do quiz");
         }
-//        if (treino.getRespostas() == null || treino.getRespostas().size() == 0) {
-//            throw new ITQException("Informe ao menos uma resposta para atualizar o treino");
-//        }
+        if (treino.getGabaritos() == null || treino.getGabaritos().size() == 0) {
+            throw new ITQException("Informe ao menos uma resposta para atualizar o treino");
+        }
         try {
-//            Resposta ultimaRespostaAdicionada = treino.getRespostas().get(treino.getRespostas().size() - 1);
-//            if (ultimaRespostaAdicionada.getCerta() == true) {
-//                Questao q = serviceQuestao.getQuestaoByResposta(ultimaRespostaAdicionada);
-//                double valor = 0;
-//                if (null != q.getNivel()) {
-//                    switch (q.getNivel()) {
-//                        case FACIL:
-//                            valor = 1;
-//                            break;
-//                        case MEDIO:
-//                            valor = 2;
-//                            break;
-//                        case DIFICIL:
-//                            valor = 3;
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                }
-//                if (treino.getPontuacao() == null) {
-//                    treino.setPontuacao(valor);
-//                } else {
-//                    treino.setPontuacao(treino.getPontuacao() + valor);
-//                }
-//            }
+            Gabarito ultimaRespostaAdicionada = treino.getGabaritos().get(treino.getGabaritos().size() - 1);
+            Resposta resposta = serviceQuestao.getRespostaById(ultimaRespostaAdicionada.getResposta_id());
+            if (resposta.getCerta() == true) {
+                Questao q = serviceQuestao.getQuestaoByResposta(resposta);
+                double valor = 0;
+                if (null != q.getNivel()) {
+                    switch (q.getNivel()) {
+                        case FACIL:
+                            valor = 1;
+                            break;
+                        case MEDIO:
+                            valor = 2;
+                            break;
+                        case DIFICIL:
+                            valor = 3;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (treino.getPontuacao() == null) {
+                    treino.setPontuacao(valor);
+                } else {
+                    treino.setPontuacao(treino.getPontuacao() + valor);
+                }
+            }
 
             Quiz quiz = serviceQuiz.getQuizByTreino(treino);
-//            if (treino.getRespostas().size() == quiz.getQuestoes().size()) {
-//                treino.setTsFim(new Date());
-//                double valorDoQuiz = 0;
-//                for (Questao q : quiz.getQuestoes()) {
-//                    if (q.getNivel() == NivelQuestao.FACIL) {
-//                        valorDoQuiz += 1;
-//                    } else if (q.getNivel() == NivelQuestao.MEDIO) {
-//                        valorDoQuiz += 2;
-//                    } else if (q.getNivel() == NivelQuestao.DIFICIL) {
-//                        valorDoQuiz += 3;
-//                    }
-//                }
-//                double aproveitamento = (treino.getPontuacao() * 100) / valorDoQuiz;
-//                treino.setAproveitamento(aproveitamento);
-//            }
-
-            return gatewayTreino.updateTreino(treino);
+            if (treino.getGabaritos().size() == quiz.getQuestoes().size()) {
+                treino.setTsFim(new Date());
+                double valorDoQuiz = 0;
+                for (Questao q : quiz.getQuestoes()) {
+                    if (q.getNivel() == NivelQuestao.FACIL) {
+                        valorDoQuiz += 1;
+                    } else if (q.getNivel() == NivelQuestao.MEDIO) {
+                        valorDoQuiz += 2;
+                    } else if (q.getNivel() == NivelQuestao.DIFICIL) {
+                        valorDoQuiz += 3;
+                    }
+                }
+                double aproveitamento = (treino.getPontuacao() * 100) / valorDoQuiz;
+                treino.setAproveitamento(aproveitamento);
+            }
+            treino = gatewayTreino.updateTreino(treino);
+            for (Gabarito gabarito : treino.getGabaritos()) {
+                serviceGabarito.updateGabarito(gabarito);
+            }
+            return treino;
         } catch (Exception e) {
             e.printStackTrace();
             throw new ITQException("Erro ao atualizar o treino");

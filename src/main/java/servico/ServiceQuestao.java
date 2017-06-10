@@ -135,4 +135,17 @@ public class ServiceQuestao {
             throw new ITQException("Erro ao recuperar questão por resposta");
         }
     }
+    
+    public Resposta getRespostaById(int id) throws ITQException{
+        if(id <= 0){
+            throw new ITQException("Informe um id válido para recuperar a resposta");
+        }
+        try {
+            Resposta resposta = gatewayQuestao.getRespostaById(id);
+            return resposta;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ITQException("Erro ao recuperar resposta por id");
+        }
+    }
 }
