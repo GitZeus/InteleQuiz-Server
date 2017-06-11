@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import servico.ServiceRanking;
+import util.RankingVO;
 
 @RestController
 @CrossOrigin
@@ -25,7 +26,7 @@ public class ResourceRanking {
             value = "/aluno/{ra}/turma/ranking",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Turma>> getRankingTurmaByAluno(
+    public RestResponse<List<RankingVO>> getRankingTurmaByAluno(
             @PathVariable("ra") String ra) throws Exception {
         return new RestResponse<>(serviceRanking.getRankingTurmaByAluno(ra));
     }
@@ -34,7 +35,7 @@ public class ResourceRanking {
             value = "/professor/{matricula}/turma/ranking",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Turma>> getRankingTurmaByProfessor(
+    public RestResponse<List<RankingVO>> getRankingTurmaByProfessor(
             @PathVariable("matricula") String matricula) throws Exception {
         return new RestResponse<>(serviceRanking.getRankingTurmaByProfessor(matricula));
     }
@@ -43,7 +44,7 @@ public class ResourceRanking {
             value = "/turma/{id}/aluno/ranking",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<List<Aluno>> getRankingAlunoByTurma(
+    public RestResponse<List<RankingVO>> getRankingAlunoByTurma(
             @PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceRanking.getRankingAlunoByTurma(id));
     }

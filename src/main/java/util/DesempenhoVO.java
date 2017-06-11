@@ -1,9 +1,12 @@
-package entidade;
+package util;
 
+import entidade.Publicacao;
+import entidade.Questao;
+import entidade.Tema;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Desempenho {
+public class DesempenhoVO {
 
     private List<Publicacao> publicacoes = new ArrayList<>();
     private List<String> encerramentos = new ArrayList<>();

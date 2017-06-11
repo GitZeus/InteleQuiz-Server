@@ -1,6 +1,6 @@
 package controlador;
 
-import entidade.Desempenho;
+import util.DesempenhoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +23,7 @@ public class ResourceDesempenho {
             value = "turma/{id}/desempenho",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Desempenho> getDesempenhoByTurmaByProfessor(
+    public RestResponse<DesempenhoVO> getDesempenhoByTurmaByProfessor(
             @PathVariable int id) throws Exception {
         return new RestResponse<>(serviceDesempenho.getDesempenhoByTurmaByProfessor(id));
     }
@@ -32,7 +32,7 @@ public class ResourceDesempenho {
             value = "turma/{id}/aluno/{ra}/desempenho",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Desempenho> getDesempenhoByTurmaByAluno(
+    public RestResponse<DesempenhoVO> getDesempenhoByTurmaByAluno(
             @PathVariable int id, @PathVariable String ra) throws Exception {
         return new RestResponse<>(serviceDesempenho.getDesempenhoByTurmaByAluno(id, ra));
     }
@@ -41,7 +41,7 @@ public class ResourceDesempenho {
             value = "/publicacao/{id}/temaCritico",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Desempenho> getTemaCriticoByPublicacao(@PathVariable("id") int id) throws Exception {
+    public RestResponse<DesempenhoVO> getTemaCriticoByPublicacao(@PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceDesempenho.getTemaCriticoByPublicacao(id));
     }
 
@@ -49,7 +49,7 @@ public class ResourceDesempenho {
             value = "/publicacao/{id}/aluno/{ra}/temaCritico",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Desempenho> getTemaCriticoByPublicacaoByAluno(@PathVariable int id, @PathVariable String ra) throws Exception {
+    public RestResponse<DesempenhoVO> getTemaCriticoByPublicacaoByAluno(@PathVariable int id, @PathVariable String ra) throws Exception {
         return new RestResponse<>(serviceDesempenho.getTemaCriticoByPublicacaoByAluno(id, ra));
     }
 
@@ -57,7 +57,7 @@ public class ResourceDesempenho {
             value = "/publicacao/{publicacao_id}/temaCritico/{tema_id}/questao",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Desempenho> listQuestoesCriticasByPublicacaoByTemaCritico(@PathVariable int publicacao_id, @PathVariable int tema_id) throws Exception {
+    public RestResponse<DesempenhoVO> listQuestoesCriticasByPublicacaoByTemaCritico(@PathVariable int publicacao_id, @PathVariable int tema_id) throws Exception {
         return new RestResponse<>(serviceDesempenho.listQuestoesCriticasByPublicacaoByTemaCritico(publicacao_id, tema_id));
     }
 
@@ -65,7 +65,7 @@ public class ResourceDesempenho {
             value = "/publicacao/{publicacao_id}/aluno/{ra}/temaCritico/{tema_id}/questao",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Desempenho> listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(@PathVariable int publicacao_id, @PathVariable String ra, @PathVariable int tema_id) throws Exception {
+    public RestResponse<DesempenhoVO> listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(@PathVariable int publicacao_id, @PathVariable String ra, @PathVariable int tema_id) throws Exception {
         return new RestResponse<>(serviceDesempenho.listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(publicacao_id, ra, tema_id));
     }
 

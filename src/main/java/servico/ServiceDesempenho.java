@@ -1,12 +1,11 @@
 package servico;
 
 import entidade.Aluno;
-import entidade.Desempenho;
+import util.DesempenhoVO;
 import entidade.Gabarito;
 import entidade.Treino;
 import entidade.Publicacao;
 import entidade.Questao;
-import entidade.Resposta;
 import entidade.Tema;
 import enums.StatusTurmaQuiz;
 import java.util.ArrayList;
@@ -37,8 +36,8 @@ public class ServiceDesempenho {
     @Autowired
     ServiceQuestao serviceQuestao;
 
-    public Desempenho getDesempenhoByTurmaByProfessor(int id) throws ITQException {
-        Desempenho desempenho = new Desempenho();
+    public DesempenhoVO getDesempenhoByTurmaByProfessor(int id) throws ITQException {
+        DesempenhoVO desempenho = new DesempenhoVO();
         try {
 
             List<Aluno> alunos = serviceAluno.listAlunoByTurma(id);
@@ -83,8 +82,8 @@ public class ServiceDesempenho {
         }
     }
 
-    public Desempenho getDesempenhoByTurmaByAluno(int id, String ra) throws ITQException {
-        Desempenho desempenho = getDesempenhoByTurmaByProfessor(id);
+    public DesempenhoVO getDesempenhoByTurmaByAluno(int id, String ra) throws ITQException {
+        DesempenhoVO desempenho = getDesempenhoByTurmaByProfessor(id);
         try {
             List<Treino> treinos = serviceTreino.listTreinoByTurmaByAluno(id, ra);
 
@@ -117,7 +116,7 @@ public class ServiceDesempenho {
         }
     }
 
-    public Desempenho getTemaCriticoByPublicacao(int id) throws ITQException {
+    public DesempenhoVO getTemaCriticoByPublicacao(int id) throws ITQException {
         try {
             List<Treino> treinos = serviceTreino.listTreinoByPublicacao(id);
             HashMap hmTemas = new HashMap();
@@ -144,7 +143,7 @@ public class ServiceDesempenho {
                 }
             }
 
-            Desempenho desempenho = new Desempenho();
+            DesempenhoVO desempenho = new DesempenhoVO();
             for (Object obj : hmTemas.values()) {
                 Tema tema = (Tema) obj;
                 if (tema.getErrados() > 0) {
@@ -160,7 +159,7 @@ public class ServiceDesempenho {
         }
     }
 
-    public Desempenho getTemaCriticoByPublicacaoByAluno(int id, String ra) throws ITQException {
+    public DesempenhoVO getTemaCriticoByPublicacaoByAluno(int id, String ra) throws ITQException {
         try {
             List<Treino> treinos = serviceTreino.listTreinoByPublicacaoByAluno(id, ra);
             HashMap hmTemas = new HashMap();
@@ -187,7 +186,7 @@ public class ServiceDesempenho {
                 }
             }
 
-            Desempenho desempenho = new Desempenho();
+            DesempenhoVO desempenho = new DesempenhoVO();
             for (Object obj : hmTemas.values()) {
                 Tema tema = (Tema) obj;
                 if (tema.getErrados() > 0) {
@@ -203,9 +202,9 @@ public class ServiceDesempenho {
         }
     }
 
-    public Desempenho listQuestoesCriticasByPublicacaoByTemaCritico(int publicacao_id, int tema_id) throws ITQException {
+    public DesempenhoVO listQuestoesCriticasByPublicacaoByTemaCritico(int publicacao_id, int tema_id) throws ITQException {
         try {
-            Desempenho desempenho = new Desempenho();
+            DesempenhoVO desempenho = new DesempenhoVO();
             List<Treino> treinos = serviceTreino.listTreinoByPublicacao(publicacao_id);
             HashMap hmQuestoes = new HashMap();
 
@@ -251,9 +250,9 @@ public class ServiceDesempenho {
         }
     }
 
-    public Desempenho listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(int publicacao_id, String ra, int tema_id) throws ITQException {
+    public DesempenhoVO listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(int publicacao_id, String ra, int tema_id) throws ITQException {
         try {
-            Desempenho desempenho = new Desempenho();
+            DesempenhoVO desempenho = new DesempenhoVO();
             List<Treino> treinos = serviceTreino.listTreinoByPublicacaoByAluno(publicacao_id, ra);
             HashMap hmQuestoes = new HashMap();
 
