@@ -32,7 +32,7 @@ public class ServiceDesempenho {
 
     @Autowired
     ServiceAluno serviceAluno;
-    
+
     @Autowired
     ServiceQuestao serviceQuestao;
 
@@ -213,13 +213,7 @@ public class ServiceDesempenho {
                     List<Tema> temas = serviceTema.listTemaByQuestao(serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao().getId());
                     for (Tema tema : temas) {
                         if (tema.getId() == tema_id && serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
-                            Questao q = serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao();
-                            if (!(hmQuestoes.containsKey(q.getId()))) {
-                                q.setCountErros(1);
-                            } else {
-                                q = (Questao) hmQuestoes.get(q.getId());
-                                q.setCountErros(q.getCountErros() + 1);
-                            }
+                            Questao q = verificaErrosQuestao(gabarito, hmQuestoes);
                             hmQuestoes.put(q.getId(), q);
                         }
                     }
@@ -297,4 +291,32 @@ public class ServiceDesempenho {
             throw new ITQException("Erro ao listar questões críticas por publicação, aluno e tema crítico");
         }
     }
+
+    private Questao verificaErrosQuestao(Gabarito gabarito, HashMap hmQuestoes) throws ITQException {
+        Questao questao = serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao();
+        if (!(hmQuestoes.containsKey(questao.getId()))) {
+            questao.setCountErros(1);
+        } else {
+            questao = (Questao) hmQuestoes.get(questao.getId());
+            questao.setCountErros(questao.getCountErros() + 1);
+        }
+        return questao;
+    }
+
+//    private Tema verificaErrosTema(Tema tema, HashMap hmTemas) {
+//        if (!(hmTemas.containsKey(tema.getId()))) {
+//            tema.setTotal(1);
+//            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+//                tema.setErrados(1);
+//            }
+//            hmTemas.put(tema.getId(), tema);
+//        } else {
+//            Tema auxTema = (Tema) hmTemas.get(tema.getId());
+//            auxTema.setTotal(auxTema.getTotal() + 1);
+//            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+//                auxTema.setErrados(auxTema.getErrados() + 1);
+//            }
+//            hmTemas.put(auxTema.getId(), auxTema);
+//        }
+//    }
 }

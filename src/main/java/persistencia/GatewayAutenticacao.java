@@ -7,9 +7,6 @@ import enums.TipoUsuario;
 import java.util.ArrayList;
 import java.util.List;
 import util.ITQException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +45,7 @@ public class GatewayAutenticacao {
             Aluno bMock = new Aluno();
             bMock.setLogin("21550466");
             bMock.setSenha("123");
-            bMock.setNome("Thayllan Siqueira");
+            bMock.setNome("Thayllan Felipe");
             bMock.setRa(bMock.getLogin());
             bMock.setPerfil(TipoUsuario.ALUNO);
 
@@ -58,11 +55,19 @@ public class GatewayAutenticacao {
             cMock.setNome("Leandro David");
             cMock.setRa(cMock.getLogin());
             cMock.setPerfil(TipoUsuario.ALUNO);
+            
+            Aluno dMock = new Aluno();
+            dMock.setLogin("21550468");
+            dMock.setSenha("123");
+            dMock.setNome("Pablo Solano");
+            dMock.setRa(dMock.getLogin());
+            dMock.setPerfil(TipoUsuario.ALUNO);
 
             List<Aluno> alunos = new ArrayList<>();
             alunos.add(aMock);
             alunos.add(bMock);
             alunos.add(cMock);
+            alunos.add(dMock);
 
             for (int i = 0; i < alunos.size(); i++) {
                 if (u.getLogin().equals(alunos.get(i).getLogin()) && u.getSenha().equals(alunos.get(i).getSenha())) {

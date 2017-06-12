@@ -56,17 +56,17 @@ public class DataBase {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
-            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
-            dataSource.setUsername("root");
-            dataSource.setPassword("root");
+//            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+//            dataSource.setUsername("root");
+//            dataSource.setPassword("root");
             
 //            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
 //            dataSource.setUsername("root");
 //            dataSource.setPassword("uniceub");
-//
-//            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_06cfd2d6b0966bc?reconnect=true");
-//            dataSource.setUsername("b0039843b7fefb");
-//            dataSource.setPassword("c7fb64f2");
+
+            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_06cfd2d6b0966bc?reconnect=true");
+            dataSource.setUsername("b0039843b7fefb");
+            dataSource.setPassword("c7fb64f2");
             
             return dataSource;
         } catch (Throwable e) {
