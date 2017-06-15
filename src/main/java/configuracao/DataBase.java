@@ -40,8 +40,8 @@ public class DataBase {
                     .addAnnotatedClasses(Publicacao.class)
                     .addAnnotatedClasses(Gabarito.class)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
-                    .setProperty("hibernate.show_sql", "true")
-                    .setProperty("hibernate.format_sql", "true")
+//                    .setProperty("hibernate.show_sql", "true")
+//                    .setProperty("hibernate.format_sql", "true")
                     .buildSessionFactory();
             return sessionFactory;
         } catch (Throwable e) {
@@ -64,10 +64,21 @@ public class DataBase {
 //            dataSource.setUsername("root");
 //            dataSource.setPassword("uniceub");
 
-            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_06cfd2d6b0966bc?reconnect=true");
-            dataSource.setUsername("b0039843b7fefb");
-            dataSource.setPassword("c7fb64f2");
+//              HEROKU - CLEARDB
+//            dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_06cfd2d6b0966bc?reconnect=true");
+//            dataSource.setUsername("b0039843b7fefb");
+//            dataSource.setPassword("c7fb64f2");
+
+//              HEROKU - JAWSDB
+//            dataSource.setUrl("jdbc:mysql://lg7j30weuqckmw07.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/b6nl9o7q85wt5wn2?reconnect=true");
+//            dataSource.setUsername("qo4c3m5smcyo26mo");
+//            dataSource.setPassword("swj2h852h99d4ohs");
             
+//              HELIOHOST
+            dataSource.setUrl("jdbc:mysql://johnny.heliohost.org:3306/efreitas_intelequiz?reconnect=true");
+            dataSource.setUsername("efreitas_admin");
+            dataSource.setPassword("Intel6785");
+
             return dataSource;
         } catch (Throwable e) {
             e.printStackTrace();

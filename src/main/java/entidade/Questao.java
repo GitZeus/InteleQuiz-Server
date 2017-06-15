@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "TB_QUESTAO")
+@Table(name = "tb_questao")
 public class Questao {
 
     @Id

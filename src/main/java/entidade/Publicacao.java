@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "TB_PUBLICACAO")
+@Table(name = "tb_publicacao")
 public class Publicacao {
 
     @Id

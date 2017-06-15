@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @IdClass(GabaritoPK.class)
-@Table(name = "TB_GABARITO")
+@Table(name = "tb_gabarito")
 public class Gabarito implements Serializable {
     
     public Gabarito(){}

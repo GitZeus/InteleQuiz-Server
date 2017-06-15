@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "TB_TURMA")
+@Table(name = "tb_turma")
 public class Turma {
 
     @Id
