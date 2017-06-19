@@ -29,6 +29,14 @@ public class GatewayTema {
         return tema;
     }
 
+    public List<Tema> getTemaByNome(String nome) {
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Tema t WHERE t.nome = :nome");
+        query.setParameter("nome", nome);
+        List<Tema> temas = query.list();
+        return temas;
+    }
+
     public List<Tema> listTemasByDisciplinaByProfessor(String matricula, int id) {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Tema t WHERE t.professor.matricula = :matricula AND t.disciplina.id = :id");

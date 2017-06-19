@@ -1,7 +1,7 @@
 package controlador;
 
 import entidade.Publicacao;
-import enums.StatusTurmaQuiz;
+import enums.StatusPublicacao;
 import java.util.List;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class ResourcePublicacao {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<List<Publicacao>> listPublicacaoByStatusByTurma(
             @PathVariable int id,
-            @RequestParam(value = "status", required = true) StatusTurmaQuiz status) throws Exception {
+            @RequestParam(value = "status", required = true) String status) throws Exception {
         return new RestResponse<>(servicePublicacao.listPublicacaoByStatusByTurma(id, status));
     }
 }

@@ -56,9 +56,9 @@ public class DataBase {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
-//            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
-//            dataSource.setUsername("root");
-//            dataSource.setPassword("root");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+            dataSource.setUsername("root");
+            dataSource.setPassword("root");
             
 //            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
 //            dataSource.setUsername("root");
@@ -70,14 +70,14 @@ public class DataBase {
 //            dataSource.setPassword("c7fb64f2");
 
 //              HEROKU - JAWSDB
-//            dataSource.setUrl("jdbc:mysql://lg7j30weuqckmw07.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/b6nl9o7q85wt5wn2?reconnect=true");
-//            dataSource.setUsername("qo4c3m5smcyo26mo");
-//            dataSource.setPassword("swj2h852h99d4ohs");
+            dataSource.setUrl("jdbc:mysql://lg7j30weuqckmw07.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/b6nl9o7q85wt5wn2?reconnect=true");
+            dataSource.setUsername("qo4c3m5smcyo26mo");
+            dataSource.setPassword("swj2h852h99d4ohs");
             
 //              HELIOHOST
-            dataSource.setUrl("jdbc:mysql://johnny.heliohost.org:3306/efreitas_intelequiz?reconnect=true");
-            dataSource.setUsername("efreitas_admin");
-            dataSource.setPassword("Intel6785");
+//            dataSource.setUrl("jdbc:mysql://johnny.heliohost.org:3306/efreitas_intelequiz?reconnect=true");
+//            dataSource.setUsername("efreitas_admin");
+//            dataSource.setPassword("Intel6785");
 
             return dataSource;
         } catch (Throwable e) {

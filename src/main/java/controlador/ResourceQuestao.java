@@ -1,7 +1,7 @@
 package controlador;
 
 import entidade.Questao;
-import enums.NivelQuestao;
+import enums.TipoNivelQuestao;
 import enums.StatusQuizQuestao;
 import enums.TipoQuestao;
 import java.util.List;
@@ -38,7 +38,7 @@ public class ResourceQuestao {
             value = "/questao/nivel",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<NivelQuestao[]> listNivelQuestao() throws ITQException {
+    public RestResponse<TipoNivelQuestao[]> listNivelQuestao() throws ITQException {
         return new RestResponse<>(serviceQuestao.listNivelQuestao());
     }
 
@@ -81,5 +81,13 @@ public class ResourceQuestao {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<List<Questao>> listQuestaoByTema(@PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceQuestao.listQuestaoByTema(id));
+    }
+    
+    @RequestMapping(
+            value = "/treino/{id}/questao",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Questao>> listQuestaoContinuacaoByTreino(@PathVariable("id") int id) throws Exception {
+        return new RestResponse<>(serviceQuestao.listQuestaoContinuacaoByTreino(id));
     }
 }

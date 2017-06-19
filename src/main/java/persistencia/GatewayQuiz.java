@@ -45,4 +45,11 @@ public class GatewayQuiz {
         quiz.getQuestoes().size();
         return quiz;
     }
+    
+    public Quiz getQuizById(int id) {
+        session = sessionFactory.getCurrentSession();
+        Quiz quiz = session.get(Quiz.class, id);
+        quiz.getQuestoes().size();
+        return quiz;
+    }
 }

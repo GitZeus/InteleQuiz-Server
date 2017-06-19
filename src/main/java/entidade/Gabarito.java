@@ -52,14 +52,6 @@ public class Gabarito implements Serializable {
         this.visualizada = visualizada;
     }
 
-    public Date getTs_resoista() {
-        return ts_resposta;
-    }
-
-    public void setTs_resoista(Date ts_resposta) {
-        this.ts_resposta = ts_resposta;
-    }
-
     public Integer getQuestao_id() {
         return questao_id;
     }

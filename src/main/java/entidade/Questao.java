@@ -3,7 +3,7 @@ package entidade;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import enums.TipoQuestao;
 import enums.StatusQuizQuestao;
-import enums.NivelQuestao;
+import enums.TipoNivelQuestao;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -42,7 +42,7 @@ public class Questao {
     private TipoQuestao tipo;
 
     @Enumerated
-    private NivelQuestao nivel;
+    private TipoNivelQuestao nivel;
 
     @Enumerated
     private StatusQuizQuestao status;
@@ -71,11 +71,11 @@ public class Questao {
         this.tipo = tipo;
     }
 
-    public NivelQuestao getNivel() {
+    public TipoNivelQuestao getNivel() {
         return nivel;
     }
 
-    public void setNivel(NivelQuestao nivel) {
+    public void setNivel(TipoNivelQuestao nivel) {
         this.nivel = nivel;
     }
 

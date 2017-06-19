@@ -7,7 +7,7 @@ import entidade.Treino;
 import entidade.Publicacao;
 import entidade.Questao;
 import entidade.Tema;
-import enums.StatusTurmaQuiz;
+import enums.StatusPublicacao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,7 +41,7 @@ public class ServiceDesempenho {
         try {
 
             List<Aluno> alunos = serviceAluno.listAlunoByTurma(id);
-            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByStatusByTurma(id, StatusTurmaQuiz.ENCERRADO);
+            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByStatusByTurma(id, StatusPublicacao.ENCERRADO.getNome());
             desempenho.setPublicacoes(publicacoes);
 
             double auxAproveitamento = 0;

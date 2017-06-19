@@ -1,6 +1,8 @@
 package controlador;
 
+import entidade.Gabarito;
 import entidade.Treino;
+import java.util.List;
 import util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,8 +36,8 @@ public class ResourceTreino {
             value = "/treino",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse<Treino> updateTreino(@RequestBody Treino treino) throws Exception {
-        return new RestResponse<>(serviceTreino.updateTreino(treino));
+    public RestResponse<Treino> updateTreino(@RequestBody Gabarito gabarito) throws Exception {
+        return new RestResponse<>(serviceTreino.updateTreino(gabarito));
     }
 
     @RequestMapping(
@@ -44,5 +46,15 @@ public class ResourceTreino {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse<Treino> getTreinoById(@PathVariable("id") int id) throws Exception {
         return new RestResponse<>(serviceTreino.getTreinoById(id));
+    }
+
+    @RequestMapping(
+            value = "/turma/{id}/aluno/{ra}/treino",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse<List<Treino>> listTreinoByTurmaByAluno(
+            @PathVariable("id") int id,
+            @PathVariable("ra") String ra) throws Exception {
+        return new RestResponse<>(serviceTreino.listTreinoByTurmaByAluno(id, ra));
     }
 }

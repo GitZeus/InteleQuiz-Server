@@ -1,6 +1,6 @@
 package entidade;
 
-import enums.TurnoTurma;
+import enums.TipoTurnoTurma;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -30,7 +30,7 @@ public class Turma {
     private Disciplina disciplina;
 
     @Enumerated
-    private TurnoTurma turno;
+    private TipoTurnoTurma turno;
 
     @OneToMany(mappedBy = "turma")
     private List<Publicacao> quizzes;
@@ -79,11 +79,11 @@ public class Turma {
         this.disciplina = disciplina;
     }
 
-    public TurnoTurma getTurno() {
+    public TipoTurnoTurma getTurno() {
         return turno;
     }
 
-    public void setTurno(TurnoTurma turno) {
+    public void setTurno(TipoTurnoTurma turno) {
         this.turno = turno;
     }
 

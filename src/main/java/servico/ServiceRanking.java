@@ -4,7 +4,7 @@ import entidade.Aluno;
 import entidade.Treino;
 import entidade.Turma;
 import entidade.Publicacao;
-import enums.StatusTurmaQuiz;
+import enums.StatusPublicacao;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class ServiceRanking {
     private List<RankingVO> calculaRankingTurma(List<Turma> turmas) throws ITQException {
         List<RankingVO> ranking = new ArrayList<>();
         for (Turma turma : turmas) {
-            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByStatusByTurma(turma.getId(), StatusTurmaQuiz.ENCERRADO);
+            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByStatusByTurma(turma.getId(), StatusPublicacao.ENCERRADO.getNome());
             RankingVO rvo = new RankingVO();
             int qtdTreinos = 0;
             

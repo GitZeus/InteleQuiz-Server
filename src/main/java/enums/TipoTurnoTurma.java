@@ -2,14 +2,15 @@ package enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum TipoUsuario {
-    PROFESSOR("Professor"),
-    ALUNO("Aluno")
+public enum TipoTurnoTurma {
+    MATUTINO("Matutino"),
+    VESPERTINO("Vespertino"),
+    NOTURNO("Noturno")
     ;
 
     private final String nome;
 
-    private TipoUsuario(String nome) {
+    private TipoTurnoTurma(String nome) {
         this.nome = nome;
     }
 

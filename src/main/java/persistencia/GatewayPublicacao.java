@@ -1,7 +1,7 @@
 package persistencia;
 
 import entidade.Publicacao;
-import enums.StatusTurmaQuiz;
+import enums.StatusPublicacao;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -24,7 +24,7 @@ public class GatewayPublicacao {
         return id;
     }
 
-    public List<Publicacao> listPublicacaoByStatusByTurma(int id, StatusTurmaQuiz status) {
+    public List<Publicacao> listPublicacaoByStatusByTurma(int id, StatusPublicacao status) {
         List<Publicacao> publicados;
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Publicacao p where p.turma.id = :id AND p.status = :status ORDER BY p.tsEncerramento ASC");

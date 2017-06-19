@@ -1,13 +1,16 @@
 package servico;
 
+import entidade.Questao;
 import entidade.Quiz;
 import entidade.Treino;
+import enums.StatusQuizQuestao;
 import java.io.IOError;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayQuiz;
 import util.ITQException;
+import util.InteleQuizUtil;
 import util.RestMessage;
 import util.RestMessageType;
 
@@ -17,41 +20,55 @@ public class ServiceQuiz {
     @Autowired
     private GatewayQuiz gatewayQuiz;
 
+    @Autowired
+    private ServiceQuestao serviceQuestao;
+
     public RestMessage saveQuiz(Quiz quiz) throws ITQException {
         validarQuiz(quiz);
         try {
+
             int id = gatewayQuiz.saveQuiz(quiz);
             RestMessage message = new RestMessage();
             if (id != 0) {
+                for (Questao questao : quiz.getQuestoes()) {
+                    questao.setStatus(StatusQuizQuestao.VINCULADO);
+                    serviceQuestao.updateQuestao(questao);
+                }
                 message.setText("Quiz incluído com sucesso");
                 message.setType(RestMessageType.SUCCESS);
             } else {
-                message.setText("Erro ao incluir Quiz, contate o administrador do sistema");
-                message.setType(RestMessageType.ERROR);
+                throw new Exception("Erro não previsto ao incluir quiz");
             }
             return message;
+        } catch (ITQException i) {
+            throw new ITQException(i.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao incluir Quiz, contate o administrador do sistema");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao incluir quiz");
         }
     }
 
     public RestMessage updateQuiz(Quiz quiz) throws ITQException {
         validarQuiz(quiz);
         try {
+            Quiz quizOld = gatewayQuiz.getQuizById(quiz.getId());
+            if (quizOld.getStatus() == StatusQuizQuestao.VINCULADO) {
+                throw new ITQException("Quiz vinculado a um treino não pode ser alterado");
+            }
             boolean sucesso = gatewayQuiz.updateQuiz(quiz);
             RestMessage message = new RestMessage();
             if (sucesso) {
                 message.setText("Quiz alterado com sucesso");
                 message.setType(RestMessageType.SUCCESS);
             } else {
-                message.setText("Erro ao alterar Quiz, contate o administrador do sistema");
-                message.setType(RestMessageType.ERROR);
+                throw new Exception("Erro não previsto ao alterar quiz");
             }
             return message;
+        } catch (ITQException i) {
+            throw new ITQException(i.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao alterar Quiz, contate o administrador do sistema");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao alterar quiz");
         }
     }
 
@@ -75,27 +92,41 @@ public class ServiceQuiz {
             throw new ITQException("Erro ao recuperar a matricula do professor");
         }
         if (id <= 0) {
-            throw new ITQException("Id de disciplina inválido");
+            throw new ITQException("Informe um id para a disciplina");
         }
         try {
             List<Quiz> quizzes = gatewayQuiz.listQuizByDisciplinaByProfessor(matricula, id);
             return quizzes;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao listar quiz por disciplina e professor");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao listar quiz por disciplina e professor");
         }
     }
 
     public Quiz getQuizByTreino(Treino treino) throws ITQException {
-        if (treino == null) {
-            throw new ITQException("Informe um treino válido para recuperar o quiz");
+        if (treino == null || treino.getId() <= 0) {
+            throw new ITQException("Informe um treino para recuperar o quiz");
         }
         try {
             Quiz quiz = gatewayQuiz.getQuizByTreino(treino);
             return quiz;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao recuperar quiz pelo treino");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao recuperar quiz pelo treino");
         }
     }
+
+    public Quiz getQuizById(int id) throws ITQException {
+        if (id <= 0) {
+            throw new ITQException("Informe um id para o quiz");
+        }
+        try {
+            Quiz quiz = gatewayQuiz.getQuizById(id);
+            return quiz;
+        } catch (Exception e) {
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao recuperar quiz pelo id");
+        }
+    }
+
 }

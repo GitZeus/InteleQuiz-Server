@@ -1,8 +1,10 @@
 package persistencia;
 
+import entidade.Gabarito;
 import entidade.Questao;
 import entidade.Quiz;
 import entidade.Resposta;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -65,4 +67,10 @@ public class GatewayQuestao {
         Resposta resposta = session.get(Resposta.class, id);
         return resposta;
     }
+    
+    public Questao getQuestaoById(int id) {
+        session = sessionFactory.getCurrentSession();
+        Questao questao = session.get(Questao.class, id);
+        return questao;
+    }    
 }

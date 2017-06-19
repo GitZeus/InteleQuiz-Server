@@ -1,6 +1,6 @@
 package entidade;
 
-import enums.StatusTurmaQuiz;
+import enums.StatusPublicacao;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -43,7 +43,7 @@ public class Publicacao {
     private Date tsEncerramento;
 
     @Enumerated(EnumType.ORDINAL)
-    private StatusTurmaQuiz status;
+    private StatusPublicacao status;
 
     @OneToMany(mappedBy = "publicacao")
     private List<Treino> treinos;
@@ -94,11 +94,11 @@ public class Publicacao {
         this.tsEncerramento = tsEncerramento;
     }
 
-    public StatusTurmaQuiz getStatus() {
+    public StatusPublicacao getStatus() {
         return status;
     }
 
-    public void setStatus(StatusTurmaQuiz status) {
+    public void setStatus(StatusPublicacao status) {
         this.status = status;
     }
 

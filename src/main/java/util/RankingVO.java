@@ -2,7 +2,7 @@ package util;
 
 import entidade.Aluno;
 import entidade.Disciplina;
-import enums.TurnoTurma;
+import enums.TipoTurnoTurma;
 
 public class RankingVO {
 
@@ -14,7 +14,7 @@ public class RankingVO {
 
     private String letra;
 
-    private TurnoTurma turno;
+    private TipoTurnoTurma turno;
 
     private Disciplina disciplina;
     
@@ -48,11 +48,11 @@ public class RankingVO {
         this.letra = letra;
     }
 
-    public TurnoTurma getTurno() {
+    public TipoTurnoTurma getTurno() {
         return turno;
     }
 
-    public void setTurno(TurnoTurma turno) {
+    public void setTurno(TipoTurnoTurma turno) {
         this.turno = turno;
     }
 

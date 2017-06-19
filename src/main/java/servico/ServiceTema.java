@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistencia.GatewayTema;
 import util.ITQException;
+import util.InteleQuizUtil;
 import util.RestMessage;
 import util.RestMessageType;
 
@@ -17,14 +18,11 @@ public class ServiceTema {
 
     public RestMessage saveTema(Tema tema) throws ITQException {
         try {
-            if (tema.getDisciplina() == null || tema.getDisciplina().getId() == 0) {
-                throw new ITQException("Informe uma disciplina para o tema");
-            }
-            if (tema.getProfessor() == null || tema.getProfessor().getMatricula() == null) {
-                throw new ITQException("Falha ao recuperar a matricula do professor");
-            }
             if (tema.getNome() == null || tema.getNome().trim().length() == 0) {
                 throw new ITQException("Informe um nome para o tema");
+            }
+            if (gatewayTema.getTemaByNome(tema.getNome()).size() > 0) {
+                throw new ITQException("Já existe um tema com este nome");
             }
             int id = gatewayTema.saveTema(tema);
             RestMessage message = new RestMessage();
@@ -32,26 +30,29 @@ public class ServiceTema {
                 message.setText("Tema incluído com sucesso");
                 message.setType(RestMessageType.SUCCESS);
             } else {
-                message.setText("Erro ao incluir tema, contate o administrador do sistema");
-                message.setType(RestMessageType.ERROR);
+                throw new Exception();
             }
             return message;
+        } catch (ITQException i) {
+            throw new ITQException(i.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao incluir tema, contate o administrador do sistema");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao incluir tema");
         }
     }
 
     public Tema getTemaById(int id) throws ITQException {
         try {
             if (id <= 0) {
-                throw new ITQException("Informe um id válido para o tema");
+                throw new ITQException("Informe um id para o tema");
             }
             Tema tema = gatewayTema.getTemaById(id);
             return tema;
+        } catch (ITQException i) {
+            throw new ITQException(i.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao recuperar tema pelo id, contate o administrador do sistema");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao recuperar tema");
         }
     }
 
@@ -59,11 +60,11 @@ public class ServiceTema {
         try {
             return gatewayTema.listTemasByDisciplinaByProfessor(matricula, id);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao listar temas por disciplina e professor");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao listar temas por disciplina e professor");
         }
     }
-    
+
     public List<Tema> listTemaByQuestao(int id) throws ITQException {
         try {
             if (id <= 0) {
@@ -71,9 +72,11 @@ public class ServiceTema {
             }
             List<Tema> temas = gatewayTema.listTemaByQuestao(id);
             return temas;
+        } catch (ITQException i) {
+            throw new ITQException(i.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ITQException("Erro ao listar temas por questão");
+            InteleQuizUtil.printExceptionLog(e);
+            throw new ITQException("Erro não previsto ao listar temas por questão");
         }
     }
 }

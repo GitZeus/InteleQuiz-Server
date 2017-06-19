@@ -1,7 +1,7 @@
 package servico;
 
 import entidade.Publicacao;
-import enums.StatusTurmaQuiz;
+import enums.StatusPublicacao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,13 @@ public class ServicePublicacao {
         validarPublicacao(publicacao);
         try {
             RestMessage message = new RestMessage();
-            List<Publicacao> publicados = listPublicacaoByStatusByTurma(publicacao.getTurma().getId(), StatusTurmaQuiz.PUBLICADO);
+            List<Publicacao> publicados = listPublicacaoByStatusByTurma(publicacao.getTurma().getId(), StatusPublicacao.PUBLICADO.getNome());
 
             if (publicados.size() > 0) {
                 message.setText("Esta turma já possui um quiz em andamento");
                 message.setType(RestMessageType.WARNING);
             } else {
-                publicacao.setStatus(StatusTurmaQuiz.PUBLICADO);
+                publicacao.setStatus(StatusPublicacao.PUBLICADO);
                 int id = gatewayPublicacao.savePublicacao(publicacao);
                 if (id != 0) {
                     message.setText("Quiz publicado com sucesso");
@@ -56,15 +56,22 @@ public class ServicePublicacao {
         }
     }
 
-    public List<Publicacao> listPublicacaoByStatusByTurma(int id, StatusTurmaQuiz status) throws ITQException {
+    public List<Publicacao> listPublicacaoByStatusByTurma(int id, String status) throws ITQException {
         if (id <= 0) {
             throw new ITQException("Informe um id válido para a turma");
         }
-        if (status == null) {
+        StatusPublicacao statusPublicacao = null;
+        for (StatusPublicacao statusP : StatusPublicacao.values()) {
+            if (statusP.getNome().equalsIgnoreCase(status)) {
+                statusPublicacao = statusP;
+                break;
+            }
+        }
+        if (statusPublicacao == null) {
             throw new ITQException("Informe um status válido para a publicação");
         }
         try {
-            List<Publicacao> publicacoes = gatewayPublicacao.listPublicacaoByStatusByTurma(id, status);
+            List<Publicacao> publicacoes = gatewayPublicacao.listPublicacaoByStatusByTurma(id, statusPublicacao);
             return publicacoes;
         } catch (Exception e) {
             e.printStackTrace();
