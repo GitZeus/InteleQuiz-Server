@@ -56,9 +56,9 @@ public class DataBase {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
-            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
-            dataSource.setUsername("root");
-            dataSource.setPassword("root");
+//            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
+//            dataSource.setUsername("root");
+//            dataSource.setPassword("root");
             
 //            dataSource.setUrl("jdbc:mysql://localhost:3306/intelequiz?autoReconnect=true&useSSL=false");
 //            dataSource.setUsername("root");

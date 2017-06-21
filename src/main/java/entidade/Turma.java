@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_turma")
@@ -48,12 +47,6 @@ public class Turma {
     private int semestre;
 
     private String letra;
-
-    @Transient
-    private Double pontuacao;
-
-    @Transient
-    private Double aproveitamento;
 
     public int getId() {
         return id;
@@ -125,21 +118,5 @@ public class Turma {
 
     public void setQuizzes(List<Publicacao> quizzes) {
         this.quizzes = quizzes;
-    }
-
-    public Double getPontuacao() {
-        return pontuacao;
-    }
-
-    public void setPontuacao(Double pontuacao) {
-        this.pontuacao = pontuacao;
-    }
-
-    public Double getAproveitamento() {
-        return aproveitamento;
-    }
-
-    public void setAproveitamento(Double aproveitamento) {
-        this.aproveitamento = aproveitamento;
     }
 }

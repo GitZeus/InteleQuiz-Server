@@ -10,7 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -47,12 +46,6 @@ public class Publicacao {
 
     @OneToMany(mappedBy = "publicacao")
     private List<Treino> treinos;
-    
-    @Transient
-    private Double pontuacao;
-
-    @Transient
-    private Double aproveitamento;
 
     public int getId() {
         return id;
@@ -113,21 +106,5 @@ public class Publicacao {
 
     public void setTreinos(List<Treino> treinos) {
         this.treinos = treinos;
-    }
-
-    public Double getPontuacao() {
-        return pontuacao;
-    }
-
-    public void setPontuacao(Double pontuacao) {
-        this.pontuacao = pontuacao;
-    }
-
-    public Double getAproveitamento() {
-        return aproveitamento;
-    }
-
-    public void setAproveitamento(Double aproveitamento) {
-        this.aproveitamento = aproveitamento;
     }
 }
