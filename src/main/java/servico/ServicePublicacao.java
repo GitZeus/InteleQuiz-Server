@@ -78,6 +78,19 @@ public class ServicePublicacao {
             throw new ITQException("Erro ao listar publicação por status e turma");
         }
     }
+    
+    public List<Publicacao> listPublicacaoByTurma(int id) throws ITQException {
+        if (id <= 0) {
+            throw new ITQException("Informe um id válido para a turma");
+        }
+        try {
+            List<Publicacao> publicacoes = gatewayPublicacao.listPublicacaoByTurma(id);
+            return publicacoes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ITQException("Erro ao listar publicação por turma");
+        }
+    }
 
     public Publicacao getPublicacaoById(int id) throws ITQException {
         if (id <= 0) {

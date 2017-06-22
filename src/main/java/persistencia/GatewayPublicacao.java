@@ -33,6 +33,15 @@ public class GatewayPublicacao {
         publicados = query.list();
         return publicados;
     }
+    
+    public List<Publicacao> listPublicacaoByTurma(int id) {
+        List<Publicacao> publicados;
+        session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Publicacao p where p.turma.id = :id ORDER BY p.tsEncerramento ASC");
+        query.setParameter("id", id);
+        publicados = query.list();
+        return publicados;
+    }
 
     public Publicacao getPublicacaoById(int id) {
         session = sessionFactory.getCurrentSession();

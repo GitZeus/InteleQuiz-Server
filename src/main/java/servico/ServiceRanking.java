@@ -4,7 +4,6 @@ import entidade.Aluno;
 import entidade.Treino;
 import entidade.Turma;
 import entidade.Publicacao;
-import enums.StatusPublicacao;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,28 +45,25 @@ public class ServiceRanking {
             throw new ITQException(e.getMessage());
         }
     }
-    
+
     private List<RankingVO> calculaRankingTurma(List<Turma> turmas) throws ITQException {
         List<RankingVO> ranking = new ArrayList<>();
         for (Turma turma : turmas) {
-            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByStatusByTurma(turma.getId(), StatusPublicacao.ENCERRADO.getNome());
+            List<Aluno> alunos = serviceAluno.listAlunoByTurma(turma.getId());
+            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByTurma(turma.getId());
             RankingVO rvo = new RankingVO();
-            int qtdTreinos = 0;
-            
+
             for (Publicacao publicacao : publicacoes) {
                 List<Treino> treinos = serviceTreino.listTreinoByPublicacao(publicacao.getId());
+
                 RankingVO rvoTemp = calculaIndicadoresTreino(treinos);
                 rvo.setAproveitamento(rvo.getAproveitamento() + rvoTemp.getAproveitamento());
                 rvo.setPontuacao(rvo.getPontuacao() + rvoTemp.getPontuacao());
-                if(treinos != null){
-                    qtdTreinos += treinos.size();
-                }
             }
 
-            if (qtdTreinos > 0) {
-                rvo.setAproveitamento(rvo.getAproveitamento() / qtdTreinos);
+            if (publicacoes != null && publicacoes.size() > 0) {
+                rvo.setAproveitamento(rvo.getAproveitamento() / publicacoes.size());
             }
-
             rvo.setId(turma.getId());
             rvo.setAno(turma.getAno());
             rvo.setLetra(turma.getLetra());

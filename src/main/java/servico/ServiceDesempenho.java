@@ -6,8 +6,8 @@ import entidade.Gabarito;
 import entidade.Treino;
 import entidade.Publicacao;
 import entidade.Questao;
+import entidade.Resposta;
 import entidade.Tema;
-import enums.StatusPublicacao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,7 +41,7 @@ public class ServiceDesempenho {
         try {
 
             List<Aluno> alunos = serviceAluno.listAlunoByTurma(id);
-            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByStatusByTurma(id, StatusPublicacao.ENCERRADO.getNome());
+            List<Publicacao> publicacoes = servicePublicacao.listPublicacaoByTurma(id);
             desempenho.setPublicacoes(publicacoes);
 
             double auxAproveitamento = 0;
@@ -67,6 +67,7 @@ public class ServiceDesempenho {
                     auxMedEnvolvimento += envolv;
                 } else {
                     desempenho.getAproveitamentosTurma().add(InteleQuizUtil.formatDecimal(0d));
+                    desempenho.getEnvolvimentosTurma().add(InteleQuizUtil.formatDecimal(0d));
                 }
                 auxAproveitamento = 0;
             }
@@ -123,21 +124,27 @@ public class ServiceDesempenho {
 
             for (Treino treino : treinos) {
                 for (Gabarito gabarito : treino.getGabaritos()) {
-                    List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
-                    for (Tema tema : temas) {
-                        if (!(hmTemas.containsKey(tema.getId()))) {
-                            tema.setTotal(1);
-                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
-                                tema.setErrados(1);
+                    if(gabarito.isVisualizada()){
+                        Resposta resposta = null;
+                        if (gabarito.getResposta_id() > 0) {
+                            resposta = serviceQuestao.getRespostaById(gabarito.getResposta_id());
+                        }
+                        List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
+                        for (Tema tema : temas) {
+                            if (!(hmTemas.containsKey(tema.getId()))) {
+                                tema.setTotal(1);
+                                if (gabarito.isVisualizada() && resposta == null || resposta.getCerta() == false) {
+                                    tema.setErrados(1);
+                                }
+                                hmTemas.put(tema.getId(), tema);
+                            } else {
+                                Tema auxTema = (Tema) hmTemas.get(tema.getId());
+                                auxTema.setTotal(auxTema.getTotal() + 1);
+                                if (gabarito.isVisualizada() && resposta == null || resposta.getCerta() == false) {
+                                    auxTema.setErrados(auxTema.getErrados() + 1);
+                                }
+                                hmTemas.put(auxTema.getId(), auxTema);
                             }
-                            hmTemas.put(tema.getId(), tema);
-                        } else {
-                            Tema auxTema = (Tema) hmTemas.get(tema.getId());
-                            auxTema.setTotal(auxTema.getTotal() + 1);
-                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
-                                auxTema.setErrados(auxTema.getErrados() + 1);
-                            }
-                            hmTemas.put(auxTema.getId(), auxTema);
                         }
                     }
                 }
@@ -166,18 +173,22 @@ public class ServiceDesempenho {
 
             for (Treino treino : treinos) {
                 for (Gabarito gabarito : treino.getGabaritos()) {
+                    Resposta resposta = null;
+                    if (gabarito.getResposta_id() > 0) {
+                        resposta = serviceQuestao.getRespostaById(gabarito.getResposta_id());
+                    }
                     List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
                     for (Tema tema : temas) {
                         if (!(hmTemas.containsKey(tema.getId()))) {
                             tema.setTotal(1);
-                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                            if (gabarito.isVisualizada() && resposta == null || resposta.getCerta() == false) {
                                 tema.setErrados(1);
                             }
                             hmTemas.put(tema.getId(), tema);
                         } else {
                             Tema auxTema = (Tema) hmTemas.get(tema.getId());
                             auxTema.setTotal(auxTema.getTotal() + 1);
-                            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                            if (gabarito.isVisualizada() && resposta == null || resposta.getCerta() == false) {
                                 auxTema.setErrados(auxTema.getErrados() + 1);
                             }
                             hmTemas.put(auxTema.getId(), auxTema);
@@ -210,11 +221,19 @@ public class ServiceDesempenho {
 
             for (Treino treino : treinos) {
                 for (Gabarito gabarito : treino.getGabaritos()) {
-                    List<Tema> temas = serviceTema.listTemaByQuestao(serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao().getId());
-                    for (Tema tema : temas) {
-                        if (tema.getId() == tema_id && serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
-                            Questao q = verificaErrosQuestao(gabarito, hmQuestoes);
-                            hmQuestoes.put(q.getId(), q);
+                    if (gabarito.isVisualizada()) {
+                        List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
+                        for (Tema tema : temas) {
+                            if (tema.getId() == tema_id) {
+                                Resposta resposta = null;
+                                if (gabarito.getResposta_id() > 0) {
+                                    resposta = serviceQuestao.getRespostaById(gabarito.getResposta_id());
+                                }
+                                if (resposta != null && resposta.getCerta() == false) {
+                                    Questao q = verificaErrosQuestao(gabarito, hmQuestoes);
+                                    hmQuestoes.put(q.getId(), q);
+                                }
+                            }
                         }
                     }
                 }
@@ -252,17 +271,19 @@ public class ServiceDesempenho {
 
             for (Treino treino : treinos) {
                 for (Gabarito gabarito : treino.getGabaritos()) {
-                    List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
-                    for (Tema tema : temas) {
-                        if (tema.getId() == tema_id && serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
-                            Questao q = serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao();
-                            if (!(hmQuestoes.containsKey(q.getId()))) {
-                                q.setCountErros(1);
-                            } else {
-                                q = (Questao) hmQuestoes.get(q.getId());
-                                q.setCountErros(q.getCountErros() + 1);
+                    if (gabarito.isVisualizada()) {
+                        List<Tema> temas = serviceTema.listTemaByQuestao(gabarito.getQuestao_id());
+                        for (Tema tema : temas) {
+                            if (tema.getId() == tema_id && serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
+                                Resposta resposta = null;
+                                if (gabarito.getResposta_id() > 0) {
+                                    resposta = serviceQuestao.getRespostaById(gabarito.getResposta_id());
+                                }
+                                if (resposta != null && resposta.getCerta() == false) {
+                                    Questao q = verificaErrosQuestao(gabarito, hmQuestoes);
+                                    hmQuestoes.put(q.getId(), q);
+                                }
                             }
-                            hmQuestoes.put(q.getId(), q);
                         }
                     }
                 }
@@ -293,7 +314,7 @@ public class ServiceDesempenho {
     }
 
     private Questao verificaErrosQuestao(Gabarito gabarito, HashMap hmQuestoes) throws ITQException {
-        Questao questao = serviceQuestao.getRespostaById(gabarito.getResposta_id()).getQuestao();
+        Questao questao = serviceQuestao.getQuestaoById(gabarito.getQuestao_id());
         if (!(hmQuestoes.containsKey(questao.getId()))) {
             questao.setCountErros(1);
         } else {
@@ -302,21 +323,4 @@ public class ServiceDesempenho {
         }
         return questao;
     }
-
-//    private Tema verificaErrosTema(Tema tema, HashMap hmTemas) {
-//        if (!(hmTemas.containsKey(tema.getId()))) {
-//            tema.setTotal(1);
-//            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
-//                tema.setErrados(1);
-//            }
-//            hmTemas.put(tema.getId(), tema);
-//        } else {
-//            Tema auxTema = (Tema) hmTemas.get(tema.getId());
-//            auxTema.setTotal(auxTema.getTotal() + 1);
-//            if (serviceQuestao.getRespostaById(gabarito.getResposta_id()).getCerta() == false) {
-//                auxTema.setErrados(auxTema.getErrados() + 1);
-//            }
-//            hmTemas.put(auxTema.getId(), auxTema);
-//        }
-//    }
 }
